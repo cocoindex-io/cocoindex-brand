@@ -8,3 +8,6 @@
 @import './tags.css';        /* .t-pill / .t-category / .t-overlay / .t-status */
 @import './code-block.css';  /* inline code, Shiki fences, .code-figure chrome */
 @import './cards.css';       /* .example-repo-card / .docs-link-card */
+@import './nav.css';         /* desktop top-nav bar (nav.top / .logo / .nav-links) */
+@import './stars.css';       /* GitHub-stars pill (.stars) */
+@import './footer.css';      /* site footer (.it-foot / .foot-*) */

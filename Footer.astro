@@ -1,0 +1,59 @@
+---
+// Shared site footer — one markup source for home, blog, and docs. Styles come
+// from @cocoindex/brand/footer.css (imported via each site's globals). Each site
+// passes its own links + logo, since the URL scheme differs (relative on the
+// marketing site, absolute under /docs).
+export interface FootLink {
+  label: string;
+  href: string;
+  track?: string;
+  trackLoc?: string;
+}
+interface Props {
+  logoHref?: string;
+  logoSrc?: string;
+  description?: string;
+  resources?: FootLink[];
+  community?: FootLink[];
+  company?: FootLink[];
+  copyright?: string;
+}
+const {
+  logoHref = '/',
+  logoSrc = '/images/cocoindex.svg',
+  description = 'The open-source, incremental data framework that keeps your AI agents grounded in fresh, structured context.',
+  resources = [],
+  community = [],
+  company = [],
+  copyright = '© 2026 CocoIndex',
+} = Astro.props;
+
+const COLS: { title: string; links: FootLink[] }[] = [
+  { title: 'Resources', links: resources },
+  { title: 'Community', links: community },
+  { title: 'Company', links: company },
+];
+---
+
+<footer class="it-foot">
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <a class="logo" href={logoHref} style="gap: 12px">
+        <img src={logoSrc} alt="" width="36" height="36" style="width: 36px; height: auto" />
+        <span>CocoIndex</span>
+      </a>
+      <p>{description}</p>
+    </div>
+    {COLS.map((col) => (
+      <div class="foot-col">
+        <h6>{col.title}</h6>
+        {col.links.map((l) => (
+          <a href={l.href} data-track={l.track} data-track-loc={l.trackLoc}>{l.label}</a>
+        ))}
+      </div>
+    ))}
+  </div>
+  <div class="colo">
+    <span>{copyright}</span>
+  </div>
+</footer>

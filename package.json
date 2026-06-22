@@ -1,6 +1,6 @@
 {
   "name": "@cocoindex/brand",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "CocoIndex shared design tokens, code theme, and brand assets. Single source of truth for home, blog, and docs.",
   "private": true,
   "license": "UNLICENSED",
@@ -17,9 +17,16 @@
     "./tags.css": "./tags.css",
     "./code-block.css": "./code-block.css",
     "./cards.css": "./cards.css",
+    "./nav.css": "./nav.css",
+    "./stars.css": "./stars.css",
+    "./footer.css": "./footer.css",
+    "./docs-chrome.css": "./docs-chrome.css",
     "./components.css": "./components.css",
     "./code-theme": "./code-theme.mjs",
-    "./copy-code": "./copy-code.mjs"
+    "./copy-code": "./copy-code.mjs",
+    "./Footer.astro": "./Footer.astro",
+    "./ExampleRepoCard.astro": "./ExampleRepoCard.astro",
+    "./DocsLinkCard.astro": "./DocsLinkCard.astro"
   },
   "files": [
     "tokens.json",
@@ -29,9 +36,16 @@
     "tags.css",
     "code-block.css",
     "cards.css",
+    "nav.css",
+    "stars.css",
+    "footer.css",
+    "docs-chrome.css",
     "components.css",
     "code-theme.mjs",
-    "copy-code.mjs"
+    "copy-code.mjs",
+    "Footer.astro",
+    "ExampleRepoCard.astro",
+    "DocsLinkCard.astro"
   ],
   "scripts": {
     "build:tokens": "node scripts/build-tokens.mjs",

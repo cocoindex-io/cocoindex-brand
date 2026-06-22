@@ -1,0 +1,29 @@
+/* Top nav — the desktop header bar shared across home, blog, and docs: the
+   sticky blurred bar, the logo (28px mark + wordmark), the nav-link row, and the
+   right-side CTA cluster. Surface-agnostic, token-only; import after tokens.css.
+
+   Scope of this file: the always-visible desktop bar only. Each site keeps its
+   own `Nav.astro`/`Topbar.astro` markup and its own hamburger + mobile drawer
+   (those diverge — docs adds a version dropdown, the drawer contents differ).
+
+   Width is parameterized like the footer so the bar aligns with each surface's
+   content column: --chrome-maxw defaults to --maxw (1320); docs sets --maxw-docs (1480). */
+nav.top {
+  position: sticky; top: 0; z-index: var(--z-nav);
+  background: color-mix(in oklab, var(--paper) 92%, transparent);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--rule);
+}
+.nav-in {
+  max-width: var(--chrome-maxw, var(--maxw)); margin: 0 auto;
+  padding: 14px var(--gutter);
+  display: flex; align-items: center; gap: 28px;
+}
+.logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--maroon-ink); line-height: 1; }
+.logo:hover, .logo:hover span { text-decoration: none; }
+.logo img { width: 28px; height: 28px; display: block; transform: translateY(-3px); }
+.logo span { font-family: var(--sans); font-size: 18px; font-weight: 600; letter-spacing: -0.02em; line-height: 1; display: inline-block; }
+.nav-links { display: flex; gap: 28px; margin-left: 24px; }
+.nav-links a { font-size: 14px; color: var(--maroon-ink); text-decoration: none; padding: 6px 0; position: relative; }
+.nav-links a:hover { color: var(--coral); }
+.nav-cta { margin-left: auto; display: flex; gap: 10px; align-items: center; }

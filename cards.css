@@ -22,8 +22,8 @@
 .example-repo-card::before {
   content: ""; position: absolute; inset: 0;
   border-radius: inherit;
-  background-image: radial-gradient(circle, color-mix(in oklab, var(--peach) 55%, transparent) 1.3px, transparent 1.7px);
-  background-size: 14px 14px;
+  background-image: var(--dot-reveal);
+  background-size: var(--dot-reveal-size) var(--dot-reveal-size);
   -webkit-mask-image: linear-gradient(to left, #000 0%, #000 28%, transparent 72%);
           mask-image: linear-gradient(to left, #000 0%, #000 28%, transparent 72%);
   opacity: 0; pointer-events: none;
@@ -103,8 +103,8 @@
 .docs-link-card::before {
   content: ""; position: absolute; inset: 0;
   border-radius: inherit;
-  background-image: radial-gradient(circle, color-mix(in oklab, var(--peach) 55%, transparent) 1.3px, transparent 1.7px);
-  background-size: 14px 14px;
+  background-image: var(--dot-reveal);
+  background-size: var(--dot-reveal-size) var(--dot-reveal-size);
   -webkit-mask-image: linear-gradient(to left, #000 0%, #000 28%, transparent 72%);
           mask-image: linear-gradient(to left, #000 0%, #000 28%, transparent 72%);
   opacity: 0; pointer-events: none;

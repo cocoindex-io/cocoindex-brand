@@ -58,6 +58,9 @@
   --r-pill: 999px;
   /* shadow */
   --shadow-card: 0 8px 32px rgba(42,18,27,0.08);
+  /* effect */
+  --dot-reveal: radial-gradient(circle, color-mix(in oklab, var(--coral) 45%, transparent) 1.3px, transparent 1.7px);
+  --dot-reveal-size: 11px;
   /* motion */
   --dur-fast: 160ms;
   --dur-slow: 280ms;
