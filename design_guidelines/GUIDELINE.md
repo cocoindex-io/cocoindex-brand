@@ -129,11 +129,11 @@ The docs body is intentionally smaller (narrower measure). Everything else match
 The biggest risk: docs live in a **different repo** from marketing, so chrome and
 brand silently diverge at the `/docs` boundary. Enforce:
 
-1. **One token block**, copied verbatim from `_shared.css` into both sites (§1).
-2. **Fonts: self-host, identically.** Marketing self-hosts via `@fontsource`
-   (WOFF2). Docs currently loads Google Fonts over CDN — **change docs to
-   self-host the same WOFF2** for identical rendering, no CDN dependency, no
-   third-party request, and faster first paint.
+1. **One token block** — both sites import `@cocoindex/brand/tokens.css` (no
+   more hand-copied `:root`); the package is the single source (§1).
+2. **Fonts: self-host, identically.** ✅ Resolved — both marketing and docs now
+   self-host the same WOFF2 via `@cocoindex/brand/fonts.css` (`@fontsource`),
+   no CDN dependency, identical rendering. (Plus Jakarta Sans + JetBrains Mono.)
 3. **Shared chrome.** Logo (28px mark + 18px/600/-0.02em wordmark), nav link set,
    stars pill, and footer must match pixel-for-pixel across surfaces. The version
    dropdown either exists on both or neither.
@@ -168,7 +168,7 @@ self-hosted on another · `/docs-v1` links.
 | 1 | docs `globals.css` | misc opacity washes ad-hoc (6/7/8/10/14/16…%) and some bare `rgba()` | route through `color-mix` + the wash rule |
 | 2 | marketing `globals.css` | `--rule-strong` defined **twice** (`0.32` and `0.35`) | keep `0.35`, delete the `0.32` |
 | 3 | both | container max-width varies (1320 / 1380 / 1480) | `--maxw 1320` marketing, `--maxw-docs 1480`; kill the stray 1380 |
-| 4 | docs | fonts loaded from Google CDN | self-host WOFF2 like marketing (§5.2) |
+| 4 | docs | ~~fonts loaded from Google CDN~~ | ✅ done — docs self-hosts via `@cocoindex/brand/fonts.css` |
 | 5 | docs Shiki vs `_shared.css` | syntax palette drifted: numbers `#D4B86A`≠`--gold`, types `#C9A0FF`≠`--lavender`; live theme adds salmon/peach/green roles the tokens don't document | reconcile to one theme; document every role token |
 | 6 | docs | admonitions implement 6 variants (adds `caution`,`danger`) vs the four-variant rule | make `caution`/`danger` alias Warning, or amend this guideline (pick one) |
 | 7 | marketing home | only hero CTA is "Star on GitHub"; a `btn-primary` (maroon fill) sits beside a `btn-coral` elsewhere | establish Get-Started primary + GitHub social proof; secondary = outline, not solid maroon |
