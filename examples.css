@@ -149,7 +149,7 @@
 
       body.ex-listing .feat-card {
         display: grid; grid-template-columns: 1.2fr 1fr; gap: 0;
-        border-radius: 12px; overflow: hidden;
+        border-radius: var(--r-2xl); overflow: hidden;
         background: var(--maroon); color: var(--cream);
         min-height: 440px; position: relative;
         text-decoration: none;
@@ -222,7 +222,7 @@
       body.ex-listing .cat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
       body.ex-listing .ex-card {
         display: flex; flex-direction: column;
-        border: 1px solid var(--rule); border-radius: 10px;
+        border: 1px solid var(--rule); border-radius: var(--r-2xl);
         background: var(--paper);
         min-height: 280px;
         text-decoration: none; color: inherit;
@@ -326,7 +326,7 @@
       /* ── BOTTOM CTA ── */
       body.ex-listing .cta-end {
         margin: 72px 0 96px;
-        border-radius: 12px;
+        border-radius: var(--r-2xl);
         background: var(--cream);
         border: 1px solid var(--rule);
         padding: 64px 48px;
