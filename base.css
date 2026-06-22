@@ -10,6 +10,10 @@ html {
   font-variant-numeric: tabular-nums;
 }
 
+/* Display headings must break a long unbreakable word rather than clip it off
+   the right edge on narrow screens (gate 51). One rule covers every surface. */
+h1, h2, h3, h4, h5, h6 { overflow-wrap: anywhere; }
+
 /* ── Admonitions / callouts ──
    The canonical four — note (berry), info (coral), tip (palm ✓), warn (pink !).
    `caution`/`danger` are aliases of warn, not new variants (GUIDELINE §3).
