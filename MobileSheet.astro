@@ -1,0 +1,101 @@
+---
+/**
+ * MobileSheet — shared phone off-canvas drawer shell (scrim + sliding panel +
+ * close header). Each surface puts its own content in the default slot: the
+ * marketing site a flat link list + stars; the docs a tabbed Pages /
+ * On-this-page tree + search. The shell, the slide/scrim chrome, and the
+ * open/close behavior are identical everywhere — only the content differs.
+ *
+ * The opener is the nav bar's hamburger (`<button aria-controls={id}>`, from
+ * Nav.astro). One controller below wires every .mobile-sheet on the page:
+ * open/close, scrim-tap, Esc, body scroll-lock, close-on-nav-tap (any <a> that
+ * isn't a tab control), and auto-close once the viewport passes `closeAbove`
+ * (where the hamburger hides and the desktop nav/rails take over). Tabbed
+ * drawers add their own tab-switch script alongside — it doesn't touch open
+ * state. Shell styling lives in nav.css (.mobile-scrim/.mobile-sheet/...).
+ */
+export interface Props {
+  /** id of the sheet; the bar's hamburger targets it via aria-controls. */
+  id?: string;
+  /** Eyebrow shown in the sheet header. */
+  title?: string;
+  /** Auto-close when the viewport widens past this px (the width at which the
+   *  hamburger hides). Marketing ≈ 900; docs ≈ 820. */
+  closeAbove?: number;
+}
+const { id = 'mobileSheet', title = 'Menu', closeAbove = 900 } = Astro.props;
+---
+<div class="mobile-scrim" id={`${id}Scrim`} aria-hidden="true"></div>
+
+<aside
+  class="mobile-sheet"
+  id={id}
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby={`${id}Ttl`}
+  data-close-above={closeAbove}
+  hidden
+>
+  <header class="mobile-sheet-head">
+    <span class="ttl" id={`${id}Ttl`}>{title}</span>
+    <button class="mobile-close" type="button" aria-label="Close menu">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+        <path d="M3 3l10 10M13 3L3 13"/>
+      </svg>
+    </button>
+  </header>
+  <slot />
+</aside>
+
+<script>
+  // Generic drawer controller — wires every .mobile-sheet on the page once.
+  if (!window.__cocoSheetInit) {
+    window.__cocoSheetInit = true;
+    const init = () => {
+      document.querySelectorAll('aside.mobile-sheet[id]').forEach((sheet) => {
+        const burger = document.querySelector('[aria-controls="' + sheet.id + '"]');
+        const scrim = document.getElementById(sheet.id + 'Scrim');
+        const close = sheet.querySelector('.mobile-close');
+        if (!burger || !scrim || !close) return;
+
+        const setOpen = (open) => {
+          burger.classList.toggle('open', open);
+          sheet.classList.toggle('open', open);
+          scrim.classList.toggle('open', open);
+          sheet.hidden = !open;
+          scrim.setAttribute('aria-hidden', open ? 'false' : 'true');
+          burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+          burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+          document.body.style.overflow = open ? 'hidden' : '';
+          if (open) {
+            const tab = sheet.querySelector('[role="tab"][aria-selected="true"]');
+            (tab || close).focus();
+          }
+        };
+
+        burger.addEventListener('click', () => setOpen(!sheet.classList.contains('open')));
+        close.addEventListener('click', () => setOpen(false));
+        scrim.addEventListener('click', () => setOpen(false));
+
+        // Tapping any real nav link (not a tab button) dismisses the drawer so
+        // it doesn't sit over the in-page anchor or the next page.
+        sheet.addEventListener('click', (e) => {
+          const a = e.target.closest('a');
+          if (a && sheet.contains(a) && a.getAttribute('role') !== 'tab') setOpen(false);
+        });
+
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && sheet.classList.contains('open')) setOpen(false);
+        });
+
+        const px = Number(sheet.dataset.closeAbove) || 900;
+        const mq = window.matchMedia('(min-width: ' + (px + 1) + 'px)');
+        const onMq = (ev) => { if (ev.matches) setOpen(false); };
+        if (mq.addEventListener) mq.addEventListener('change', onMq);
+        else if (mq.addListener) mq.addListener(onMq);
+      });
+    };
+    if (document.readyState !== 'loading') init();
+    else document.addEventListener('DOMContentLoaded', init);
+  }
+</script>

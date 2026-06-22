@@ -88,3 +88,121 @@ nav.top {
   color: var(--coral); border: 1px solid color-mix(in oklab, var(--coral) 28%, transparent);
 }
 .nav-dd-menu .tag.legacy { background: transparent; color: var(--muted); border-color: var(--rule-strong); }
+
+/* ─── phone drawer (off-canvas sheet) ───
+   Shared shell for MobileSheet.astro: scrim + sliding panel + close header,
+   plus the generic content primitives (.mobile-pane scroll body, .mobile-list
+   nav list, .mobile-foot). Tabbed / sidebar content (.mobile-tabs, .mobile-group,
+   .mobile-search, …) is surface-specific and stays in each site's globals.
+
+   At rest the sheet is display:none; each site reveals it at its own phone
+   breakpoint (`@media (max-width: N) { .mobile-scrim{display:block}
+   .mobile-sheet{display:flex} }`), since N is tied to that site's layout. No
+   drop shadow (elevation reads from the maroon scrim); one coral accent at a
+   time; animation ≤ 220ms (design_guidelines/ui/hamburger-toc.html). */
+.mobile-scrim, .mobile-sheet { display: none; }
+.mobile-scrim {
+  position: fixed; inset: 0;
+  background: color-mix(in oklab, var(--maroon-ink) 38%, transparent);
+  opacity: 0; pointer-events: none;
+  transition: opacity .22s ease;
+  z-index: 60;
+}
+.mobile-scrim.open { opacity: 1; pointer-events: auto; }
+
+.mobile-sheet {
+  position: fixed; top: 0; right: 0; bottom: 0;
+  width: min(86%, 360px);
+  background: var(--paper);
+  border-left: 1px solid var(--rule-strong);
+  transform: translateX(100%);
+  transition: transform .22s cubic-bezier(.2,.8,.2,1);
+  flex-direction: column;
+  z-index: 70;
+  overflow: hidden;
+}
+.mobile-sheet.open { transform: translateX(0); }
+.mobile-sheet[hidden] { display: none !important; }
+
+.mobile-sheet-head {
+  display: flex; align-items: center; gap: 10px;
+  /* y-padding mirrors `.nav-in`'s phone-mode 10px so the sheet's border-bottom
+     lines up with the topbar's; with a 32px close button this is 53px total —
+     the topbar height at phone width. */
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--rule);
+  flex: none;
+}
+.mobile-sheet-head .ttl {
+  font-family: var(--mono); font-weight: 500;
+  font-size: 11px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--muted);
+  flex: 1;
+}
+.mobile-close {
+  width: 32px; height: 32px; border-radius: var(--r-md);
+  border: 1px solid transparent; background: transparent;
+  color: var(--muted);
+  display: grid; place-items: center;
+  cursor: pointer; padding: 0;
+  transition: color .16s ease, border-color .16s ease, background .16s ease;
+}
+.mobile-close:hover {
+  color: var(--coral);
+  border-color: var(--rule);
+  background: color-mix(in oklab, var(--peach) 10%, transparent);
+}
+.mobile-close:focus-visible { outline: 2px solid var(--coral); outline-offset: 2px; }
+
+/* Scroll body — fills the sheet below the header; tab panels also use it. */
+.mobile-pane {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px 8px 24px;
+  -webkit-overflow-scrolling: touch;
+}
+.mobile-pane[hidden] { display: none; }
+
+/* Nav list — flat link rows (+ optional numbered / sub variants for a TOC). */
+.mobile-list { display: flex; flex-direction: column; }
+.mobile-list a {
+  display: flex; align-items: center; gap: 10px;
+  min-height: 44px;
+  padding: 10px 10px;
+  border-radius: var(--r-md);
+  font-family: var(--sans); font-weight: 500;
+  font-size: 14px; letter-spacing: -0.005em;
+  color: var(--maroon-ink); text-decoration: none;
+  transition: background .14s ease, color .14s ease;
+}
+.mobile-list a:hover { background: color-mix(in oklab, var(--coral) 8%, transparent); color: var(--maroon-ink); }
+.mobile-list a[aria-current], .mobile-list a.on {
+  background: color-mix(in oklab, var(--coral) 14%, transparent);
+  color: var(--coral);
+}
+.mobile-list a .num {
+  width: 22px; height: 22px; border-radius: 5px;
+  flex: none; display: grid; place-items: center;
+  font-family: var(--mono); font-size: 10px; font-weight: 500;
+  background: color-mix(in oklab, var(--maroon-ink) 6%, transparent);
+  color: var(--maroon-ink);
+  font-variant-numeric: tabular-nums;
+}
+.mobile-list a[aria-current] .num { background: var(--coral); color: var(--cream); }
+.mobile-list a.sub { padding-left: 36px; min-height: 38px; font-size: 13px; color: var(--muted); }
+.mobile-list a.sub:hover { color: var(--maroon-ink); }
+.mobile-list .lbl { flex: 1; min-width: 0; line-height: 1.3; }
+
+/* Foot — pinned strip below the scroll body (e.g. the stars pill). */
+.mobile-foot {
+  padding: 12px 14px 16px;
+  border-top: 1px solid var(--rule);
+  display: flex; align-items: center; gap: 10px;
+  flex: none;
+}
+.mobile-foot .stars { flex: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .menu-btn .bar, .menu-btn::before, .menu-btn::after,
+  .mobile-sheet, .mobile-scrim { transition: none !important; }
+}

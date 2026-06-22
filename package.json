@@ -1,6 +1,6 @@
 {
   "name": "@cocoindex/brand",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "CocoIndex shared design tokens, code theme, and brand assets. Single source of truth for home, blog, and docs.",
   "private": true,
   "license": "UNLICENSED",
@@ -8,6 +8,11 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cocoindex-io/cocoindex-brand.git"
+  },
+  "dependencies": {
+    "@fontsource/inter": "^5.2.8",
+    "@fontsource/jetbrains-mono": "^5.2.8",
+    "@fontsource/source-serif-4": "^5.2.9"
   },
   "exports": {
     "./tokens.css": "./tokens.css",
@@ -17,9 +22,11 @@
     "./tags.css": "./tags.css",
     "./code-block.css": "./code-block.css",
     "./cards.css": "./cards.css",
+    "./prose.css": "./prose.css",
     "./nav.css": "./nav.css",
     "./stars.css": "./stars.css",
     "./footer.css": "./footer.css",
+    "./fonts.css": "./fonts.css",
     "./docs-chrome.css": "./docs-chrome.css",
     "./components.css": "./components.css",
     "./code-theme": "./code-theme.mjs",
@@ -27,6 +34,7 @@
     "./Footer.astro": "./Footer.astro",
     "./Stars.astro": "./Stars.astro",
     "./Nav.astro": "./Nav.astro",
+    "./MobileSheet.astro": "./MobileSheet.astro",
     "./ExampleRepoCard.astro": "./ExampleRepoCard.astro",
     "./DocsLinkCard.astro": "./DocsLinkCard.astro"
   },
@@ -38,9 +46,11 @@
     "tags.css",
     "code-block.css",
     "cards.css",
+    "prose.css",
     "nav.css",
     "stars.css",
     "footer.css",
+    "fonts.css",
     "docs-chrome.css",
     "components.css",
     "code-theme.mjs",
@@ -48,6 +58,7 @@
     "Footer.astro",
     "Stars.astro",
     "Nav.astro",
+    "MobileSheet.astro",
     "ExampleRepoCard.astro",
     "DocsLinkCard.astro"
   ],

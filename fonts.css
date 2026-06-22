@@ -1,0 +1,17 @@
+/* Self-hosted brand fonts (WOFF2 via @fontsource) — the single font source for
+   every CocoIndex surface, so type renders identically everywhere and no site
+   self-hosts its own copy (GUIDELINE §5.2). Import once in each site's globals,
+   before tokens.css. The three families match the `--serif`/`--sans`/`--mono`
+   tokens: Source Serif 4 (hero/H1 + italic-coral em), Inter (everything),
+   JetBrains Mono (caps labels + code).
+   @fontsource is a dependency of @cocoindex/brand, so consumers don't list it. */
+@import '@fontsource/inter/400.css';
+@import '@fontsource/inter/500.css';
+@import '@fontsource/inter/600.css';
+@import '@fontsource/inter/700.css';
+@import '@fontsource/jetbrains-mono/400.css';
+@import '@fontsource/jetbrains-mono/500.css';
+@import '@fontsource/jetbrains-mono/600.css';
+@import '@fontsource/jetbrains-mono/700.css';
+@import '@fontsource/source-serif-4/400.css';
+@import '@fontsource/source-serif-4/400-italic.css';
