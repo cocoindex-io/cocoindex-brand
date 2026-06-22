@@ -1,59 +1,63 @@
 ---
-// Shared site footer — one markup source for home, blog, and docs. Styles come
-// from @cocoindex/brand/footer.css (imported via each site's globals). Each site
-// passes its own links + logo, since the URL scheme differs (relative on the
-// marketing site, absolute under /docs).
-export interface FootLink {
-  label: string;
-  href: string;
-  track?: string;
-  trackLoc?: string;
-}
-interface Props {
-  logoHref?: string;
-  logoSrc?: string;
-  description?: string;
-  resources?: FootLink[];
-  community?: FootLink[];
-  company?: FootLink[];
-  copyright?: string;
-}
-const {
-  logoHref = '/',
-  logoSrc = '/images/cocoindex.svg',
-  description = 'The open-source, incremental data framework that keeps your AI agents grounded in fresh, structured context.',
-  resources = [],
-  community = [],
-  company = [],
-  copyright = '© 2026 CocoIndex',
-} = Astro.props;
+// THE site footer — one component, identical everywhere (home, blog, docs,
+// examples). Links + logo are baked in as absolute cocoindex.io URLs so the
+// exact same markup works from any surface, regardless of base path. Render it
+// with no props: <Footer />. Styles: @cocoindex/brand/footer.css.
+const SITE = 'https://cocoindex.io';
 
-const COLS: { title: string; links: FootLink[] }[] = [
-  { title: 'Resources', links: resources },
-  { title: 'Community', links: community },
-  { title: 'Company', links: company },
+const DESCRIPTION =
+  'The open-source, incremental data framework that keeps your AI agents grounded in fresh, structured context.';
+
+const COLS: { title: string; links: { label: string; href: string }[] }[] = [
+  {
+    title: 'Resources',
+    links: [
+      { label: 'Blog', href: `${SITE}/blogs/` },
+      { label: 'Documentation', href: `${SITE}/docs/` },
+      { label: 'YouTube', href: 'https://www.youtube.com/@cocoindex-io' },
+      { label: 'Examples', href: `${SITE}/docs/examples/` },
+    ],
+  },
+  {
+    title: 'Community',
+    links: [
+      { label: 'GitHub', href: 'https://github.com/cocoindex-io/cocoindex' },
+      { label: 'Discord', href: 'https://discord.com/invite/zpA9S2DR7s' },
+      { label: 'Twitter', href: 'https://x.com/cocoindex_io' },
+      { label: 'LinkedIn', href: 'https://www.linkedin.com/company/cocoindex' },
+    ],
+  },
+  {
+    title: 'Company',
+    links: [
+      { label: 'Enterprise', href: `${SITE}/enterprise/` },
+      { label: 'Careers', href: `${SITE}/careers/` },
+      { label: 'Brand & press kit', href: `${SITE}/brand/` },
+      { label: 'Privacy policy', href: `${SITE}/privacy-policy/` },
+      { label: 'Terms of use', href: `${SITE}/terms-of-use/` },
+      { label: 'hi@cocoindex.io', href: 'mailto:hi@cocoindex.io' },
+    ],
+  },
 ];
 ---
 
 <footer class="it-foot">
   <div class="foot-grid">
     <div class="foot-brand">
-      <a class="logo" href={logoHref} style="gap: 12px">
-        <img src={logoSrc} alt="" width="36" height="36" style="width: 36px; height: auto" />
+      <a class="logo" href={`${SITE}/`} style="gap: 12px">
+        <img src={`${SITE}/images/cocoindex.svg`} alt="" width="36" height="36" style="width: 36px; height: auto" />
         <span>CocoIndex</span>
       </a>
-      <p>{description}</p>
+      <p>{DESCRIPTION}</p>
     </div>
     {COLS.map((col) => (
       <div class="foot-col">
         <h6>{col.title}</h6>
-        {col.links.map((l) => (
-          <a href={l.href} data-track={l.track} data-track-loc={l.trackLoc}>{l.label}</a>
-        ))}
+        {col.links.map((l) => <a href={l.href}>{l.label}</a>)}
       </div>
     ))}
   </div>
   <div class="colo">
-    <span>{copyright}</span>
+    <span>© 2026 CocoIndex</span>
   </div>
 </footer>

@@ -27,3 +27,64 @@ nav.top {
 .nav-links a { font-size: 14px; color: var(--maroon-ink); text-decoration: none; padding: 6px 0; position: relative; }
 .nav-links a:hover { color: var(--coral); }
 .nav-cta { margin-left: auto; display: flex; gap: 10px; align-items: center; }
+
+/* Hamburger button — lives in the bar, opens the per-site mobile drawer. Hidden
+   on desktop; each site flips it on at its own phone breakpoint via @media. */
+.menu-btn {
+  display: none;
+  width: 32px; height: 32px; flex: none;
+  border-radius: var(--r-md);
+  border: 1px solid transparent; background: transparent; color: var(--muted);
+  align-items: center; justify-content: center; cursor: pointer;
+  position: relative; padding: 0;
+  transition: background var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
+}
+.menu-btn:hover { border-color: var(--rule); background: color-mix(in oklab, var(--peach) 10%, transparent); color: var(--maroon-ink); }
+.menu-btn:focus-visible { outline: var(--focus); outline-offset: var(--focus-offset); }
+.menu-btn .bar, .menu-btn::before, .menu-btn::after {
+  content: ""; position: absolute; left: 8px; right: 8px;
+  height: 1.4px; border-radius: 1px; background: currentColor;
+  transition: transform .22s var(--ease), opacity .14s ease, top .22s var(--ease);
+}
+.menu-btn::before { top: 10px; }
+.menu-btn .bar    { top: 15px; }
+.menu-btn::after  { top: 20px; }
+.menu-btn.open { color: var(--coral); border-color: var(--rule); background: color-mix(in oklab, var(--peach) 10%, transparent); }
+.menu-btn.open::before { top: 15px; transform: rotate(45deg); }
+.menu-btn.open::after  { top: 15px; transform: rotate(-45deg); }
+.menu-btn.open .bar    { opacity: 0; }
+
+/* Version dropdown — a hover-revealed menu on a nav link (e.g. v1 / v0 legacy).
+   Rendered by <Nav> when a link has `versions`. */
+.nav-dd { position: relative; }
+.nav-dd-trigger { display: inline-flex !important; align-items: center; gap: 6px; }
+.nav-dd-trigger svg { color: var(--muted); transition: transform .15s var(--ease); }
+.nav-dd:hover .nav-dd-trigger svg,
+.nav-dd:focus-within .nav-dd-trigger svg { color: var(--coral); transform: rotate(180deg); }
+.nav-dd-menu {
+  position: absolute; top: calc(100% + 8px); left: 0;
+  min-width: 180px; padding: 6px;
+  background: var(--paper); border: 1px solid var(--rule-strong); border-radius: var(--r-lg);
+  opacity: 0; visibility: hidden; transform: translateY(-4px);
+  transition: opacity .15s var(--ease), transform .15s var(--ease), visibility 0s linear .15s;
+  display: flex; flex-direction: column; gap: 2px;
+  z-index: var(--z-drawer);
+}
+.nav-dd:hover .nav-dd-menu,
+.nav-dd:focus-within .nav-dd-menu { opacity: 1; visibility: visible; transform: translateY(0); transition-delay: 0s; }
+.nav-dd-menu::before { content: ""; position: absolute; top: -10px; left: 0; right: 0; height: 10px; }
+.nav-dd-menu a {
+  display: flex !important; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 8px 12px; border-radius: var(--r-sm); font-size: 13px;
+  color: var(--maroon-ink); text-decoration: none;
+}
+.nav-dd-menu a:hover { color: var(--coral); }
+.nav-dd-menu a.on { color: var(--coral); }
+.nav-dd-menu .ver { font-family: var(--mono); font-size: 13px; font-weight: 500; }
+.nav-dd-menu .tag {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 2px 7px; border-radius: var(--r-pill);
+  background: color-mix(in oklab, var(--coral) 14%, var(--cream));
+  color: var(--coral); border: 1px solid color-mix(in oklab, var(--coral) 28%, transparent);
+}
+.nav-dd-menu .tag.legacy { background: transparent; color: var(--muted); border-color: var(--rule-strong); }

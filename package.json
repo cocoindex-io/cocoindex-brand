@@ -1,6 +1,6 @@
 {
   "name": "@cocoindex/brand",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "CocoIndex shared design tokens, code theme, and brand assets. Single source of truth for home, blog, and docs.",
   "private": true,
   "license": "UNLICENSED",
@@ -25,6 +25,8 @@
     "./code-theme": "./code-theme.mjs",
     "./copy-code": "./copy-code.mjs",
     "./Footer.astro": "./Footer.astro",
+    "./Stars.astro": "./Stars.astro",
+    "./Nav.astro": "./Nav.astro",
     "./ExampleRepoCard.astro": "./ExampleRepoCard.astro",
     "./DocsLinkCard.astro": "./DocsLinkCard.astro"
   },
@@ -44,6 +46,8 @@
     "code-theme.mjs",
     "copy-code.mjs",
     "Footer.astro",
+    "Stars.astro",
+    "Nav.astro",
     "ExampleRepoCard.astro",
     "DocsLinkCard.astro"
   ],

@@ -1,0 +1,81 @@
+---
+// Shared top nav bar — one markup source for every CocoIndex surface: logo +
+// nav links (flat, or with a version dropdown) + the GitHub-stars pill + an
+// optional hamburger. Styles: @cocoindex/brand/nav.css. The mobile drawer it
+// opens is provided per-site (its content differs — a simple link list on the
+// marketing site, a tabbed sidebar+TOC on docs); pass `mobileSheetId` to render
+// the hamburger wired (aria-controls + data-mobile-toggle) to that drawer.
+//
+// Logo defaults to the absolute cocoindex.io mark so the bar is identical
+// everywhere; links are passed per-site (the docs version dropdowns don't
+// belong on the marketing nav).
+import Stars from './Stars.astro';
+
+export interface NavLink {
+  href: string;
+  label: string;
+  track?: string;
+  /** Render `label` as a hover dropdown of versioned links (e.g. v1 / v0 legacy). */
+  versions?: { href: string; label: string; tag?: string; current?: boolean }[];
+}
+interface Props {
+  links: NavLink[];
+  logoHref?: string;
+  logoSrc?: string;
+  mobileSheetId?: string;
+  ariaLabel?: string;
+}
+const {
+  links,
+  logoHref = 'https://cocoindex.io/',
+  logoSrc = 'https://cocoindex.io/images/cocoindex.svg',
+  mobileSheetId,
+  ariaLabel = 'Primary',
+} = Astro.props;
+---
+<nav class="top" aria-label={ariaLabel}>
+  <div class="nav-in">
+    <a class="logo" href={logoHref}>
+      <img src={logoSrc} alt="" width="28" height="28" decoding="async" fetchpriority="high" />
+      <span>CocoIndex</span>
+    </a>
+    <div class="nav-links">
+      {links.map((l) => l.versions ? (
+        <div class="nav-dd">
+          <a href={l.href} class="nav-dd-trigger" aria-haspopup="menu">
+            {l.label}
+            <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+              <path d="m2.5 4.5 3.5 3.5 3.5-3.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+          <div class="nav-dd-menu" role="menu">
+            {l.versions.map((v) => (
+              <a class={v.current ? 'on' : undefined} href={v.href} role="menuitem">
+                <span class="ver">{v.label}</span>
+                {v.tag && <span class="tag legacy">{v.tag}</span>}
+              </a>
+            ))}
+          </div>
+        </div>
+      ) : (
+        <a href={l.href} data-track={l.track} data-track-loc={l.label}>{l.label}</a>
+      ))}
+    </div>
+    <div class="nav-cta">
+      <Stars class="stars" />
+      {mobileSheetId && (
+        <button
+          class="menu-btn"
+          id="menuBtn"
+          type="button"
+          aria-label="Open menu"
+          aria-expanded="false"
+          aria-controls={mobileSheetId}
+          data-mobile-toggle={mobileSheetId}
+        >
+          <span class="bar"></span>
+        </button>
+      )}
+    </div>
+  </div>
+</nav>
