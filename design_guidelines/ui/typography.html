@@ -5,13 +5,12 @@
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <meta name="robots" content="noindex, nofollow, noarchive"/>
 <title>CocoIndex — Typography · Internal design system</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/fonts/fonts.css">
 <link rel="stylesheet" href="./_shared.css">
 
 <style>
+  /* Hum typography: emphasis is coral + weight, never italic (no serif anywhere). */
+  em { font-style: normal; font-weight: 600; color: var(--coral); }
   /* page-specific: family cards + scale rows + type samples */
   .fam-grid{
     display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0;
@@ -28,15 +27,15 @@
   .fam-card.mono-card{ background: var(--paper); }
   .fam-card .tag{ font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--coral); }
   .fam-card .big{ font-size: 96px; line-height: 1; letter-spacing: -0.035em; color: var(--maroon-ink); margin: 12px 0 20px; }
-  .fam-card .big.serif{ font-family: var(--serif); font-weight: 400; }
+  .fam-card .big.serif{ font-family: var(--serif); font-weight: 600; }
   .fam-card .big.sans{ font-family: var(--sans); font-weight: 500; }
   .fam-card .big.mono{ font-family: var(--mono); font-weight: 400; font-size: 72px; letter-spacing: -0.01em; }
-  .fam-card .big em{ font-style: italic; color: var(--coral); }
+  .fam-card .big em{ font-style: normal; font-weight: 600; color: var(--coral); }
   .fam-card .meta{ display: flex; flex-direction: column; gap: 10px; font-size: 13px; line-height: 1.5; }
   .fam-card .meta .row{ display: grid; grid-template-columns: 96px 1fr; gap: 12px; align-items: baseline; }
   .fam-card .meta .k{ font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
   .fam-card .meta .v{ color: var(--maroon-ink); }
-  .fam-card .meta .v em{ font-style: italic; color: var(--coral); }
+  .fam-card .meta .v em{ font-style: normal; font-weight: 600; color: var(--coral); }
 
   .scale-list{ display: flex; flex-direction: column; gap: 0; }
   .scale-row{
@@ -51,10 +50,10 @@
   .scale-row .spec{ font-family: var(--mono); font-size: 11px; color: var(--maroon-ink); line-height: 1.7; margin-top: 4px; }
   .scale-row .spec .dim{ color: var(--muted); }
   .scale-row .sample{ display: block; color: var(--maroon-ink); word-break: break-word; }
-  .scale-row .sample em{ font-style: italic; color: var(--coral); }
+  .scale-row .sample em{ font-style: normal; font-weight: 600; color: var(--coral); }
 
-  .s-display{ font-family: var(--serif); font-weight: 400; font-size: clamp(48px, 7vw, 96px); line-height: 0.98; letter-spacing: -0.03em; }
-  .s-page{ font-family: var(--serif); font-weight: 400; font-size: clamp(32px, 4.6vw, 60px); line-height: 0.98; letter-spacing: -0.03em; }
+  .s-display{ font-family: var(--serif); font-weight: 600; font-size: clamp(48px, 7vw, 96px); line-height: 0.98; letter-spacing: -0.025em; }
+  .s-page{ font-family: var(--serif); font-weight: 600; font-size: clamp(32px, 4.6vw, 60px); line-height: 0.98; letter-spacing: -0.025em; }
   .s-h2{ font-family: var(--sans); font-weight: 600; font-size: clamp(24px, 3.2vw, 44px); line-height: 1.05; letter-spacing: -0.03em; }
   .s-h3{ font-family: var(--sans); font-weight: 600; font-size: 22px; line-height: 1.2; letter-spacing: -0.02em; }
   .s-lede{ font-family: var(--sans); font-weight: 400; font-size: clamp(17px, 1.4vw, 20px); line-height: 1.5; letter-spacing: -0.005em; }
@@ -105,8 +104,8 @@
     <header class="cover">
       <div class="wrap">
         <div class="eyebrow">Page guideline · Typography</div>
-        <h1 class="cover-h">Three families. <em>One</em> voice.</h1>
-        <p class="lead">Source Serif 4 carries every hero. Inter carries everything below it. JetBrains Mono handles labels, captions, and code. This page documents the full scale so every CocoIndex page — homepage, docs, examples, blog — sounds the same.</p>
+        <h1 class="cover-h">Two families. <em>One</em> voice.</h1>
+        <p class="lead">Plus Jakarta Sans carries every hero and everything below it — display at weight 600, body at 400. JetBrains Mono handles labels, captions, and code. No serif, no italic: emphasis is one coral word at weight 600. This page documents the full scale so every CocoIndex page — homepage, docs, examples, blog — sounds the same.</p>
       </div>
     </header>
 
@@ -115,20 +114,20 @@
         <div class="sec-head">
           <span class="idx">01 — Families</span>
           <div>
-            <h2>A <em>three-family</em> system, used with restraint.</h2>
-            <p class="lead">Each family has a dedicated job. Never swap them and never introduce a fourth.</p>
+            <h2>A <em>two-family</em> system, used with restraint.</h2>
+            <p class="lead">Each role has a dedicated weight. Never introduce a serif, an italic, or a third family.</p>
           </div>
         </div>
 
         <div class="fam-grid">
           <div class="fam-card serif-card">
-            <span class="tag">Hero only</span>
+            <span class="tag">Display</span>
             <div class="big serif">R<em>a</em></div>
             <div class="meta">
-              <div class="row"><span class="k">Family</span><span class="v">Source Serif 4</span></div>
+              <div class="row"><span class="k">Family</span><span class="v">Plus Jakarta Sans</span></div>
               <div class="row"><span class="k">Token</span><span class="v">var(--serif)</span></div>
-              <div class="row"><span class="k">Weight</span><span class="v">400 only</span></div>
-              <div class="row"><span class="k">Style</span><span class="v">italic for <em>emphasis</em></span></div>
+              <div class="row"><span class="k">Weight</span><span class="v">600, −0.025em</span></div>
+              <div class="row"><span class="k">Style</span><span class="v">coral <em>emphasis</em>, never italic</span></div>
               <div class="row"><span class="k">Used for</span><span class="v">Page hero H1</span></div>
             </div>
           </div>
@@ -137,7 +136,7 @@
             <span class="tag">UI · body · headings</span>
             <div class="big sans">Rg</div>
             <div class="meta">
-              <div class="row"><span class="k">Family</span><span class="v">Inter</span></div>
+              <div class="row"><span class="k">Family</span><span class="v">Plus Jakarta Sans</span></div>
               <div class="row"><span class="k">Token</span><span class="v">var(--sans)</span></div>
               <div class="row"><span class="k">Weights</span><span class="v">400 · 500 · 600</span></div>
               <div class="row"><span class="k">Style</span><span class="v">Roman, tight tracking</span></div>
@@ -176,11 +175,11 @@
               <span class="role">Display hero</span>
               <span class="desc">Homepage only. The biggest headline on the site.</span>
               <div class="spec">
-                <div><span class="dim">family&nbsp;&nbsp;</span>serif</div>
-                <div><span class="dim">weight&nbsp;&nbsp;</span>400</div>
+                <div><span class="dim">family&nbsp;&nbsp;</span>display</div>
+                <div><span class="dim">weight&nbsp;&nbsp;</span>600</div>
                 <div><span class="dim">size&nbsp;&nbsp;&nbsp;&nbsp;</span>clamp(56px, 7.4vw, 112px)</div>
                 <div><span class="dim">line&nbsp;&nbsp;&nbsp;&nbsp;</span>0.98</div>
-                <div><span class="dim">track&nbsp;&nbsp;&nbsp;</span>-0.03em</div>
+                <div><span class="dim">track&nbsp;&nbsp;&nbsp;</span>-0.025em</div>
               </div>
             </div>
             <span class="sample s-display">Continuously <em>fresh</em> context.</span>
@@ -191,11 +190,11 @@
               <span class="role">Page hero</span>
               <span class="desc">Every page that isn't the homepage — docs, examples, blog, post titles.</span>
               <div class="spec">
-                <div><span class="dim">family&nbsp;&nbsp;</span>serif</div>
-                <div><span class="dim">weight&nbsp;&nbsp;</span>400</div>
+                <div><span class="dim">family&nbsp;&nbsp;</span>display</div>
+                <div><span class="dim">weight&nbsp;&nbsp;</span>600</div>
                 <div><span class="dim">size&nbsp;&nbsp;&nbsp;&nbsp;</span>clamp(40px, 4.6vw, 60px)</div>
                 <div><span class="dim">line&nbsp;&nbsp;&nbsp;&nbsp;</span>0.98</div>
-                <div><span class="dim">track&nbsp;&nbsp;&nbsp;</span>-0.03em</div>
+                <div><span class="dim">track&nbsp;&nbsp;&nbsp;</span>-0.025em</div>
               </div>
             </div>
             <span class="sample s-page">Podcast → <em>knowledge</em> graph.</span>
@@ -204,7 +203,7 @@
           <div class="scale-row">
             <div class="meta">
               <span class="role">Section H2</span>
-              <span class="desc">Section headings inside a page. Inter 600.</span>
+              <span class="desc">Section headings inside a page. Plus Jakarta Sans 600.</span>
               <div class="spec">
                 <div><span class="dim">family&nbsp;&nbsp;</span>sans</div>
                 <div><span class="dim">weight&nbsp;&nbsp;</span>600</div>
@@ -258,7 +257,7 @@
                 <div><span class="dim">track&nbsp;&nbsp;&nbsp;</span>0</div>
               </div>
             </div>
-            <span class="sample s-body">Body copy sits at 17px with 1.55 line-height — the comfortable reading rhythm for the rest of the site. Strong emphasis uses Inter 500 and the maroon ink color. Links inherit the surrounding color and pick up a 1px underline on hover.</span>
+            <span class="sample s-body">Body copy sits at 17px with 1.55 line-height — the comfortable reading rhythm for the rest of the site. Strong emphasis uses weight 500 and the maroon ink color. Links inherit the surrounding color and pick up a 1px underline on hover.</span>
           </div>
 
           <div class="scale-row">
@@ -365,7 +364,7 @@
                 <div><span class="dim">vs marketing</span>&nbsp;clamp(28, 3.2vw, 44)</div>
               </div>
             </div>
-            <span class="sample" style="font-family:var(--sans); font-weight:600; font-size:28px; line-height:1.1; letter-spacing:-0.025em;">Install and <em style="font-style:italic; color:var(--coral);">index</em> your first source.</span>
+            <span class="sample" style="font-family:var(--sans); font-weight:600; font-size:28px; line-height:1.1; letter-spacing:-0.025em;">Install and <em style="font-style:normal; font-weight:600; color:var(--coral);">index</em> your first source.</span>
           </div>
 
           <div class="scale-row">
@@ -422,13 +421,13 @@
         <div class="rules-grid">
           <div class="rule">
             <span class="tag do">Do</span>
-            <h4>Serif is for the <em>hero</em>, nothing else.</h4>
-            <p>Source Serif 4 appears exactly once per page — on the hero H1. Section heads, cards, and body use Inter. This keeps the serif rare enough to stay powerful.</p>
+            <h4>Display weight is for the <em>hero</em>, nothing else.</h4>
+            <p>Plus Jakarta Sans at weight 600 with −0.025em tracking carries the hero H1. Section heads, cards, and body use the same family at lighter weights. This keeps the display weight rare enough to stay powerful.</p>
           </div>
           <div class="rule">
             <span class="tag do">Do</span>
-            <h4>Emphasis is <em>italic coral</em>.</h4>
-            <p>Inside a hero, wrap the one word you want to sing in <code>&lt;em&gt;</code>. The em gets italic + coral. Never bold, never underlined, never more than one word per hero.</p>
+            <h4>Emphasis is <em>coral</em>, weight 600.</h4>
+            <p>Inside a hero, wrap the one word you want to sing in <code>&lt;em&gt;</code>. The em gets coral + weight 600. Never italic, never underlined, never more than one word per hero.</p>
           </div>
           <div class="rule">
             <span class="tag do">Do</span>
@@ -438,17 +437,17 @@
           <div class="rule">
             <span class="tag do">Do</span>
             <h4>Caps labels always use <em>mono</em>.</h4>
-            <p>Any uppercase text with 0.14em tracking — eyebrows, metadata, tags, sidebar section heads — is JetBrains Mono, 11px. Never small-caps Inter, never Source Serif uppercase.</p>
+            <p>Any uppercase text with 0.14em tracking — eyebrows, metadata, tags, sidebar section heads — is JetBrains Mono, 11px. Never letter-spaced Plus Jakarta Sans uppercase.</p>
           </div>
           <div class="rule">
             <span class="tag dont">Don't</span>
             <h4>Don't mix <em>weights</em> inside a single hero.</h4>
-            <p>The hero is serif 400 only. No 500, no 700, no italic-bold hybrids. If you need more emphasis, change the copy — not the type.</p>
+            <p>The hero is display weight 600 only. No 400, no 700, no italics. If you need more emphasis, change the copy — not the type.</p>
           </div>
           <div class="rule">
             <span class="tag dont">Don't</span>
-            <h4>Don't introduce a <em>fourth</em> family.</h4>
-            <p>No display fonts, no "friendly" handwritten scripts, no additional monospace. Three families is the whole system.</p>
+            <h4>Don't introduce a <em>third</em> family.</h4>
+            <p>No serif, no italic, no "friendly" handwritten scripts, no additional monospace. Plus Jakarta Sans + JetBrains Mono is the whole system.</p>
           </div>
         </div>
       </div>
@@ -465,8 +464,8 @@
         </div>
 
 <pre class="tokens"><span class="c">/* font families */</span>
-<span class="k">--serif</span>: <span class="v">"Source Serif 4", ui-serif, Georgia, serif</span>;
-<span class="k">--sans</span>:  <span class="v">"Inter", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif</span>;
+<span class="k">--serif</span>: <span class="v">"Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif</span>;
+<span class="k">--sans</span>:  <span class="v">"Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif</span>;
 <span class="k">--mono</span>:  <span class="v">"JetBrains Mono", ui-monospace, Menlo, monospace</span>;
 
 <span class="c">/* hero sizes */</span>

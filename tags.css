@@ -130,7 +130,7 @@ a.t-pill:hover, .t-pill.is-hover { border-color: var(--coral); color: var(--cora
 .t-eyebrow {
   display: inline-flex; align-items: center; gap: 9px;
   font-family: var(--mono); font-size: 11px;
-  letter-spacing: 0.16em; text-transform: uppercase;
+  letter-spacing: 0.14em; text-transform: uppercase;
   color: var(--coral); white-space: nowrap;
 }
 .t-eyebrow .dt { width: 7px; height: 7px; border-radius: 50%; background: var(--dt, var(--coral)); flex: none; }

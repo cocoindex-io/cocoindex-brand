@@ -12,7 +12,7 @@
 .logo:hover, .logo:hover .logo-word { text-decoration: none; }
 .logo img { display: block; width: auto; }
 .logo-word {
-  font-family: var(--sans); font-weight: 600; letter-spacing: -0.02em;
+  font-family: var(--sans); font-weight: 700; letter-spacing: -0.02em;
   line-height: 1; color: inherit; white-space: nowrap;
 }
 

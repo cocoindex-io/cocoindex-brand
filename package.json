@@ -1,6 +1,6 @@
 {
   "name": "@cocoindex/brand",
-  "version": "0.4.0",
+  "version": "0.4.7",
   "description": "CocoIndex shared design tokens, code theme, and brand assets. Single source of truth for home, blog, and docs.",
   "private": true,
   "license": "UNLICENSED",
@@ -10,9 +10,8 @@
     "url": "git+https://github.com/cocoindex-io/cocoindex-brand.git"
   },
   "dependencies": {
-    "@fontsource/inter": "^5.2.8",
     "@fontsource/jetbrains-mono": "^5.2.8",
-    "@fontsource/source-serif-4": "^5.2.9"
+    "@fontsource/plus-jakarta-sans": "^5.2.8"
   },
   "exports": {
     "./tokens.css": "./tokens.css",

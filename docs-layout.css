@@ -129,8 +129,8 @@ main.content {
    docs-specific .intro-meta strip below stays local. */
 
 /* Intro-meta strip: the Time / Language / Requires / Version / Last
-   updated dl under the lede on every doc page. Matches the ruled band
-   in design_guidelines/CocoIndex Docs.html. */
+   updated dl under the lede on every doc page (the ruled band on
+   the live docs pages). */
 .prose .intro-meta {
   display: flex; flex-wrap: wrap; gap: 22px;
   margin: 20px 0 8px;
