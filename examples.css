@@ -24,7 +24,7 @@
       body.ex-listing h1.hero-h {
         font-family: var(--serif); font-weight: 700;
         font-size: clamp(40px, 4.6vw, 60px); line-height: 0.98; letter-spacing: -0.025em;
-        margin: 0 0 24px;
+        margin: 0 0 24px; overflow-wrap: anywhere; min-width: 0;
       }
       body.ex-listing h1.hero-h em { font-style: normal; font-weight: 700; color: var(--coral); }
       body.ex-listing .hero-sub {

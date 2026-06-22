@@ -12,6 +12,7 @@
   font-family: var(--serif); font-weight: 700;
   font-size: var(--prose-h1, clamp(40px, 4.6vw, 60px)); line-height: 1.02;
   letter-spacing: -0.025em; margin: 0 0 18px;
+  overflow-wrap: anywhere; min-width: 0;
 }
 .prose h1 em { font-style: normal; font-weight: 700; color: var(--coral); }
 
