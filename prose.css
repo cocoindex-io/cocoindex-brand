@@ -9,11 +9,11 @@
 .prose { font-size: var(--prose-body, 15.5px); line-height: var(--prose-lh, 1.65); }
 
 .prose h1 {
-  font-family: var(--serif); font-weight: 600;
+  font-family: var(--serif); font-weight: 700;
   font-size: var(--prose-h1, clamp(40px, 4.6vw, 60px)); line-height: 1.02;
   letter-spacing: -0.025em; margin: 0 0 18px;
 }
-.prose h1 em { font-style: normal; font-weight: 600; color: var(--coral); }
+.prose h1 em { font-style: normal; font-weight: 700; color: var(--coral); }
 
 .prose .lede {
   font-family: var(--sans); font-size: clamp(17px, 1.4vw, 20px);

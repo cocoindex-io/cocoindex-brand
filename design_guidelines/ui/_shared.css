@@ -69,12 +69,12 @@ a{ color: inherit; }
   text-transform: uppercase; color: var(--coral); margin-bottom: 24px;
 }
 h1.cover-h{
-  font-family: var(--serif); font-weight: 600;
+  font-family: var(--serif); font-weight: 700;
   font-size: clamp(48px, 6.4vw, 96px);
   line-height: 0.98; letter-spacing: -0.025em;
   margin: 0 0 22px; max-width: 16ch;
 }
-h1.cover-h em{ font-style: normal; font-weight: 600; color: var(--coral); }
+h1.cover-h em{ font-style: normal; font-weight: 700; color: var(--coral); }
 .cover .lead{
   font-size: clamp(17px, 1.4vw, 20px); line-height: 1.55; letter-spacing: -0.005em;
   max-width: 62ch; color: var(--maroon-ink);
@@ -92,12 +92,12 @@ section:last-of-type{ border-bottom: none; }
   text-transform: uppercase; color: var(--coral); padding-top: 14px;
 }
 .sec-head h2{
-  font-family: var(--sans); font-weight: 600;
+  font-family: var(--sans); font-weight: 700;
   font-size: clamp(28px, 3.2vw, 44px);
   line-height: 1.05; letter-spacing: -0.03em;
   margin: 0 0 14px; max-width: 24ch;
 }
-.sec-head h2 em{ font-style: normal; font-weight: 600; color: var(--coral); }
+.sec-head h2 em{ font-style: normal; font-weight: 700; color: var(--coral); }
 .sec-head .lead{
   font-size: clamp(16px, 1.3vw, 19px); color: var(--maroon-ink); max-width: 62ch;
   line-height: 1.55; letter-spacing: -0.005em; margin: 0;
@@ -116,10 +116,10 @@ section:last-of-type{ border-bottom: none; }
   background: var(--cream-soft);
 }
 .rule h4{
-  font-family: var(--sans); font-weight: 600; font-size: 19px; line-height: 1.3;
+  font-family: var(--sans); font-weight: 700; font-size: 19px; line-height: 1.3;
   letter-spacing: -0.015em; margin: 0 0 10px;
 }
-.rule h4 em{ font-style: normal; font-weight: 600; color: var(--coral); }
+.rule h4 em{ font-style: normal; font-weight: 700; color: var(--coral); }
 .rule p{ font-size: 14px; line-height: 1.55; margin: 0; color: var(--maroon-ink); }
 .rule .tag{
   display: inline-block; font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em;

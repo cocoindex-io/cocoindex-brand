@@ -112,11 +112,11 @@
   text-transform: uppercase; color: var(--coral);
 }
 .docs-link-card__title {
-  font-family: var(--serif); font-weight: 600;
+  font-family: var(--serif); font-weight: 700;
   font-size: 22px; line-height: 1.15; letter-spacing: -0.025em;
   color: var(--maroon-ink);
 }
-.docs-link-card__title em { font-style: normal; font-weight: 600; color: var(--coral); }
+.docs-link-card__title em { font-style: normal; font-weight: 700; color: var(--coral); }
 .docs-link-card__desc {
   font-family: var(--sans); font-size: 14px; line-height: 1.5;
   color: var(--maroon-ink); opacity: 0.8;
