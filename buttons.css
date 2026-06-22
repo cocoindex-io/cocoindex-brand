@@ -1,0 +1,104 @@
+/* Buttons — the canonical CocoIndex button system (the "golden" block from
+   design_guidelines/ui/_shared.css, referenced by ui/buttons.html). Shared
+   across home, blog, and docs. One structural `.btn` carries shape, padding,
+   and the :focus-visible ring; each variant only re-points the `--btn-*`
+   custom properties; sizes/shape compose on top (GUIDELINE §3 + §4).
+
+   Axes: variant × size × shape, plus icon-only.
+     Variants: primary · coral · outline · outline-muted · ghost · mono
+     Sizes:    sm / (default md) / lg (alias xl)
+     Shape:    pill (default) / rounded (8px)
+     Icon:     .btn-icon (square) + .btn-icon-circle
+   GUIDELINE §3: one coral CTA per view; pair with `.btn-outline` for the
+   secondary action — never two solid fills side by side.
+
+   Token-only and surface-agnostic. Import after tokens.css. */
+.btn {
+  --btn-bg: transparent;
+  --btn-fg: var(--maroon);
+  --btn-border: var(--maroon);
+  --btn-bg-hover: var(--maroon);
+  --btn-fg-hover: var(--cream);
+  --btn-border-hover: var(--maroon);
+
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: var(--r-pill);
+  font-family: var(--sans); font-size: 14px; font-weight: 500; line-height: 1.2;
+  text-decoration: none; white-space: nowrap;
+  border: 1px solid var(--btn-border);
+  background: var(--btn-bg); color: var(--btn-fg);
+  cursor: pointer; user-select: none; -webkit-tap-highlight-color: transparent;
+  transition: background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease),
+              border-color var(--dur-fast) var(--ease), transform .12s var(--ease);
+}
+.btn svg { flex: none; }
+.btn:hover { background: var(--btn-bg-hover); color: var(--btn-fg-hover); border-color: var(--btn-border-hover); }
+.btn:active { transform: translateY(1px); }
+.btn:focus-visible { outline: var(--focus); outline-offset: var(--focus-offset); }
+.btn[disabled], .btn[aria-disabled="true"] { opacity: .45; pointer-events: none; }
+
+/* Sizes — default is medium. `btn-xl` is an alias of `btn-lg` (hero CTAs). */
+.btn-sm { padding: 6px 12px; font-size: 12px; gap: 6px; }
+.btn-lg, .btn-xl { padding: 16px 28px; font-size: 18px; gap: 10px; }
+
+/* Shape — pill is default; `btn-rounded` (8px) for rectangular layouts. */
+.btn-rounded { border-radius: var(--r-md); }
+
+/* Icon-only — square 36px at default, 28/44 at sm/lg. `btn-icon-circle`
+   makes it a disc; otherwise it's the rounded square. */
+.btn-icon { padding: 0; width: 36px; height: 36px; border-radius: var(--r-md); gap: 0; }
+.btn-icon.btn-sm { width: 28px; height: 28px; }
+.btn-icon.btn-lg, .btn-icon.btn-xl { width: 44px; height: 44px; }
+.btn-icon-circle { border-radius: 50%; }
+
+/* Social (LinkedIn / X / GitHub) — 32px hairline square, icon-only recolor to
+   coral on hover (no fill). Canonical; do not use btn-outline for socials.
+   Always compose as `btn btn-social` with an `aria-label`. */
+.btn-social {
+  width: 32px; height: 32px;
+  padding: 0; border-radius: var(--r-sm); gap: 0;
+  --btn-bg: transparent;  --btn-fg: var(--maroon);  --btn-border: var(--rule);
+  --btn-bg-hover: transparent;  --btn-fg-hover: var(--coral);  --btn-border-hover: var(--coral);
+}
+
+/* Variants — re-point the custom properties only. */
+.btn-primary {
+  --btn-bg: var(--maroon); --btn-fg: var(--cream); --btn-border: var(--maroon);
+  --btn-bg-hover: var(--maroon-deep); --btn-fg-hover: var(--cream); --btn-border-hover: var(--maroon-deep);
+}
+.btn-coral {
+  --btn-bg: var(--coral); --btn-fg: var(--cream); --btn-border: var(--coral);
+  --btn-bg-hover: var(--maroon); --btn-fg-hover: var(--cream); --btn-border-hover: var(--maroon);
+}
+.btn-outline {
+  --btn-bg: transparent; --btn-fg: var(--maroon); --btn-border: var(--maroon);
+}
+.btn-outline-muted {
+  --btn-bg: transparent; --btn-fg: var(--maroon-ink); --btn-border: var(--rule-strong);
+  --btn-bg-hover: var(--maroon); --btn-fg-hover: var(--cream); --btn-border-hover: var(--maroon);
+}
+.btn-ghost {
+  --btn-bg: transparent; --btn-fg: var(--maroon); --btn-border: transparent;
+  --btn-bg-hover: color-mix(in oklab, var(--maroon) 8%, transparent);
+  --btn-fg-hover: var(--coral); --btn-border-hover: transparent;
+}
+.btn-mono {
+  --btn-bg: transparent; --btn-fg: var(--maroon); --btn-border: var(--rule-strong);
+  --btn-bg-hover: color-mix(in oklab, var(--peach) 14%, var(--cream));
+  --btn-fg-hover: var(--coral); --btn-border-hover: color-mix(in oklab, var(--coral) 45%, transparent);
+  font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em;
+  text-transform: uppercase; padding: 6px 10px; gap: 6px;
+}
+.btn-mono.btn-lg { font-size: 14px; padding: 10px 16px; }
+
+/* demo-only helpers (buttons.html renders hover/focus states side by side).
+   Harmless in production. */
+.btn.is-hover { background: var(--btn-bg-hover); color: var(--btn-fg-hover); border-color: var(--btn-border-hover); }
+.btn.is-focus { outline: var(--focus); outline-offset: var(--focus-offset); }
+
+@media (prefers-reduced-motion: reduce) {
+  .btn { transition: none; }
+  .btn:active { transform: none; }
+}

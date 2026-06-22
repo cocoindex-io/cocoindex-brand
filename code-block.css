@@ -1,0 +1,115 @@
+/* Code — the canonical CocoIndex code surfaces, shared across home, blog, and
+   docs so code renders identically everywhere (GUIDELINE §3 + §5.5). Consumes
+   the `--code-*` palette (see code-theme.mjs, which paints the same palette into
+   Shiki). Surface-agnostic; import after tokens.css.
+
+   Three pieces: inline code, the bare Shiki fence (untitled blocks), and the
+   titled `.code-figure` (window bar + copy button). */
+
+/* Inline code — coral-washed pill, berry text. `:not(pre) > code` excludes
+   fenced code so it never fights the dark code surface. */
+:not(pre) > code {
+  font-family: var(--mono); font-size: 13px;
+  background: color-mix(in oklab, var(--coral) 12%, transparent);
+  color: var(--berry);
+  padding: 1px 6px; border-radius: var(--r-xs);
+}
+
+/* Untitled fenced block — Astro + Shiki emit `<pre class="astro-code …">`.
+   Shiki sets the bg inline via the theme; we add the card frame. Titled blocks
+   are wrapped in `.code-figure` (below), which supplies the frame instead. */
+pre.astro-code {
+  margin: 20px 0;
+  border-radius: var(--r-md);
+  overflow: hidden; overflow-x: auto;
+  border: 1px solid color-mix(in oklab, var(--maroon-ink) 20%, transparent);
+  background: var(--code-bg) !important;
+  padding: 18px 22px;
+  font-family: var(--mono); font-size: 13px; line-height: 1.7;
+  color: var(--code-fg);
+}
+pre.astro-code code { background: none; color: inherit; padding: 0; font-size: inherit; }
+
+/* Titled code blocks — wrapped by each site's scripts/remark-code-titles.mjs as
+   <figure class="code-figure"><div class="bar">
+     <span class="dots"><span/><span/><span/></span>
+     <div class="right">[<span class="file">…</span>]<button class="copy">…</button></div>
+   </div><pre>…</pre></figure>.
+   The copy button is wired by copy-code.mjs. */
+.code-figure {
+  margin: 24px 0;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  background: var(--code-bg);
+  border: 1px solid color-mix(in oklab, var(--maroon-ink) 20%, transparent);
+}
+.code-figure .bar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 16px;
+  border-bottom: 1px solid color-mix(in oklab, var(--cream) 6%, transparent);
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.04em;
+  color: color-mix(in oklab, var(--cream) 60%, transparent);
+}
+.code-figure .bar .dots { display: flex; gap: 6px; }
+.code-figure .bar .dots span {
+  width: 9px; height: 9px; border-radius: 50%;
+  background: color-mix(in oklab, var(--cream) 15%, transparent);
+}
+.code-figure .bar .right { display: flex; align-items: center; gap: 12px; }
+.code-figure .bar .file {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.04em;
+  color: color-mix(in oklab, var(--cream) 72%, transparent);
+  text-transform: none;
+}
+/* Copy button — hidden at rest, revealed on figure hover or keyboard focus.
+   On success the `.copied` class flips icon + label for 1.5s (copy-code.mjs). */
+.code-figure .bar .copy {
+  display: inline-flex; align-items: center; gap: 6px;
+  margin: -3px 0;
+  padding: 3px 9px;
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--cream) 70%, transparent);
+  background: transparent;
+  border: 1px solid color-mix(in oklab, var(--cream) 16%, transparent);
+  border-radius: var(--r-pill);
+  cursor: pointer;
+  opacity: 0; transform: translateY(-1px);
+  transition: opacity .18s var(--ease), transform .18s var(--ease), color .15s var(--ease),
+              border-color .15s var(--ease), background .15s var(--ease);
+}
+.code-figure:hover .bar .copy,
+.code-figure:focus-within .bar .copy,
+.code-figure .bar .copy.copied {
+  opacity: 1; transform: none;
+}
+.code-figure .bar .copy:hover {
+  color: var(--cream);
+  border-color: color-mix(in oklab, var(--cream) 42%, transparent);
+  background: color-mix(in oklab, var(--cream) 6%, transparent);
+}
+.code-figure .bar .copy:focus-visible { outline: var(--focus); outline-offset: var(--focus-offset); }
+.code-figure .bar .copy .copy-ok { display: none; }
+.code-figure .bar .copy.copied {
+  color: var(--code-string);
+  border-color: color-mix(in oklab, var(--code-string) 45%, transparent);
+}
+.code-figure .bar .copy.copied .copy-i { display: none; }
+.code-figure .bar .copy.copied .copy-ok { display: inline-block; }
+.code-figure .bar .copy .copy-lbl { line-height: 1; }
+@media (prefers-reduced-motion: reduce) {
+  .code-figure .bar .copy { transition: opacity .12s var(--ease); transform: none; }
+}
+/* Inner <pre> gives up its own frame — the figure is the single card. */
+.code-figure pre, .code-figure pre.astro-code {
+  margin: 0 !important;
+  padding: 18px 22px !important;
+  border: 0 !important; border-radius: 0 !important;
+  background: var(--code-bg) !important;
+  font-family: var(--mono); font-size: 13px; line-height: 1.7;
+  overflow-x: auto;
+}
+.code-figure pre code {
+  background: transparent; padding: 0; border: 0; color: inherit;
+  font-family: var(--mono); font-size: 13px;
+}

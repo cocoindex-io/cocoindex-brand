@@ -1,8 +1,9 @@
 {
   "name": "@cocoindex/brand",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "CocoIndex shared design tokens, code theme, and brand assets. Single source of truth for home, blog, and docs.",
   "private": true,
+  "license": "UNLICENSED",
   "type": "module",
   "repository": {
     "type": "git",
@@ -12,13 +13,25 @@
     "./tokens.css": "./tokens.css",
     "./tokens.json": "./tokens.json",
     "./base.css": "./base.css",
-    "./code-theme": "./code-theme.mjs"
+    "./buttons.css": "./buttons.css",
+    "./tags.css": "./tags.css",
+    "./code-block.css": "./code-block.css",
+    "./cards.css": "./cards.css",
+    "./components.css": "./components.css",
+    "./code-theme": "./code-theme.mjs",
+    "./copy-code": "./copy-code.mjs"
   },
   "files": [
     "tokens.json",
     "tokens.css",
     "base.css",
-    "code-theme.mjs"
+    "buttons.css",
+    "tags.css",
+    "code-block.css",
+    "cards.css",
+    "components.css",
+    "code-theme.mjs",
+    "copy-code.mjs"
   ],
   "scripts": {
     "build:tokens": "node scripts/build-tokens.mjs",

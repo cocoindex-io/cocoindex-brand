@@ -1,0 +1,10 @@
+/* All shared CocoIndex UI primitives in one import. Consume after tokens.css:
+     @import '@cocoindex/brand/tokens.css';
+     @import '@cocoindex/brand/components.css';
+   Or cherry-pick the individual files. Every primitive here is token-only and
+   surface-agnostic — safe on home, blog, and docs. */
+@import './base.css';        /* admonitions / callouts */
+@import './buttons.css';     /* .btn system */
+@import './tags.css';        /* .t-pill / .t-category / .t-overlay / .t-status */
+@import './code-block.css';  /* inline code, Shiki fences, .code-figure chrome */
+@import './cards.css';       /* .example-repo-card / .docs-link-card */
