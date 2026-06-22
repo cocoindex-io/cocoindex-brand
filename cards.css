@@ -52,7 +52,7 @@
 .example-repo-card__ico svg { display: block; }
 .example-repo-card__body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
 .example-repo-card__eyebrow {
-  font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em;
   text-transform: uppercase; color: var(--coral);
 }
 .example-repo-card__path { display: inline-flex; align-items: baseline; gap: 8px; }
@@ -108,7 +108,7 @@
 .docs-link-card__ico svg { display: block; }
 .docs-link-card__body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
 .docs-link-card__eyebrow {
-  font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em;
   text-transform: uppercase; color: var(--coral);
 }
 .docs-link-card__title {
