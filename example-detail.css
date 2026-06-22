@@ -83,8 +83,8 @@
       body.ex-detail .hero .pill-row { display: flex; gap: 10px; flex-wrap: wrap; margin: 0 0 20px; }
       /* Hero tags use the shared chip set: .t-pill .t-pill-lg (+ .dt) and the
          .t-status .t-status-dark "Production ready" flag (@cocoindex/brand/tags.css). */
-      body.ex-detail h1.hero-h { font-family: var(--serif); font-weight: 400; font-size: clamp(40px, 4.6vw, 60px); line-height: 1.02; letter-spacing: -0.03em; margin: 0 0 18px; }
-      body.ex-detail h1.hero-h em { font-style: italic; color: var(--coral); }
+      body.ex-detail h1.hero-h { font-family: var(--serif); font-weight: 600; font-size: clamp(40px, 4.6vw, 60px); line-height: 1.02; letter-spacing: -0.025em; margin: 0 0 18px; }
+      body.ex-detail h1.hero-h em { font-style: normal; font-weight: 600; color: var(--coral); }
       body.ex-detail .hero .lede { font-family: var(--sans); font-size: clamp(17px, 1.4vw, 20px); font-weight: 400; line-height: 1.5; letter-spacing: -0.005em; color: var(--maroon-ink); max-width: 62ch; margin: 0 0 14px; }
       body.ex-detail .hero .intro-meta {
         display: flex; flex-wrap: wrap; gap: 22px;

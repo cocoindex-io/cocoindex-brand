@@ -219,11 +219,11 @@
 }
 .DocSearch-Logo a { color: var(--muted); }
 
-/* No-results — italic-coral serif headline, matching the design system
-   "italic-coral H1" treatment used across the site. */
+/* No-results — coral-emphasis display headline, matching the design system
+   "coral H1" treatment used across the site (Hum: weight, never italic). */
 .DocSearch-NoResults .DocSearch-Title {
-  font-family: var(--serif); font-style: italic;
-  font-weight: 400; color: var(--maroon-ink);
+  font-family: var(--serif); font-style: normal;
+  font-weight: 600; letter-spacing: -0.025em; color: var(--maroon-ink);
 }
 .DocSearch-NoResults .DocSearch-Title strong { color: var(--coral); }
 
