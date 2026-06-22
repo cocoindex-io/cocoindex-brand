@@ -1,0 +1,47 @@
+/* Shared brand primitives — surface-agnostic CSS that consumes the :root
+   tokens from tokens.css. Import after tokens.css. Portable across home,
+   blog, and docs (no surface wrapper in the selectors). */
+
+/* ── Admonitions / callouts ──
+   The canonical four — note (berry), info (coral), tip (palm ✓), warn (pink !).
+   `caution`/`danger` are aliases of warn, not new variants (GUIDELINE §3).
+   Markup is produced by scripts/remark-admonitions.mjs off `:::name` blocks:
+   <div class="callout note"><span class="ico">…</span><div class="body">…</div></div> */
+.callout {
+  display: flex; gap: 14px;
+  padding: 14px 16px;
+  border: 1px solid var(--rule-strong); border-radius: 8px;
+  background: var(--cream);
+  margin: 18px 0;
+  font-size: 13.5px;
+  color: var(--maroon-ink);
+}
+.callout.note { background: var(--cream); border-color: var(--rule-strong); }
+.callout.info {
+  border-color: color-mix(in oklab, var(--coral) 45%, transparent);
+  background: color-mix(in oklab, var(--peach) 16%, var(--cream));
+}
+.callout.tip {
+  border-color: color-mix(in oklab, var(--palm) 50%, var(--rule-strong));
+  background: color-mix(in oklab, var(--palm) 7%, var(--cream));
+}
+.callout.warn {
+  border-color: var(--coral);
+  background: color-mix(in oklab, var(--pink) 10%, var(--cream));
+}
+
+.callout .ico {
+  width: 24px; height: 24px; flex: none; border-radius: 50%;
+  background: var(--coral); color: var(--cream);
+  display: grid; place-items: center;
+  font-family: var(--mono); font-size: 12px; font-weight: 500; line-height: 1;
+}
+.callout.note .ico { background: var(--berry); color: var(--cream); }
+.callout.info .ico { background: var(--coral); color: var(--cream); }
+.callout.tip  .ico { background: var(--palm);  color: var(--maroon-ink); }
+.callout.warn .ico { background: var(--pink);  color: var(--maroon-ink); }
+
+.callout .body { flex: 1; min-width: 0; line-height: 1.5; }
+.callout .body > :is(p, ul, ol):first-child { margin-top: 0; }
+.callout .body > :last-child { margin-bottom: 0; }
+.callout b { display: block; font-family: var(--sans); font-weight: 600; font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 2px; }

@@ -1,0 +1,68 @@
+/* GENERATED from tokens.json by scripts/build-tokens.mjs — do not edit. */
+:root {
+  /* color */
+  --maroon: #532638;
+  --maroon-deep: #401E2B;
+  --maroon-ink: #2A121B;
+  --coral: #BE5133;
+  --peach: #E59A63;
+  --cream: #FCF3D8;
+  --cream-soft: #F6F4E9;
+  --pink: #FB6A76;
+  --palm: #27E62B;
+  --palm-ink: #16A534;
+  --berry: #6A1E23;
+  --gold: #F5D76E;
+  --lavender: #C9B8F5;
+  --taupe: #978A74;
+  --stone: #C5B7A0;
+  --paper: #FBF6E8;
+  --rule: rgba(42,18,27,0.14);
+  --rule-strong: rgba(42,18,27,0.35);
+  --muted: rgba(42,18,27,0.58);
+  /* font */
+  --serif: "Source Serif 4", ui-serif, Georgia, serif;
+  --sans: "Inter", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  /* space */
+  --s-1: 2px;
+  --s-2: 4px;
+  --s-3: 6px;
+  --s-4: 8px;
+  --s-5: 12px;
+  --s-6: 16px;
+  --s-7: 24px;
+  --s-8: 32px;
+  --s-9: 48px;
+  --s-10: 64px;
+  --s-11: 80px;
+  --s-12: 96px;
+  /* radius */
+  --r-xs: 3px;
+  --r-sm: 6px;
+  --r-md: 8px;
+  --r-lg: 12px;
+  --r-xl: 16px;
+  --r-pill: 999px;
+  /* shadow */
+  --shadow-card: 0 8px 32px rgba(42,18,27,0.08);
+  /* motion */
+  --dur-fast: 160ms;
+  --dur-slow: 280ms;
+  --ease: cubic-bezier(.2,.8,.2,1);
+  /* z */
+  --z-base: 0;
+  --z-sticky: 30;
+  --z-nav: 50;
+  --z-drawer: 60;
+  --z-modal: 80;
+  --z-toast: 100;
+  /* layout */
+  --maxw: 1320px;
+  --maxw-docs: 1480px;
+  --gutter: 40px;
+  --measure: 66ch;
+  /* focus */
+  --focus: 2px solid var(--coral);
+  --focus-offset: 2px;
+}

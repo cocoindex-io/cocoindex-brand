@@ -1,0 +1,28 @@
+{
+  "name": "@cocoindex/brand",
+  "version": "0.1.0",
+  "description": "CocoIndex shared design tokens, code theme, and brand assets. Single source of truth for home, blog, and docs.",
+  "private": true,
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cocoindex-io/cocoindex-brand.git"
+  },
+  "exports": {
+    "./tokens.css": "./tokens.css",
+    "./tokens.json": "./tokens.json",
+    "./base.css": "./base.css",
+    "./code-theme": "./code-theme.mjs"
+  },
+  "files": [
+    "tokens.json",
+    "tokens.css",
+    "base.css",
+    "code-theme.mjs"
+  ],
+  "scripts": {
+    "build:tokens": "node scripts/build-tokens.mjs",
+    "watch:tokens": "node scripts/build-tokens.mjs --watch",
+    "prepare": "node scripts/build-tokens.mjs"
+  }
+}
