@@ -6,7 +6,8 @@
 
    Axes: variant × size × shape, plus icon-only.
      Variants: primary · coral · outline · outline-muted · ghost · mono
-     Sizes:    sm / (default md) / lg (alias xl)
+     Sizes:    sm · (default md) · lg · xl — four real steps, one type+padding
+               rhythm; xl is the hero scale.
      Shape:    pill (default) / rounded (8px)
      Icon:     .btn-icon (square) + .btn-icon-circle
    GUIDELINE §3: one coral CTA per view; pair with `.btn-outline` for the
@@ -42,7 +43,7 @@
   background: var(--btn-bg); color: var(--btn-fg);
   cursor: pointer; user-select: none; -webkit-tap-highlight-color: transparent;
   transition: background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease),
-              border-color var(--dur-fast) var(--ease), transform .12s var(--ease);
+              border-color var(--dur-fast) var(--ease), transform var(--dur-press) var(--ease);
 }
 .btn svg { flex: none; }
 .btn:hover { background: var(--btn-bg-hover); color: var(--btn-fg-hover); border-color: var(--btn-border-hover); }
@@ -50,18 +51,21 @@
 .btn:focus-visible { outline: var(--focus); outline-offset: var(--focus-offset); }
 .btn[disabled], .btn[aria-disabled="true"] { opacity: .45; pointer-events: none; }
 
-/* Sizes — default is medium. `btn-xl` is an alias of `btn-lg` (hero CTAs). */
+/* Sizes — four steps. Default (no size class) is md. lg is the comfortable
+   mid-large; xl is the hero scale. */
 .btn-sm { padding: 6px 12px; font-size: 12px; gap: 6px; }
-.btn-lg, .btn-xl { padding: 16px 28px; font-size: 18px; gap: 10px; }
+.btn-lg { padding: 13px 22px; font-size: 16px; gap: 8px; }
+.btn-xl { padding: 16px 28px; font-size: 18px; gap: 10px; }
 
 /* Shape — pill is default; `btn-rounded` (8px) for rectangular layouts. */
 .btn-rounded { border-radius: var(--r-md); }
 
-/* Icon-only — square 36px at default, 28/44 at sm/lg. `btn-icon-circle`
-   makes it a disc; otherwise it's the rounded square. */
+/* Icon-only — square, sized to match each step (sm 28 · md 36 · lg 40 · xl 44).
+   `btn-icon-circle` makes it a disc; otherwise it's the rounded square. */
 .btn-icon { padding: 0; width: 36px; height: 36px; border-radius: var(--r-md); gap: 0; }
 .btn-icon.btn-sm { width: 28px; height: 28px; }
-.btn-icon.btn-lg, .btn-icon.btn-xl { width: 44px; height: 44px; }
+.btn-icon.btn-lg { width: 40px; height: 40px; }
+.btn-icon.btn-xl { width: 44px; height: 44px; }
 .btn-icon-circle { border-radius: 50%; }
 
 /* Social (LinkedIn / X / GitHub) — 32px hairline square, icon-only recolor to

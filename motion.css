@@ -1,0 +1,37 @@
+/* Motion — the canonical CocoIndex animation layer. The whole system runs on
+   THREE durations and ONE easing (all tokens, in tokens.css):
+     --dur-press 120ms · the :active press
+     --dur-fast  160ms · hovers, color/border/opacity transitions
+     --dur-slow  280ms · larger reveals, drawers
+     --ease      cubic-bezier(.2,.8,.2,1) · every transition + tween
+   Plus two reusable effect primitives: the dotted `--dot-reveal` overlay and the
+   `coco-pulse` keyframe below. Reach for these instead of hand-rolling a new
+   duration or keyframe — that's how every surface ends up feeling identical.
+   Surface-agnostic, token-only; import after tokens.css. Every animation here is
+   gated behind prefers-reduced-motion. */
+
+/* ── coco-pulse ── the one "live" pulse, used by every pulsing dot (tag status,
+   eyebrow, sidebar group, anything signalling live). Parameterized by custom
+   properties so one keyframe covers every size/color:
+     --pulse-color (default palm) · --pulse-r1 rest radius · --pulse-r2 peak radius
+   Usage: `animation: coco-pulse 2s ease-in-out infinite;` with the props set. */
+@keyframes coco-pulse {
+  0%, 100% { box-shadow: 0 0 0 var(--pulse-r1, 3px) color-mix(in oklab, var(--pulse-color, var(--palm)) 18%, transparent); }
+  50%      { box-shadow: 0 0 0 var(--pulse-r2, 6px) color-mix(in oklab, var(--pulse-color, var(--palm)) 6%, transparent); }
+}
+
+/* ── .u-press ── the shared tactile press: sinks 1px on :active. Compose onto
+   any pressable affordance that isn't already a `.btn` (which bakes it in).
+   The element should include `transform var(--dur-press) var(--ease)` in its own
+   transition list so the press eases rather than snaps. */
+.u-press:active { transform: translateY(1px); }
+
+/* ── .u-lift ── the shared card hover lift (rise + settle). For interactive
+   cards/tiles that lift on hover. */
+.u-lift { transition: transform var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease); }
+.u-lift:hover { transform: translateY(-2px); }
+
+@media (prefers-reduced-motion: reduce) {
+  .u-press:active { transform: none; }
+  .u-lift, .u-lift:hover { transform: none; transition: border-color var(--dur-fast) var(--ease); }
+}

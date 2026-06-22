@@ -10,6 +10,7 @@
 // everywhere; links are passed per-site (the docs version dropdowns don't
 // belong on the marketing nav).
 import Stars from './Stars.astro';
+import Logo from './Logo.astro';
 
 export interface NavLink {
   href: string;
@@ -35,10 +36,7 @@ const {
 ---
 <nav class="top" aria-label={ariaLabel}>
   <div class="nav-in">
-    <a class="logo" href={logoHref}>
-      <img src={logoSrc} alt="" width="28" height="28" decoding="async" fetchpriority="high" />
-      <span>CocoIndex</span>
-    </a>
+    <Logo href={logoHref} src={logoSrc} size="md" />
     <div class="nav-links">
       {links.map((l) => l.versions ? (
         <div class="nav-dd">

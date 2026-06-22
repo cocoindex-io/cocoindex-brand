@@ -3,6 +3,8 @@
 // examples). Links + logo are baked in as absolute cocoindex.io URLs so the
 // exact same markup works from any surface, regardless of base path. Render it
 // with no props: <Footer />. Styles: @cocoindex/brand/footer.css.
+import Logo from './Logo.astro';
+
 const SITE = 'https://cocoindex.io';
 
 const DESCRIPTION =
@@ -44,10 +46,7 @@ const COLS: { title: string; links: { label: string; href: string }[] }[] = [
 <footer class="it-foot">
   <div class="foot-grid">
     <div class="foot-brand">
-      <a class="logo" href={`${SITE}/`} style="gap: 12px">
-        <img src={`${SITE}/images/cocoindex.svg`} alt="" width="36" height="36" style="width: 36px; height: auto" />
-        <span>CocoIndex</span>
-      </a>
+      <Logo href={`${SITE}/`} src={`${SITE}/images/cocoindex.svg`} size="lg" />
       <p>{DESCRIPTION}</p>
     </div>
     {COLS.map((col) => (

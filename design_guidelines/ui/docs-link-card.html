@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="robots" content="noindex, nofollow, noarchive"/>
+<title>CocoIndex — Docs link card · Internal design system</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<link rel="stylesheet" href="./_shared.css">
+
+<style>
+  /* ─────────────────────────────────────────────────────────────
+     Docs link card — inline link card pointing to docs / external
+     resources from inside a long-form post.
+
+     One variant. Eyebrow (mono coral) · serif title with italic <em>
+     accent · sans description (optional <code> chips) · arrow.
+
+     Hover: switches to a dotted brand pattern that echoes the .cta
+     strip in the blog-post template. The card stays anchored — no
+     translate, no shadow lift — because it sits inline with prose
+     and we don't want it bouncing as the eye scans.
+
+     Production CSS lives in src/styles/globals.css under
+     `.blog-theme article a.docs-link-card`. The Astro component
+     wrapper is at src/components/DocsLinkCard.astro.
+     ───────────────────────────────────────────────────────────── */
+
+  .dlc{
+    display: flex; gap: 16px; align-items: center;
+    padding: 18px 22px;
+    margin: 28px 0;
+    background: var(--cream);
+    border: 1px solid var(--rule-strong);
+    border-radius: 10px;
+    color: var(--maroon-ink);
+    text-decoration: none;
+    position: relative;
+    isolation: isolate;
+    transition: border-color .18s ease-out;
+    max-width: 68ch;
+  }
+  .dlc::before{
+    content: ""; position: absolute; inset: 0;
+    border-radius: inherit;
+    background-image: radial-gradient(circle, rgba(229,154,99,0.55) 1.3px, transparent 1.7px);
+    background-size: 14px 14px;
+    -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 28%, rgba(0,0,0,0) 72%);
+            mask-image: linear-gradient(to left, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 28%, rgba(0,0,0,0) 72%);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .25s ease-out;
+    z-index: -1;
+  }
+  .dlc:hover, .dlc.is-hover{ border-color: var(--maroon); }
+  .dlc:hover::before, .dlc.is-hover::before{ opacity: 1; }
+
+  .dlc__ico{
+    width: 36px; height: 36px; flex: none;
+    border-radius: 8px;
+    background: var(--maroon-ink); color: var(--cream);
+    display: grid; place-items: center;
+  }
+  .dlc__ico svg{ display: block; }
+
+  .dlc__body{
+    flex: 1; min-width: 0;
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .dlc__eyebrow{
+    font-family: var(--mono);
+    font-size: 11px; letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--coral);
+  }
+  .dlc__title{
+    font-family: var(--serif); font-weight: 400;
+    font-size: 22px; line-height: 1.15; letter-spacing: -0.02em;
+    color: var(--maroon-ink);
+  }
+  .dlc__title em{ font-style: italic; color: var(--coral); }
+  .dlc__desc{
+    font-family: var(--sans);
+    font-size: 14px; line-height: 1.5;
+    color: var(--maroon-ink); opacity: 0.8;
+  }
+  .dlc__desc code{
+    font-family: var(--mono);
+    font-size: 12.5px;
+    background: rgba(190, 81, 51, 0.1);
+    color: var(--berry);
+    padding: 1px 5px; border-radius: 3px;
+  }
+
+  .dlc__arrow{
+    flex: none;
+    font-family: var(--mono);
+    font-size: 20px; font-weight: 500; line-height: 1;
+    color: var(--maroon);
+    transition: color .18s ease, transform .18s ease;
+  }
+  .dlc:hover .dlc__arrow,
+  .dlc.is-hover .dlc__arrow{
+    color: var(--palm-ink);
+    transform: translateX(3px);
+  }
+
+  /* layout: states grid + props table */
+  .states{
+    display: grid; grid-template-columns: 1fr 1fr; gap: 28px;
+    margin-top: 8px;
+  }
+  .state{
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .state .label{
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--coral);
+  }
+  @media (max-width: 900px){ .states{ grid-template-columns: 1fr; } }
+
+  .props{ width: 100%; border-collapse: collapse; font-family: var(--sans); font-size: 14px; }
+  .props th, .props td{
+    text-align: left; padding: 12px 16px;
+    border-bottom: 1px solid var(--rule); vertical-align: top;
+  }
+  .props th{
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--coral); font-weight: 500;
+    border-bottom-color: var(--rule-strong);
+  }
+  .props td:first-child{ white-space: nowrap; padding-right: 24px; min-width: 160px; }
+  .props td code{ font-size: 12px; }
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <aside class="aside">
+    <div class="brand">
+      <a class="logo logo-md" href="../index.html"><img src="../assets/cocoindex.svg" alt="" width="26" height="28" decoding="async" /><span class="logo-word">CocoIndex</span></a>
+      <span class="kicker">Design system · Internal</span>
+    </div>
+    <nav class="side-nav" aria-label="Design system sections">
+      <a href="../index.html">Overview</a>
+      <a href="./buttons.html">Buttons</a>
+      <a href="./tags.html">Tags</a>
+      <a href="./admonitions.html">Admonitions</a>
+      <a href="./docs-link-card.html" aria-current="page">Docs link card</a>
+      <a href="./example-repo-card.html">Example repo card</a>
+      <a href="./hamburger-toc.html">Hamburger / TOC</a>
+      <a href="./typography.html">Typography</a>
+      <a href="./color.html">Color</a>
+      <a href="./cover-image.html">Blog cover image</a>
+    </nav>
+    <div class="foot">v1 · local only</div>
+  </aside>
+
+  <main class="main">
+    <header class="cover">
+      <div class="wrap">
+        <div class="eyebrow">Page guideline · Docs link card</div>
+        <h1 class="cover-h">Send the reader <em>to the docs</em>.</h1>
+        <p class="lead">A docs link card lifts an outbound reference (usually <code>cocoindex.io/docs/...</code>) out of the prose and gives it a clear hand-off — eyebrow, italic-accented title, one-line description, arrow. One variant only; one card per resource. Hover swaps in the dotted brand pattern that echoes the end-of-post CTA strip — the card stays anchored in the reading flow, never translates.</p>
+      </div>
+    </header>
+
+    <section id="anatomy">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="idx">01 — Anatomy</span>
+          <div>
+            <h2>Icon disc · eyebrow · serif title · description · <em>arrow</em>.</h2>
+            <p class="lead">All five parts are required. The serif title carries a single <code>&lt;em&gt;</code> accent (the load-bearing word for the link target). The description is one sentence of plain prose with optional <code>code</code> chips, max ~22 words.</p>
+          </div>
+        </div>
+
+        <a class="dlc" href="#" onclick="return false;">
+          <span class="dlc__ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6.5 3h7.5l4 4v12.5A1.5 1.5 0 0 1 16.5 21h-10A1.5 1.5 0 0 1 5 19.5V4.5A1.5 1.5 0 0 1 6.5 3z"/>
+              <path d="M14 3v5h5"/>
+              <path d="M8.5 13h7M8.5 17h5"/>
+            </svg>
+          </span>
+          <span class="dlc__body">
+            <span class="dlc__eyebrow">Documentation</span>
+            <span class="dlc__title">Kafka <em>target</em> connector.</span>
+            <span class="dlc__desc">Reference docs for CocoIndex's Kafka target — config options, <code>declare_target_state</code> semantics, key/value mapping, and topic management.</span>
+          </span>
+          <span class="dlc__arrow" aria-hidden="true">→</span>
+        </a>
+      </div>
+    </section>
+
+    <section id="states">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="idx">02 — States</span>
+          <div>
+            <h2>Resting and <em>hover</em>.</h2>
+            <p class="lead">Resting: cream fill, hairline rule. Hover: a peach dot pattern fades in on the right side of the card (masked off on the left so the prose-side stays clean), the border deepens to maroon, and the arrow nudges 3 px right while recolouring to <code>palm-ink</code> (sage-sprout green). Same <code>opacity 0 → 1</code> transition the home page <code>.cp-tile</code> uses. No translate, no fill change, no jump.</p>
+          </div>
+        </div>
+
+        <div class="states">
+          <div class="state">
+            <span class="label">Resting</span>
+            <a class="dlc" href="#" onclick="return false;">
+              <span class="dlc__ico" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M6.5 3h7.5l4 4v12.5A1.5 1.5 0 0 1 16.5 21h-10A1.5 1.5 0 0 1 5 19.5V4.5A1.5 1.5 0 0 1 6.5 3z"/>
+                  <path d="M14 3v5h5"/>
+                  <path d="M8.5 13h7M8.5 17h5"/>
+                </svg>
+              </span>
+              <span class="dlc__body">
+                <span class="dlc__eyebrow">Documentation</span>
+                <span class="dlc__title">Programming <em>guide</em>.</span>
+                <span class="dlc__desc">Core concepts, flow builder, and live mode — start here.</span>
+              </span>
+              <span class="dlc__arrow" aria-hidden="true">→</span>
+            </a>
+          </div>
+
+          <div class="state">
+            <span class="label">Hover</span>
+            <a class="dlc is-hover" href="#" onclick="return false;">
+              <span class="dlc__ico" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M6.5 3h7.5l4 4v12.5A1.5 1.5 0 0 1 16.5 21h-10A1.5 1.5 0 0 1 5 19.5V4.5A1.5 1.5 0 0 1 6.5 3z"/>
+                  <path d="M14 3v5h5"/>
+                  <path d="M8.5 13h7M8.5 17h5"/>
+                </svg>
+              </span>
+              <span class="dlc__body">
+                <span class="dlc__eyebrow">Documentation</span>
+                <span class="dlc__title">Programming <em>guide</em>.</span>
+                <span class="dlc__desc">Core concepts, flow builder, and live mode — start here.</span>
+              </span>
+              <span class="dlc__arrow" aria-hidden="true">→</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="usage">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="idx">03 — Usage</span>
+          <div>
+            <h2>Where it goes, where it <em>doesn't</em>.</h2>
+            <p class="lead">Reach for it when the next reasonable thing a reader might do is leave the post and read reference material on the same topic. Cap one or two per long-form post — more than that and it stops feeling editorial.</p>
+          </div>
+        </div>
+
+        <div class="rules-grid">
+          <div class="rule">
+            <span class="tag do">Do</span>
+            <h4>Place after a section that introduces a feature.</h4>
+            <p>Right after the prose explains <em>what</em> the connector does is the highest-intent moment to offer reference docs. The card sits in the natural pause between sections.</p>
+          </div>
+          <div class="rule">
+            <span class="tag do">Do</span>
+            <h4>Use the italic <em>em</em> for the load-bearing word.</h4>
+            <p>"Kafka <em>target</em> connector." or "Programming <em>guide</em>." The accent makes the title scannable without bolding the whole line.</p>
+          </div>
+          <div class="rule">
+            <span class="tag dont">Don't</span>
+            <h4>Don't use as the post's closing CTA.</h4>
+            <p>The end-of-post CTA strip (`.cta` in the blog-post template) is maroon-bg with a coral pill button — it does that job. The docs link card is mid-article, cream, quieter.</p>
+          </div>
+          <div class="rule">
+            <span class="tag dont">Don't</span>
+            <h4>Don't lift on hover.</h4>
+            <p>The card lives inline in body copy. Translates and shadow lifts make it bounce as the reader scrolls past — the dotted pattern + arrow nudge is the whole interaction.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="api">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="idx">04 — API</span>
+          <div>
+            <h2>Astro <em>component</em> props.</h2>
+            <p class="lead">Wrapper component lives at <code>src/components/DocsLinkCard.astro</code>. Import it from an MDX post and pass props. <code>title</code> and <code>description</code> accept HTML so authors can include <code>&lt;em&gt;</code> and <code>&lt;code&gt;</code> inline.</p>
+          </div>
+        </div>
+
+        <table class="props">
+          <thead>
+            <tr><th>Prop</th><th>Type</th><th>Notes</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>href</code></td>
+              <td><code>string</code> · required</td>
+              <td>Destination URL — typically <code>cocoindex.io/docs/...</code> or another canonical reference page.</td>
+            </tr>
+            <tr>
+              <td><code>title</code></td>
+              <td><code>string</code> · required</td>
+              <td>HTML-permitted. Use one <code>&lt;em&gt;...&lt;/em&gt;</code> for the accent word; end with a period.</td>
+            </tr>
+            <tr>
+              <td><code>description</code></td>
+              <td><code>string</code> · optional</td>
+              <td>HTML-permitted. One sentence, ~22 words max. Wrap identifiers in <code>&lt;code&gt;</code>.</td>
+            </tr>
+            <tr>
+              <td><code>eyebrow</code></td>
+              <td><code>string</code> · default <code>"Documentation"</code></td>
+              <td>The kicker. Override only when pointing somewhere that isn't docs (e.g. <code>"Reference"</code>, <code>"Guide"</code>).</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="tokens" style="margin-top: 28px;">
+<span class="c">// MDX usage</span>
+<span class="k">import</span> <span class="ty">DocsLinkCard</span> <span class="k">from</span> <span class="s">'../../../components/DocsLinkCard.astro'</span><span class="pn">;</span>
+
+<span class="pn">&lt;</span><span class="fn">DocsLinkCard</span>
+  href=<span class="s">"https://cocoindex.io/docs/connectors/kafka/"</span>
+  title=<span class="s">"Kafka &lt;em&gt;target&lt;/em&gt; connector."</span>
+  description=<span class="s">"Reference docs for CocoIndex's Kafka target — config options, &lt;code&gt;declare_target_state&lt;/code&gt; semantics, key/value mapping, and topic management."</span>
+<span class="pn">/&gt;</span>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+</body>
+</html>

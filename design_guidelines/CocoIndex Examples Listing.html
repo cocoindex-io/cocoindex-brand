@@ -1,0 +1,1508 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>CocoIndex · Examples</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/fonts/fonts.css">
+
+<template id="__bundler_thumbnail" data-bg-color="#FBF6E8">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#FBF6E8"/>
+    <g transform="translate(100 260)" font-family="Inter, system-ui" fill="#2A121B">
+      <text x="0" y="0" font-size="26" font-weight="500" fill="#BE5133" letter-spacing="5">EXAMPLES · 22 LIVE</text>
+      <text x="0" y="130" font-size="148" font-weight="600" letter-spacing="-5">Examples<tspan fill="#BE5133" font-style="italic">.</tspan></text>
+      <text x="0" y="220" font-size="28" fill="#2A121B" opacity="0.7">Real pipelines you can clone, run, and bend to your data.</text>
+    </g>
+    <g transform="translate(900 500)">
+      <rect x="-120" y="-80" width="60" height="60" fill="#E59A63" rx="6"/>
+      <rect x="-50" y="-80" width="60" height="60" fill="#FB6A76" rx="6"/>
+      <rect x="20" y="-80" width="60" height="60" fill="#BE5133" rx="6"/>
+      <rect x="-120" y="-10" width="60" height="60" fill="#532638" rx="6"/>
+      <rect x="-50" y="-10" width="60" height="60" fill="#27E62B" rx="6"/>
+      <rect x="20" y="-10" width="60" height="60" fill="#FCF3D8" rx="6" stroke="#532638" stroke-width="2"/>
+    </g>
+  </svg>
+</template>
+
+<script>
+  const TWEAKS = /*EDITMODE-BEGIN*/{
+    "density": "comfortable",
+    "accent": "coral",
+    "card_style": "pattern",
+    "layout": "grid"
+  }/*EDITMODE-END*/;
+</script>
+
+<style>
+  :root{
+    --maroon: #532638;
+    --maroon-deep: #401E2B;
+    --maroon-ink: #2A121B;
+    --coral:  #BE5133;
+    --peach:  #E59A63;
+    --cream:  #FCF3D8;
+    --cream-soft: #F6F4E9;
+    --pink:   #FB6A76;
+    --palm:   #27E62B;
+    --berry:  #6A1E23;
+    --paper:  #FBF6E8;
+    --rule:   rgba(42,18,27,0.14);
+    --rule-strong: rgba(42,18,27,0.35);
+    --muted:  rgba(42,18,27,0.58);
+
+    --sans:  "Inter", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --serif: "Source Serif 4", ui-serif, Georgia, serif;
+    --mono:  "JetBrains Mono", ui-monospace, Menlo, monospace;
+
+    --maxw: 1440px;
+    --gutter: 40px;
+    --side-w: 260px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0; padding:0; background:var(--paper); color:var(--maroon-ink);}
+  body{font-family:var(--sans); font-size:17px; line-height:1.55; -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;}
+  html{scroll-behavior:smooth; scroll-padding-top:84px;}
+  a{color:inherit;}
+  img{max-width:100%;}
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 var(--gutter);}
+  .caps{font-family:var(--mono); font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted);}
+  .mono{font-family:var(--mono);}
+
+  /* ═══════════ NAV ═══════════ */
+  nav.top{position:sticky; top:0; z-index:50; background: color-mix(in oklab, var(--paper) 92%, transparent); backdrop-filter: blur(12px); border-bottom:1px solid var(--rule);}
+  .nav-in{max-width:var(--maxw); margin:0 auto; padding:14px var(--gutter); display:flex; align-items:center; gap:28px;}
+  .logo{display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--maroon-ink);}
+  .logo img{width:26px; height:28px;}
+  .logo span{font-family:var(--sans); font-size:17px; font-weight:600; letter-spacing:-0.02em;}
+  .nav-links{display:flex; gap:24px; margin-left:16px;}
+  .nav-links a{font-size:14px; color:var(--maroon-ink); text-decoration:none; padding:6px 0; position:relative;}
+  .nav-links a:hover{color:var(--coral);}
+  .nav-links a.on{color:var(--coral);}
+  .nav-links a.on::after{content:""; position:absolute; left:0; right:0; bottom:-2px; height:2px; background:var(--coral); border-radius:2px;}
+  .nav-cta{margin-left:auto; display:flex; gap:10px; align-items:center;}
+  .btn{display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:10px 18px; border-radius:999px; font-family:var(--sans); font-size:14px; font-weight:500; line-height:1.2; text-decoration:none; white-space:nowrap; border:1px solid var(--maroon); color:var(--maroon); background:transparent; cursor:pointer; transition: background .16s ease, color .16s ease, border-color .16s ease, transform .12s ease;}
+  .btn:hover{background:var(--maroon); color:var(--cream); border-color:var(--maroon);}
+  .btn:active{transform:translateY(1px);}
+  .btn:focus-visible{outline:2px solid var(--coral); outline-offset:2px;}
+  .btn-sm{padding:6px 12px; font-size:12px; gap:6px;}
+  .btn-primary{background:var(--maroon); color:var(--cream);}
+  .btn-primary:hover{background:var(--maroon-deep); border-color:var(--maroon-deep);}
+  .btn-coral{background:var(--coral); color:var(--cream); border-color:var(--coral);}
+  .btn-coral:hover{background:var(--maroon); border-color:var(--maroon);}
+  .btn-ghost{border-color:transparent; color:var(--maroon);}
+  .btn-ghost:hover{background:color-mix(in oklab, var(--maroon) 8%, transparent); color:var(--coral); border-color:transparent;}
+  .btn-outline{border-color:var(--maroon); color:var(--maroon);}
+  .btn-outline:hover{background:var(--maroon); color:var(--cream);}
+  .btn-outline-muted{border-color:var(--rule-strong); color:var(--maroon-ink);}
+  .btn-outline-muted:hover{background:var(--maroon); color:var(--cream); border-color:var(--maroon);}
+
+  /* ═══════════ HERO ═══════════ */
+  .hero{padding: 72px 0 48px; border-bottom:1px solid var(--rule);}
+  .hero-top{display:flex; align-items:center; gap:18px; margin-bottom: 32px;}
+  .hero-top .eyb{
+    font-family:var(--mono); font-size:11px; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--coral); padding:6px 14px; border:1px solid var(--coral); border-radius:999px;
+    display:inline-flex; align-items:center; gap:10px;
+  }
+  .hero-top .eyb .dot{width:6px; height:6px; border-radius:50%; background:var(--coral); animation: pulse 2s ease-in-out infinite;}
+  @keyframes pulse{0%,100%{opacity:1;} 50%{opacity:0.4;}}
+  .hero-top .stats{
+    margin-left:auto; display:flex; gap:20px;
+    font-family:var(--mono); font-size:12px; color:var(--muted); letter-spacing:0.06em;
+  }
+  .hero-top .stats b{color:var(--maroon); font-weight:500; font-size:14px;}
+
+  .hero-grid{display:grid; grid-template-columns: 1.35fr 1fr; gap:48px; align-items:end;}
+  h1.hero-h{
+    font-family:var(--serif); font-weight:400;
+    font-size: clamp(40px, 4.6vw, 60px);
+    line-height:0.98; letter-spacing:-0.03em;
+    margin:0 0 24px;
+  }
+  h1.hero-h em{font-style:italic; color:var(--coral);}
+  .hero-sub{
+    font-family:var(--sans); font-size: clamp(18px, 1.6vw, 24px);
+    font-weight:400; line-height:1.45; letter-spacing:-0.01em;
+    color:var(--maroon-ink); max-width:48ch; margin:0 0 24px;
+  }
+  .hero-sub b{font-weight:600; color:var(--maroon);}
+
+  .hero-filters{
+    display:flex; flex-wrap:wrap; gap:8px; margin-top:12px;
+  }
+  .filter-chip{
+    font-family:var(--sans); font-size:13px; font-weight:500;
+    padding:8px 14px; border-radius:999px;
+    background:var(--cream); color:var(--maroon-ink);
+    border:1px solid var(--rule); cursor:pointer;
+    transition: background .15s, color .15s, border-color .15s;
+    display:inline-flex; gap:6px; align-items:center;
+  }
+  .filter-chip:hover{background:var(--paper); border-color:var(--rule-strong);}
+  .filter-chip.on{background:var(--maroon); color:var(--cream); border-color:var(--maroon);}
+  .filter-chip .cnt{
+    font-family:var(--mono); font-size:11px; opacity:0.6; letter-spacing:0;
+  }
+  .filter-chip.on .cnt{opacity:0.8;}
+
+  /* hero-viz: 6 tile mosaic of category */
+  .hero-viz{
+    display:grid; grid-template-columns: repeat(3, 1fr);
+    gap:10px; aspect-ratio: 3/2;
+  }
+  .hero-viz .t{
+    border-radius:8px; position:relative; overflow:hidden;
+    padding:16px; display:flex; flex-direction:column; justify-content:space-between;
+    font-family:var(--mono); font-size:10px; letter-spacing:0.14em; text-transform:uppercase;
+  }
+  .hero-viz .t .lb{opacity:0.85;}
+  .hero-viz .t .ct{font-family:var(--sans); font-size:20px; font-weight:600; letter-spacing:-0.02em; line-height:1; text-transform:none;}
+  .hero-viz .t .ct em{color:inherit; font-style:normal;}
+  .hero-viz .t.search{background:var(--maroon); color:var(--cream);}
+  .hero-viz .t.ingest{background:var(--peach); color:var(--maroon-ink);}
+  .hero-viz .t.llm{background:var(--coral); color:var(--cream);}
+  .hero-viz .t.agents{background:var(--cream); color:var(--maroon); border:1px solid var(--rule-strong);}
+  .hero-viz .t.multi{background:var(--pink); color:var(--maroon-ink);}
+  .hero-viz .t.custom{background:var(--maroon-ink); color:var(--cream);}
+  .hero-viz .t::after{
+    content:""; position:absolute; inset:0; pointer-events:none;
+    background-image: radial-gradient(circle, rgba(252,243,216,0.08) 1.2px, transparent 1.6px);
+    background-size: 14px 14px; opacity:0.6;
+  }
+  .hero-viz .t.agents::after, .hero-viz .t.ingest::after, .hero-viz .t.multi::after{
+    background-image: radial-gradient(circle, rgba(42,18,27,0.08) 1.2px, transparent 1.6px);
+  }
+
+  /* ═══════════ SIDEBAR LAYOUT ═══════════ */
+  .doc{
+    display:grid;
+    grid-template-columns: var(--side-w) 1fr;
+    gap: 56px;
+    align-items:start;
+    padding-top: 32px;
+  }
+  .side-nav{
+    position: sticky;
+    top: 84px;
+    align-self:start;
+    max-height: calc(100vh - 100px);
+    overflow-y:auto;
+    padding: 0 0 40px;
+    font-family: var(--sans);
+  }
+  .side-head{
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--muted);
+    padding-bottom: 10px; margin-bottom: 14px;
+    border-bottom: 1px solid var(--rule-strong);
+    display:flex; justify-content:space-between; align-items:baseline;
+  }
+  .side-head .ct{color:var(--coral); font-family:var(--mono);}
+  .side-nav ol{list-style: none; padding: 0; margin: 0 0 24px;}
+  .side-nav ol li{margin-bottom: 2px;}
+  .side-nav ol li a{
+    display:flex; align-items:center; gap:10px;
+    text-decoration:none;
+    color: var(--maroon-ink);
+    font-size: 14px; font-weight:500; letter-spacing:-0.01em; line-height:1.3;
+    padding: 9px 12px;
+    border-radius: 6px;
+    border-left: 2px solid transparent;
+    margin-left: -14px; padding-left: 12px;
+    transition: color .15s, background .15s, border-color .15s;
+  }
+  .side-nav ol li a .cat-dot{
+    width: 10px; height: 10px; border-radius: 3px; flex:none;
+    background: var(--maroon);
+  }
+  .side-nav ol li a[data-cat="search"]  .cat-dot{background: var(--maroon);}
+  .side-nav ol li a[data-cat="ingest"]  .cat-dot{background: var(--peach);}
+  .side-nav ol li a[data-cat="llm"]     .cat-dot{background: var(--coral);}
+  .side-nav ol li a[data-cat="agents"]  .cat-dot{background: var(--maroon-ink);}
+  .side-nav ol li a[data-cat="image"]   .cat-dot{background: var(--pink);}
+  .side-nav ol li a[data-cat="featured"] .cat-dot{background: var(--coral); border-radius: 50%;}
+  .side-nav ol li a .count{
+    margin-left:auto;
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.04em;
+    color: var(--muted);
+    padding: 2px 8px; border-radius: 999px;
+    background: transparent; border: 1px solid var(--rule);
+  }
+  .side-nav ol li a:hover{color: var(--coral); background: var(--cream);}
+  .side-nav ol li.active a{color: var(--maroon); background: var(--cream); border-left-color: var(--coral);}
+  .side-nav ol li.active a .count{color: var(--coral); border-color: var(--coral);}
+
+  .side-group{margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--rule);}
+  .side-group h6{
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--muted); margin: 0 0 10px;
+  }
+  .side-group .tags-row{display:flex; flex-wrap:wrap; gap:5px;}
+  .side-group .mini-tag{
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--maroon-ink);
+    padding: 4px 9px; border-radius: 999px;
+    background: var(--cream); border: 1px solid var(--rule);
+    cursor: default;
+  }
+  .side-group .links{display:flex; flex-direction:column; gap:4px;}
+  .side-group .links a{
+    text-decoration:none; color: var(--maroon-ink);
+    font-size: 13px; padding: 4px 0;
+    display:flex; justify-content:space-between; align-items:center;
+  }
+  .side-group .links a:hover{color: var(--coral);}
+  .side-group .links a .c{font-family: var(--mono); font-size: 10px; color: var(--muted);}
+
+  .col-main{min-width: 0;}
+
+  /* ═══════════ FEATURED ═══════════ */
+  section.feat{padding: 0 0 40px; scroll-margin-top: 84px;}
+  .sec-head{
+    display:flex; align-items:baseline; gap:18px; margin-bottom: 28px;
+    padding-bottom: 18px; border-bottom: 1px solid var(--rule);
+  }
+  .sec-head h2{
+    font-family:var(--sans); font-weight:600;
+    font-size: clamp(28px, 3.2vw, 44px); letter-spacing:-0.03em; line-height:1.05;
+    margin:0;
+  }
+  .sec-head h2 em{font-style:normal; color:var(--coral);}
+  .sec-head .lead{color:var(--muted); font-size:15px; max-width:40ch; margin:0;}
+  .sec-head .idx{
+    font-family:var(--mono); font-size:10px; letter-spacing:0.16em; text-transform:uppercase;
+    color:var(--muted); margin-right:8px;
+  }
+  .sec-head .all{
+    margin-left:auto;
+    font-family:var(--mono); font-size:11px; letter-spacing:0.12em; text-transform:uppercase;
+    color:var(--maroon); text-decoration:none;
+    padding-bottom:2px; border-bottom:1px solid var(--maroon);
+  }
+  .sec-head .all:hover{color:var(--coral); border-color:var(--coral);}
+
+  .feat-card{
+    display:grid; grid-template-columns: 1.2fr 1fr; gap:0;
+    border-radius:12px; overflow:hidden;
+    background:var(--maroon); color:var(--cream);
+    min-height: 440px;
+    position:relative;
+    text-decoration:none;
+    transition: transform .2s, box-shadow .2s;
+  }
+  .feat-card:hover{transform:translateY(-3px); box-shadow: 0 24px 60px -24px rgba(42,18,27,0.4);}
+  .feat-card::before{
+    content:""; position:absolute; inset:0;
+    background-image: radial-gradient(circle, rgba(252,243,216,0.07) 1.6px, transparent 2px);
+    background-size: 20px 20px; opacity:0.7; pointer-events:none;
+  }
+  .feat-body{
+    position:relative; z-index:2;
+    padding:48px;
+    display:flex; flex-direction:column; gap:22px;
+  }
+  .feat-body .ribbon{
+    display:inline-flex; gap:10px; align-items:center;
+    font-family:var(--mono); font-size:11px; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--peach);
+  }
+  .feat-body .ribbon .tick{width:6px; height:6px; background:var(--peach); border-radius:50%;}
+  .feat-body .ribbon .idx{color:rgba(252,243,216,0.6);}
+  .feat-body h3{
+    font-family:var(--sans); font-weight:600;
+    font-size: clamp(30px, 3.6vw, 48px); line-height:1.02; letter-spacing:-0.035em;
+    margin:0; max-width:16ch;
+  }
+  .feat-body h3 em{color:var(--peach); font-style:italic;}
+  .feat-body p{
+    color:rgba(252,243,216,0.85); margin:0; max-width:44ch;
+    font-size:16px; line-height:1.55;
+  }
+  .feat-body .chips{display:flex; flex-wrap:wrap; gap:8px;}
+  .feat-body .chip{
+    font-family:var(--mono); font-size:11px; letter-spacing:0.1em; text-transform:uppercase;
+    padding:5px 12px; border-radius:999px;
+    border:1px solid rgba(252,243,216,0.25);
+    color:rgba(252,243,216,0.85);
+  }
+  .feat-body .foot{
+    margin-top:auto; display:flex; justify-content:space-between; align-items:flex-end;
+    padding-top: 20px; border-top:1px solid rgba(252,243,216,0.15);
+    font-family:var(--mono); font-size:11px; letter-spacing:0.1em; text-transform:uppercase;
+    color:rgba(252,243,216,0.7);
+  }
+  .feat-body .foot .go{
+    font-family:var(--sans); font-size:13px; font-weight:500; letter-spacing:0;
+    color:var(--cream); text-transform:none;
+    display:inline-flex; gap:8px; align-items:center;
+    padding:10px 18px; border-radius:999px; background:var(--coral); border:1px solid var(--coral);
+    transition: background .15s;
+  }
+  .feat-card:hover .feat-body .foot .go{background:var(--peach); border-color:var(--peach); color:var(--maroon-ink);}
+
+  .feat-viz{
+    position:relative; z-index:2;
+    background: linear-gradient(135deg, rgba(252,243,216,0.08), rgba(252,243,216,0.02));
+    border-left: 1px solid rgba(252,243,216,0.12);
+    padding:40px;
+    display:flex; flex-direction:column; gap:14px; justify-content:center;
+  }
+  .feat-viz .qrow{
+    display:grid; grid-template-columns: 28px 1fr auto 60px;
+    gap:14px; align-items:baseline;
+    padding:10px 14px; border-radius:6px;
+    background:rgba(252,243,216,0.06); border:1px solid rgba(252,243,216,0.12);
+    font-family:var(--mono); font-size:13px;
+  }
+  .feat-viz .qrow .rk{color:rgba(252,243,216,0.5); font-size:11px;}
+  .feat-viz .qrow .tp{color:var(--cream); font-weight:500;}
+  .feat-viz .qrow .tp em{color:var(--peach); font-style:normal;}
+  .feat-viz .qrow .sc{color:var(--palm); font-weight:600;}
+  .feat-viz .qrow .th{color:rgba(252,243,216,0.55); font-size:11px; text-align:right;}
+  .feat-viz .qlabel{
+    font-family:var(--mono); font-size:10px; letter-spacing:0.14em; text-transform:uppercase;
+    color:rgba(252,243,216,0.55); padding-bottom:8px;
+    border-bottom:1px solid rgba(252,243,216,0.12);
+    display:flex; justify-content:space-between;
+  }
+  .feat-viz .qlabel .pulse{display:inline-flex; gap:5px; align-items:center; color:var(--palm);}
+  .feat-viz .qlabel .pulse .d{width:6px; height:6px; border-radius:50%; background:var(--palm); box-shadow:0 0 0 3px rgba(39,230,43,0.15);}
+
+  /* ═══════════ CATEGORY SECTIONS ═══════════ */
+  section.cat{padding: 64px 0; scroll-margin-top: 84px;}
+  .cat-grid{
+    display:grid; grid-template-columns: repeat(3, 1fr); gap:16px;
+  }
+  .ex-card{
+    display:flex; flex-direction:column;
+    border:1px solid var(--rule); border-radius:10px;
+    background:var(--cream);
+    min-height: 280px;
+    text-decoration:none; color:inherit;
+    overflow:hidden;
+    transition: transform .18s, box-shadow .18s, border-color .18s;
+    position:relative;
+  }
+  .ex-card:hover{
+    transform:translateY(-3px);
+    box-shadow: 0 16px 40px -20px rgba(42,18,27,0.3);
+    border-color: var(--maroon);
+  }
+  .ex-thumb{
+    aspect-ratio: 16/7;
+    position:relative; overflow:hidden;
+    border-bottom:1px solid var(--rule);
+  }
+  .ex-thumb .motif{
+    position:absolute; inset:0;
+    display:grid; place-items:center;
+    color:var(--cream);
+  }
+  .ex-thumb .motif svg{width:70%; height:70%;}
+  .ex-thumb .tl{
+    position:absolute; top:12px; left:14px; z-index:3;
+    font-family:var(--mono); font-size:10px; letter-spacing:0.14em; text-transform:uppercase;
+    padding:4px 10px; border-radius:999px;
+    background: rgba(252,243,216,0.2); color:var(--cream);
+    backdrop-filter: blur(6px);
+    border:1px solid rgba(252,243,216,0.2);
+  }
+  .ex-thumb .tr{
+    position:absolute; top:12px; right:14px; z-index:3;
+    font-family:var(--mono); font-size:10px; letter-spacing:0.1em;
+    color:rgba(252,243,216,0.8);
+  }
+
+  .ex-thumb.search{background:var(--maroon);}
+  .ex-thumb.ingest{background:var(--peach); color:var(--maroon-ink);}
+  .ex-thumb.ingest .motif{color:var(--maroon);}
+  .ex-thumb.ingest .tl{background:rgba(42,18,27,0.1); color:var(--maroon); border-color:rgba(42,18,27,0.15);}
+  .ex-thumb.ingest .tr{color:rgba(42,18,27,0.6);}
+  .ex-thumb.llm{background:var(--coral);}
+  .ex-thumb.agents{background:var(--maroon-ink);}
+  .ex-thumb.pink{background:var(--pink); color:var(--maroon-ink);}
+  .ex-thumb.pink .motif{color:var(--maroon);}
+  .ex-thumb.pink .tl{background:rgba(42,18,27,0.1); color:var(--maroon); border-color:rgba(42,18,27,0.15);}
+  .ex-thumb.pink .tr{color:rgba(42,18,27,0.55);}
+  .ex-thumb.cream{background:var(--cream); color:var(--maroon-ink);}
+  .ex-thumb.cream .motif{color:var(--maroon);}
+  .ex-thumb.cream .tl{background:rgba(42,18,27,0.08); color:var(--maroon); border-color:rgba(42,18,27,0.15);}
+  .ex-thumb.cream .tr{color:rgba(42,18,27,0.5);}
+
+  .ex-thumb.search::after, .ex-thumb.llm::after, .ex-thumb.agents::after{
+    content:""; position:absolute; inset:0;
+    background-image: radial-gradient(circle, rgba(252,243,216,0.1) 1.2px, transparent 1.6px);
+    background-size: 14px 14px;
+  }
+  .ex-thumb.ingest::after{
+    content:""; position:absolute; inset:0;
+    background-image: repeating-linear-gradient(135deg, transparent 0 8px, rgba(42,18,27,0.06) 8px 9px);
+  }
+  .ex-thumb.pink::after{
+    content:""; position:absolute; inset:0;
+    background-image: linear-gradient(to right, rgba(42,18,27,0.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(42,18,27,0.04) 1px, transparent 1px);
+    background-size: 18px 18px;
+  }
+  .ex-thumb.cream::after{
+    content:""; position:absolute; inset:0;
+    background-image: radial-gradient(circle, rgba(42,18,27,0.08) 1.2px, transparent 1.6px);
+    background-size: 14px 14px;
+  }
+
+  .ex-body{
+    padding:20px 22px 22px;
+    display:flex; flex-direction:column; gap:10px; flex:1;
+  }
+  .ex-body h3{
+    font-family:var(--sans); font-weight:600; font-size:22px;
+    letter-spacing:-0.02em; line-height:1.2; margin:0;
+  }
+  .ex-body h3 em{color:var(--coral); font-style:normal;}
+  .ex-body p{margin:0; color:var(--muted); font-size:14px; line-height:1.5; flex:1;}
+
+  .ex-tags{
+    display:flex; flex-wrap:wrap; gap:6px;
+    margin-top:4px;
+  }
+  .tag{
+    font-family:var(--mono); font-size:10px; letter-spacing:0.1em; text-transform:uppercase;
+    padding:4px 10px; border-radius:999px;
+    background:var(--paper); color:var(--maroon);
+    border:1px solid var(--rule);
+    display:inline-flex; gap:6px; align-items:center;
+  }
+  .tag .dt{width:5px; height:5px; border-radius:50%; background:var(--coral);}
+  .tag.src .dt{background:var(--peach);}
+  .tag.tgt .dt{background:var(--pink);}
+  .tag.llm .dt{background:var(--palm);}
+  .tag.ops .dt{background:var(--coral);}
+  .tag.lvl .dt{background:var(--maroon);}
+
+  .ex-foot{
+    display:flex; justify-content:space-between; align-items:center;
+    padding-top:14px; margin-top:6px; border-top:1px solid var(--rule);
+    font-family:var(--mono); font-size:11px; letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--muted);
+  }
+  .ex-foot .go{
+    color:var(--coral);
+    display:inline-flex; gap:6px; align-items:center;
+  }
+  .ex-card:hover .ex-foot .go{color:var(--maroon);}
+
+  /* ═══════════ MOTIF SVG STYLES ═══════════ */
+  .m-dots circle{fill:currentColor;}
+  .m-grid rect{fill:none; stroke:currentColor; stroke-width:1;}
+  .m-flow path{stroke:currentColor; stroke-width:1.5; fill:none; stroke-linecap:round;}
+  .m-node rect{fill:none; stroke:currentColor; stroke-width:1.5;}
+  .m-node circle{fill:currentColor;}
+
+  /* ═══════════ SUBMIT / CTA ═══════════ */
+  .cta-end{
+    margin: 72px 0 96px;
+    border-radius:12px;
+    background:var(--cream);
+    border:1px solid var(--rule);
+    padding: 64px 48px;
+    display:grid; grid-template-columns: 1.4fr 1fr; gap:48px;
+    align-items:center;
+    position:relative; overflow:hidden;
+  }
+  .cta-end::before{
+    content:""; position:absolute; right:-40px; bottom:-60px;
+    width:260px; height:260px; border-radius:50%;
+    background: radial-gradient(circle at 30% 30%, rgba(190,81,51,0.2), transparent 60%);
+    pointer-events:none;
+  }
+  .cta-end h3{
+    font-family:var(--sans); font-weight:600;
+    font-size: clamp(28px, 3.4vw, 44px); line-height:1.05; letter-spacing:-0.03em;
+    margin:0 0 16px; max-width:22ch;
+  }
+  .cta-end h3 em{color:var(--coral); font-style:normal;}
+  .cta-end p{color:var(--muted); max-width:48ch; margin:0 0 24px; font-size:17px;}
+  .cta-end .btns{display:flex; gap:12px; flex-wrap:wrap;}
+  .cta-end .side{
+    display:flex; flex-direction:column; gap:10px;
+    padding:24px; border-radius:10px;
+    background:var(--paper); border:1px solid var(--rule);
+  }
+  .cta-end .side h5{
+    font-family:var(--mono); font-size:11px; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--muted); margin:0;
+  }
+  .cta-end .side ul{list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:6px;}
+  .cta-end .side ul li{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:8px 10px; border-radius:5px; font-size:14px;
+  }
+  .cta-end .side ul li:hover{background:var(--cream);}
+  .cta-end .side ul li .k{color:var(--maroon-ink); font-weight:500;}
+  .cta-end .side ul li .v{font-family:var(--mono); font-size:11px; color:var(--muted);}
+
+  /* ═══════════ FOOTER ═══════════ */
+  footer{padding:64px var(--gutter) 36px; border-top:1px solid var(--rule); max-width:var(--maxw); margin:0 auto;}
+  .foot-grid{display:grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap:24px; padding-bottom:36px; border-bottom:1px solid var(--rule);}
+  .foot-brand{display:flex; flex-direction:column; gap:14px; max-width:38ch;}
+  .foot-brand .logo{font-family:var(--sans); font-size:17px; font-weight:600; letter-spacing:-0.02em;}
+  .foot-brand p{color:var(--muted); margin:0; font-size:14px;}
+  .foot-col h6{font-family:var(--mono); font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted); margin:0 0 12px;}
+  .foot-col a{display:block; text-decoration:none; color:var(--maroon-ink); padding:4px 0; font-size:14px;}
+  .foot-col a:hover{color:var(--coral);}
+  .colo{padding-top:20px; display:flex; justify-content:space-between; align-items:center; font-family:var(--mono); font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted);}
+
+  /* ═══════════ TWEAKS ═══════════ */
+  .tweaks-panel{position:fixed; right:20px; bottom:20px; z-index:100; width:300px; display:none; background:var(--paper); border:1px solid var(--rule-strong); border-radius:8px; padding:16px 18px; box-shadow:0 16px 48px -16px rgba(42,18,27,0.35); font-family:var(--sans);}
+  .tweaks-panel.on{display:block;}
+  .tweaks-panel h4{margin:0 0 12px; font-family:var(--mono); font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted); display:flex; justify-content:space-between;}
+  .tw-row{margin-bottom:12px;}
+  .tw-row label{display:block; font-size:11px; font-family:var(--mono); letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-bottom:6px;}
+  .tw-row .opts{display:flex; gap:6px; flex-wrap:wrap;}
+  .tw-row .opts button{flex:1; padding:8px 10px; font-size:12px; background:transparent; border:1px solid var(--rule-strong); border-radius:4px; cursor:pointer; font-family:var(--sans); color:var(--maroon-ink);}
+  .tw-row .opts button.on{background:var(--maroon); color:var(--cream); border-color:var(--maroon);}
+
+  /* layout tweaks */
+  body.layout-list .cat-grid{grid-template-columns: 1fr;}
+  body.layout-list .ex-card{flex-direction:row; min-height: 160px;}
+  body.layout-list .ex-thumb{aspect-ratio: auto; width:220px; border-right:1px solid var(--rule); border-bottom:none; flex:none;}
+  body.layout-wide .cat-grid{grid-template-columns: repeat(2, 1fr);}
+
+  body.density-compact section.cat{padding:40px 0;}
+  body.density-compact .ex-body{padding:16px 18px 18px;}
+  body.density-spacious section.cat{padding:96px 0;}
+
+  body.card_style-flat .ex-thumb::after{display:none;}
+  body.card_style-flat .feat-card::before{display:none;}
+
+  body.accent-peach .sec-head h2 em, body.accent-peach h1.hero-h em{color:var(--peach) !important;}
+  body.accent-palm .sec-head h2 em, body.accent-palm h1.hero-h em{color:#16A534 !important;}
+
+  @media(max-width:1180px){
+    .doc{grid-template-columns: 1fr; gap: 0;}
+    .side-nav{
+      position:static; top:auto; max-height:none;
+      padding: 16px; border:1px solid var(--rule); border-radius:10px;
+      background: var(--cream); margin-bottom: 32px;
+    }
+    .side-nav ol{display:flex; flex-wrap:wrap; gap:6px; margin-bottom: 12px;}
+    .side-nav ol li{margin-bottom:0;}
+    .side-nav ol li a{padding:8px 12px; margin-left: 0; border-left:none; border:1px solid var(--rule);}
+    .side-nav ol li.active a{border-color:var(--coral);}
+    .side-group{margin-top:10px; padding-top:10px;}
+    .hero-grid{grid-template-columns:1fr; gap:40px;}
+    .feat-card{grid-template-columns:1fr;}
+    .feat-viz{border-left:none; border-top:1px solid rgba(252,243,216,0.12);}
+    .cat-grid{grid-template-columns: repeat(2, 1fr);}
+    .cta-end{grid-template-columns:1fr;}
+    .foot-grid{grid-template-columns:1fr 1fr;}
+  }
+  @media(max-width:640px){
+    .cat-grid{grid-template-columns: 1fr;}
+    .hero-top{flex-wrap:wrap;}
+    .hero-top .stats{order:3; width:100%;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════ NAV ═══════════ -->
+<nav class="top">
+  <div class="nav-in">
+    <a class="logo" href="/">
+      <img src="assets/cocoindex.svg" alt=""/>
+      <span>CocoIndex</span>
+    </a>
+    <div class="nav-links">
+      <a href="/docs">Docs</a>
+      <a href="/examples" class="on">Examples</a>
+      <a href="/blogs">Blog</a>
+      <a href="/enterprise">Enterprise</a>
+    </div>
+    <div class="nav-cta">
+      <a class="btn btn-outline-muted" href="https://github.com/cocoindex-io/cocoindex">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.6.5.5 5.6.5 12a11.5 11.5 0 0 0 7.9 10.9c.6.1.8-.2.8-.5v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.2-1.6-1.2-1.6-1-.7.1-.7.1-.7 1.1.1 1.7 1.1 1.7 1.1 1 1.7 2.7 1.2 3.4.9.1-.7.4-1.2.7-1.5-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0C17.4 4.8 18.4 5.1 18.4 5.1c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.2c0 .3.2.7.8.5A11.5 11.5 0 0 0 23.5 12C23.5 5.6 18.4.5 12 .5Z"/></svg>
+        GitHub
+      </a>
+      <a class="btn btn-primary" href="/docs">Get started</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- ═══════════ HERO ═══════════ -->
+<section class="hero">
+  <div class="hero-top">
+    <span class="eyb"><span class="dot"></span>22 live examples · updated weekly</span>
+    <div class="stats">
+      <span><b>22</b> examples</span>
+      <span><b>9</b> sources</span>
+      <span><b>6</b> targets</span>
+      <span><b>5</b> LLM providers</span>
+    </div>
+  </div>
+
+  <div class="hero-grid">
+    <div>
+      <h1 class="hero-h">Examples<em>.</em></h1>
+      <p class="hero-sub">
+        Real pipelines you can <b>clone, run, and bend</b> to your data. Each example is production-wired — one source, a declarative flow, a live target. Pick the one closest to what you need and change the parts that don't fit.
+      </p>
+
+      <div class="hero-filters" id="filters">
+        <button class="filter-chip on" data-filter="all">All <span class="cnt">22</span></button>
+        <button class="filter-chip" data-filter="search">Search &amp; RAG <span class="cnt">8</span></button>
+        <button class="filter-chip" data-filter="ingest">Ingest &amp; Connectors <span class="cnt">6</span></button>
+        <button class="filter-chip" data-filter="llm">LLM Extraction <span class="cnt">7</span></button>
+        <button class="filter-chip" data-filter="agents">Agents &amp; Memory <span class="cnt">3</span></button>
+        <button class="filter-chip" data-filter="image">Multimodal <span class="cnt">3</span></button>
+      </div>
+    </div>
+
+    <div class="hero-viz" aria-hidden="true">
+      <div class="t search"><span class="lb">Search · RAG</span><span class="ct">8 <em>examples</em></span></div>
+      <div class="t ingest"><span class="lb">Ingest</span><span class="ct">6 <em>examples</em></span></div>
+      <div class="t llm"><span class="lb">LLM · Extract</span><span class="ct">7 <em>examples</em></span></div>
+      <div class="t agents"><span class="lb">Agents</span><span class="ct">3 <em>examples</em></span></div>
+      <div class="t multi"><span class="lb">Multimodal</span><span class="ct">3 <em>examples</em></span></div>
+      <div class="t custom"><span class="lb">Custom source</span><span class="ct">4 <em>examples</em></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ DOC LAYOUT: SIDEBAR + MAIN ═══════════ -->
+<div class="doc">
+
+  <aside class="side-nav" aria-label="Browse examples">
+    <div class="side-head">
+      <span>Browse</span>
+      <span class="ct">22 examples</span>
+    </div>
+    <ol id="sideList">
+      <li data-target="section.feat"><a href="#feat-scroll" data-cat="featured"><span class="cat-dot"></span>Featured<span class="count">★</span></a></li>
+      <li data-target="#cat-search"><a href="#cat-search" data-cat="search"><span class="cat-dot"></span>Search &amp; RAG<span class="count">8</span></a></li>
+      <li data-target="#cat-ingest"><a href="#cat-ingest" data-cat="ingest"><span class="cat-dot"></span>Ingest &amp; Connectors<span class="count">6</span></a></li>
+      <li data-target="#cat-llm"><a href="#cat-llm" data-cat="llm"><span class="cat-dot"></span>LLM Extraction<span class="count">7</span></a></li>
+      <li data-target="#cat-agents"><a href="#cat-agents" data-cat="agents"><span class="cat-dot"></span>Agents &amp; Memory<span class="count">3</span></a></li>
+      <li data-target="#cat-image"><a href="#cat-image" data-cat="image"><span class="cat-dot"></span>Multimodal<span class="count">3</span></a></li>
+    </ol>
+
+    <div class="side-group">
+      <h6>By target</h6>
+      <div class="tags-row">
+        <span class="mini-tag">Postgres</span>
+        <span class="mini-tag">LanceDB</span>
+        <span class="mini-tag">Qdrant</span>
+        <span class="mini-tag">Kafka</span>
+        <span class="mini-tag">Local FS</span>
+      </div>
+    </div>
+
+    <div class="side-group">
+      <h6>By source</h6>
+      <div class="tags-row">
+        <span class="mini-tag">Local FS</span>
+        <span class="mini-tag">Drive</span>
+        <span class="mini-tag">S3</span>
+        <span class="mini-tag">Kafka</span>
+        <span class="mini-tag">Postgres</span>
+        <span class="mini-tag">HN API</span>
+        <span class="mini-tag">Sessions</span>
+      </div>
+    </div>
+
+    <div class="side-group">
+      <h6>By LLM</h6>
+      <div class="tags-row">
+        <span class="mini-tag">OpenAI</span>
+        <span class="mini-tag">Gemini</span>
+        <span class="mini-tag">Anthropic</span>
+        <span class="mini-tag">BAML</span>
+        <span class="mini-tag">DSPy</span>
+      </div>
+    </div>
+
+    <div class="side-group">
+      <h6>Popular</h6>
+      <div class="links">
+        <a href="/examples/hackernews-trending-topics">HN Trending<span class="c">1.2k</span></a>
+        <a href="/examples/code_index">Code Index<span class="c">840</span></a>
+        <a href="/examples/pdf_embedding">PDF Embedding<span class="c">612</span></a>
+        <a href="/examples/gdrive_text_embedding">Google Drive<span class="c">487</span></a>
+      </div>
+    </div>
+
+    <div class="side-group">
+      <h6>Resources</h6>
+      <div class="links">
+        <a href="https://github.com/cocoindex-io/cocoindex/tree/v1/examples">↗ Source on GitHub</a>
+        <a href="https://cocoindex.io/docs">↗ Documentation</a>
+        <a href="https://discord.gg/cocoindex">↗ Discord</a>
+      </div>
+    </div>
+  </aside>
+
+  <div class="col-main">
+
+<!-- ═══════════ FEATURED ═══════════ -->
+<section class="feat">
+  <div class="sec-head">
+    <h2><span class="idx">★ Featured</span>Start here</h2>
+    <p class="lead">The most complete end-to-end example — a custom source, LLM extraction, and a queryable target.</p>
+  </div>
+
+  <a class="feat-card" href="/examples/hackernews-trending-topics">
+    <div class="feat-body">
+      <span class="ribbon"><span class="tick"></span>Multi-stage · custom source · <span class="idx">07 / 22</span></span>
+      <h3>HN Trending <em>Topics.</em></h3>
+      <p>
+        Pulls every new HackerNews thread, extracts topics with an LLM, and keeps a Postgres index continuously fresh. Custom source + live mode = 92% fewer API calls after the first sync.
+      </p>
+      <div class="chips">
+        <span class="chip">Custom source</span>
+        <span class="chip">Gemini 2.5 Flash</span>
+        <span class="chip">Postgres</span>
+        <span class="chip">Live 30s</span>
+        <span class="chip">Structured output</span>
+      </div>
+      <div class="foot">
+        <span>45 min · 6 parts · 12 steps</span>
+        <span class="go">Open example
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6h8m-3-3 3 3-3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+      </div>
+    </div>
+
+    <div class="feat-viz" aria-hidden="true">
+      <div class="qlabel">
+        <span>get_trending_topics(limit = 5)</span>
+        <span class="pulse"><span class="d"></span>live</span>
+      </div>
+      <div class="qrow"><span class="rk">01</span><span class="tp"><em>Claude</em></span><span class="sc">142</span><span class="th">12 threads</span></div>
+      <div class="qrow"><span class="rk">02</span><span class="tp">Rust</span><span class="sc">118</span><span class="th">9 threads</span></div>
+      <div class="qrow"><span class="rk">03</span><span class="tp">OpenAI</span><span class="sc">96</span><span class="th">8 threads</span></div>
+      <div class="qrow"><span class="rk">04</span><span class="tp">Postgres</span><span class="sc">81</span><span class="th">7 threads</span></div>
+      <div class="qrow"><span class="rk">05</span><span class="tp"><em>MCP</em></span><span class="sc">73</span><span class="th">5 threads</span></div>
+    </div>
+  </a>
+</section>
+
+<!-- ═══════════ CATEGORY 01 — SEARCH & RAG ═══════════ -->
+<section class="cat" id="cat-search" data-cat="search">
+  <div class="sec-head">
+    <span class="idx">01</span>
+    <h2>Search &amp; <em>RAG</em></h2>
+    <p class="lead">Embed your documents, store vectors, answer by meaning.</p>
+    <a class="all" href="#">See all 8 →</a>
+  </div>
+
+  <div class="cat-grid">
+
+    <a class="ex-card" href="/examples/code_index">
+      <div class="ex-thumb search">
+        <span class="tl">Code · Python · Rust</span>
+        <span class="tr">01 / 22</span>
+        <div class="motif">
+          <svg class="m-node" viewBox="0 0 120 70"><rect x="10" y="20" width="28" height="28" rx="4"/><rect x="82" y="6" width="28" height="28" rx="4"/><rect x="82" y="34" width="28" height="28" rx="4"/><path d="M38 34 L82 20 M38 34 L82 48" stroke="currentColor" stroke-width="1.5" fill="none"/><circle cx="24" cy="34" r="3"/><circle cx="96" cy="20" r="3"/><circle cx="96" cy="48" r="3"/></svg>
+        </div>
+      </div>
+      <div class="ex-body">
+        <h3>Code <em>Index</em></h3>
+        <p>Walk a repo, split by syntax, embed with MiniLM, sync to pgvector. Ask your codebase questions in English.</p>
+        <div class="ex-tags">
+          <span class="tag src"><span class="dt"></span>Local FS</span>
+          <span class="tag tgt"><span class="dt"></span>Postgres</span>
+          <span class="tag ops"><span class="dt"></span>Syntax split</span>
+        </div>
+        <div class="ex-foot"><span>~10 min · ~80 loc</span><span class="go">Open →</span></div>
+      </div>
+    </a>
+
+    <a class="ex-card" href="/examples/text_embedding">
+      <div class="ex-thumb search">
+        <span class="tl">Text · Markdown</span>
+        <span class="tr">02 / 22</span>
+        <div class="motif">
+          <svg class="m-dots" viewBox="0 0 120 70"><circle cx="16" cy="20" r="4"/><circle cx="36" cy="20" r="4"/><circle cx="56" cy="20" r="4"/><circle cx="76" cy="20" r="4" opacity="0.6"/><circle cx="96" cy="20" r="4" opacity="0.35"/><circle cx="16" cy="40" r="4"/><circle cx="36" cy="40" r="4"/><circle cx="56" cy="40" r="4" opacity="0.6"/><circle cx="16" cy="60" r="4"/><circle cx="36" cy="60" r="4" opacity="0.35"/></svg>
+        </div>
+      </div>
+      <div class="ex-body">
+        <h3>Text <em>Embedding</em></h3>
+        <p>Markdown and plain text → pgvector. The cleanest "hello world" for CocoIndex + embeddings.</p>
+        <div class="ex-tags">
+          <span class="tag src"><span class="dt"></span>Local FS</span>
+          <span class="tag tgt"><span class="dt"></span>Postgres</span>
+          <span class="tag lvl"><span class="dt"></span>Starter</span>
+        </div>
+        <div class="ex-foot"><span>~6 min · ~60 loc</span><span class="go">Open →</span></div>
+      </div>
+    </a>
+
+    <a class="ex-card" href="/examples/text_embedding_qdrant">
+      <div class="ex-thumb search">
+        <span class="tl">Text · Qdrant</span>
+        <span class="tr">03 / 22</span>
+        <div class="motif">
+          <svg viewBox="0 0 120 70" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="60" cy="35" r="24"/><circle cx="60" cy="35" r="14"/><circle cx="60" cy="35" r="5" fill="currentColor"/></svg>
+        </div>
+      </div>
+      <div class="ex-body">
+        <h3>Text → <em>Qdrant</em></h3>
+        <p>Same source, vectors into a dedicated search engine. Swap the target; keep everything else.</p>
+        <div class="ex-tags">
+          <span class="tag src"><span class="dt"></span>Local FS</span>
+          <span class="tag tgt"><span class="dt"></span>Qdrant</span>
+          <span class="tag lvl"><span class="dt"></span>Starter</span>
+        </div>
+        <div class="ex-foot"><span>~6 min</span><span class="go">Open →</span></div>
+      </div>
+    </a>
+
+    <a class="ex-card" href="/examples/code_embedding_lancedb">
+      <div class="ex-thumb search">
+        <span class="tl">Code · LanceDB</span>
+        <span class="tr">04 / 22</span>
+        <div class="motif">
+          <svg viewBox="0 0 120 70" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="20" y="15" width="80" height="40" rx="3"/><path d="M20 27 L100 27 M40 15 L40 55 M40 41 L100 41"/><circle cx="30" cy="21" r="2" fill="currentColor"/><circle cx="70" cy="34" r="2" fill="currentColor"/><circle cx="70" cy="48" r="2" fill="currentColor"/></svg>
+        </div>
+      </div>
+      <div class="ex-body">
+        <h3>Code → <em>LanceDB</em></h3>
+        <p>Zero-infra local vector store. Same code splitter, embedded columnar target. No Postgres.</p>
+        <div class="ex-tags">
+          <span class="tag src"><span class="dt"></span>Local FS</span>
+          <span class="tag tgt"><span class="dt"></span>LanceDB</span>
+          <span class="tag ops"><span class="dt"></span>Embedded</span>
+        </div>
+        <div class="ex-foot"><span>~8 min</span><span class="go">Open →</span></div>
+      </div>
+    </a>
+
+    <a class="ex-card" href="/examples/pdf_embedding">
+      <div class="ex-thumb search">
+        <span class="tl">PDF · Search</span>
+        <span class="tr">05 / 22</span>
+        <div class="motif">
+          <svg viewBox="0 0 120 70" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="32" y="10" width="42" height="52" rx="2"/><path d="M32 20 L74 20 M40 30 L66 30 M40 38 L66 38 M40 46 L56 46"/><rect x="78" y="14" width="22" height="28" rx="1" opacity="0.5"/><circle cx="89" cy="56" r="8" fill="currentColor"/></svg>
+        </div>
+      </div>
+      <div class="ex-body">
+        <h3>PDF <em>Embedding</em></h3>
+        <p>Extract pages, chunk intelligently, embed, query. For research papers, manuals, contracts.</p>
+        <div class="ex-tags">
+          <span class="tag src"><span class="dt"></span>PDF</span>
+          <span class="tag tgt"><span class="dt"></span>Postgres</span>
+          <span class="tag ops"><span class="dt"></span>OCR-free</span>
+        </div>
+        <div class="ex-foot"><span>~12 min</span><span class="go">Open →</span></div>
+      </div>
+    </a>
+
+    <a class="ex-card" href="/examples/text_embedding_lancedb">
+      <div class="ex-thumb search">
+        <span class="tl">Text · LanceDB</span>
+        <span class="tr">06 / 22</span>
+        <div class="motif">
+          <svg viewBox="0 0 120 70" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="14" y="14" width="92" height="42" rx="3"/><path d="M14 26 L106 26 M14 38 L106 38 M50 14 L50 56 M78 14 L78 56"/></svg>
+        </div>
+      </div>
+      <div class="ex-body">
+        <h3>Text → <em>LanceDB</em></h3>
+        <p>Markdown embeddings in a zero-infra local store. Edit a file, run again, watch the delta.</p>
+        <div class="ex-tags">
+          <span class="tag src"><span class="dt"></span>Local FS</span>
+          <span class="tag tgt"><span class="dt"></span>LanceDB</span>
+          <span class="tag lvl"><span class="dt"></span>Starter</span>
+        </div>
+        <div class="ex-foot"><span>~7 min</span><span class="go">Open →</span></div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- ═══════════ CATEGORY 02 — INGEST & CONNECTORS ═══════════ -->
+<section class="cat" id="cat-ingest" data-cat="ingest">
+  <div class="sec-head">
+    <span class="idx">02</span>
+    <h2>Ingest &amp; <em>Connectors</em></h2>
+    <p class="lead">Pipe it in from anywhere. Drive, S3, Kafka, Postgres, CSV — same declarative shape.</p>
+    <a class="all" href="#">See all 6 →</a>
+  </div>
+
+  <div class="cat-grid">
+
+    <a class="ex-card" href="/examples/gdrive_text_embedding">
+      <div class="ex-thumb ingest">
+        <span class="tl">Google Drive</span>
+        <span class="tr">09 / 22</span>
+        <div class="motif">
+          <svg viewBox="0 0 120 70" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M42 18 L78 18 L96 50 L60 50 Z" fill="currentColor" opacity="0.15"/><path d="M42 18 L60 50 L24 50 Z" fill="currentColor" opacity="0.3"/><path d="M78 18 L96 50 L60 50 L42 18 Z"/><path d="M42 18 L60 50 L24 50 Z"/></svg>
+        </div>
+      </div>
+      <div class="ex-body">
+        <h3>Google Drive <em>Index</em></h3>
+        <p>Point at a shared folder, pick up every edit. OAuth handled. Change detection on file modified time.</p>
+        <div class="ex-tags">
+          <span class="tag src"><span class="dt"></span>Drive</span>
+          <span class="tag tgt"><span class="dt"></span>Postgres</span>
+          <span class="tag ops"><span class="dt"></span>OAuth</span>
+        </div>
+        <div class="ex-foot"><span>~15 min</span><span class="go">Open →</span></div>
+      </div>
+    </a>
+
+    <a class="ex-card" href="/examples/amazon_s3_embedding">
+      <div class="ex-thumb ingest">
+        <span class="tl">Amazon S3</span>
+        <span class="tr">10 / 22</span>
+        <div class="motif">
+          <svg viewBox="0 0 120 70" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="30" y="20" width="60" height="36" rx="3"/><path d="M30 30 L90 30 M60 20 L60 56"/><circle cx="45" cy="43" r="4" fill="currentColor"/><circle cx="75" cy="43" r="4" fill="currentColor" opacity="0.5"/></svg>
+        </div>
+      </div>
+      <div class="ex-body">
+        <h3>S3 → <em>Embeddings</em></h3>
+        <p>Bucket sync with incremental walk. Great fit for archives, logs, knowledge dumps.</p>
+        <div class="ex-tags">
+          <span class="tag src"><span class="dt"></span>S3</span>
+          <span class="tag tgt"><span class="dt"></span>Postgres</span>
+          <span class="tag ops"><span class="dt"></span>Incremental</span>
+        </div>
+        <div class="ex-foot"><span>~12 min</span><span class="go">Open →</span></div>
+      </div>
+    </a>
+
+    <a class="ex-card" href="/examples/kafka_to_lancedb">
+      <div class="ex-thumb ingest">
+        <span class="tl">Kafka · stream</span>
+        <span class="tr">11 / 22</span>
+        <div class="motif">
+          <svg viewBox="0 0 120 70" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="28" cy="35" r="10"/><circle cx="60" cy="22" r="10"/><circle cx="60" cy="48" r="10"/><circle cx="92" cy="35" r="10"/><path d="M36 32 L52 24 M36 38 L52 46 M68 22 L84 30 M68 48 L84 40"/></svg>
+        </div>
+      </div>
+      <div class="ex-body">
+        <h3>Kafka → <em>LanceDB</em></h3>
+        <p>Stream topics to an embedded vector store. Low-latency search over message flow.</p>
+        <div class="ex-tags">
+          <span class="tag src"><span class="dt"></span>Kafka</span>
+          <span class="tag tgt"><span class="dt"></span>LanceDB</span>
+          <span class="tag ops"><span class="dt"></span>Streaming</span>
+        </div>
+        <div class="ex-foot"><span>~18 min</span><span class="go">Open →</span></div>
+      </div>
+    </a>
+
+    <a class="ex-card" href="/examples/csv_to_kafka">
+      <div class="ex-thumb ingest">
+        <span class="tl">CSV · producer</span>
+        <span class="tr">12 / 22</span>
+        <div class="motif">
+          <svg viewBox="0 0 120 70" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="20" y="12" width="36" height="46" rx="2"/><path d="M20 22 L56 22 M20 32 L56 32 M20 42 L56 42 M20 52 L56 52"/><path d="M60 35 L96 35 M60 35 L86 25 M60 35 L86 45" stroke-width="1.8"/><circle cx="100" cy="35" r="4" fill="currentColor"/></svg>
+        </div>
+      </div>
+      <div class="ex-body">
+        <h3>CSV → <em>Kafka</em></h3>
+        <p>Batch file into streaming topic. Useful when bootstrapping a stream from historical data.</p>
+        <div class="ex-tags">
+          <span class="tag src"><span class="dt"></span>CSV</span>
+          <span class="tag tgt"><span class="dt"></span>Kafka</span>
+          <span class="tag ops"><span class="dt"></span>Bootstrap</span>
+        </div>
+        <div class="ex-foot"><span>~10 min</span><span class="go">Open →</span></div>
+      </div>
+    </a>
+
+    <a class="ex-card" href="/examples/postgres_source">
+      <div class="ex-thumb ingest">
+        <span class="tl">Postgres · CDC</span>
+        <span class="tr">13 / 22</span>
+        <div class="motif">
+          <svg viewBox="0 0 120 70" fill="none" stroke="currentColor" stroke-width="1.5"><ellipse cx="60" cy="18" rx="28" ry="8"/><path d="M32 18 L32 52 Q32 60 60 60 T88 52 L88 18 M32 35 Q32 43 60 43 T88 35"/></svg>
+        </div>
+      </div>
+      <div class="ex-body">
+        <h3>Postgres <em>Source</em></h3>
+        <p>Use an existing table as a CocoIndex source. Watch change data capture flow into your flow.</p>
+        <div class="ex-tags">
+          <span class="tag src"><span class="dt"></span>Postgres</span>
+          <span class="tag tgt"><span class="dt"></span>Any</span>
+          <span class="tag ops"><span class="dt"></span>CDC</span>
+        </div>
+        <div class="ex-foot"><span>~10 min</span><span class="go">Open →</span></div>
+      </div>
+    </a>
+
+    <a class="ex-card" href="/examples/files_transform">
+      <div class="ex-thumb ingest">
+        <span class="tl">Files · transform</span>
+        <span class="tr">14 / 22</span>
+        <div class="motif">
+          <svg viewBox="0 0 120 70" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="16" y="18" width="32" height="34" rx="2"/><path d="M52 35 L72 35 M64 29 L72 35 L64 41" stroke-linecap="round" stroke-linejoin="round"/><rect x="76" y="18" width="32" height="34" rx="2"/><path d="M22 28 L42 28 M22 36 L42 36 M82 28 L102 28 M82 36 L96 36 M82 44 L102 44"/></svg>
+        </div>
+      </div>
+      <div class="ex-body">
+        <h3>Files <em>Transform</em></h3>
+        <p>Markdown → HTML one-liner. Shows the "DirTarget" pattern for file-to-file pipelines.</p>
+        <div class="ex-tags">
+          <span class="tag src"><span class="dt"></span>Local FS</span>
+          <span class="tag tgt"><span class="dt"></span>Local FS</span>
+          <span class="tag lvl"><span class="dt"></span>Starter</span>
+        </div>
+        <div class="ex-foot"><span>~5 min</span><span class="go">Open →</span></div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- ═══════════ CATEGORY 03 — LLM EXTRACTION ═══════════ -->
+<section class="cat" id="cat-llm" data-cat="llm">
+  <div class="sec-head">
+    <span class="idx">03</span>
+    <h2>LLM <em>Extraction</em></h2>
+    <p class="lead">Turn loose prose into structured data the rest of your stack can use.</p>
+    <a class="all" href="#">See all 7 →</a>
+  </div>
+
+  <div class="cat-grid">
+
+    <a class="ex-card" href="/examples/hackernews-trending-topics">
+      <div class="ex-thumb llm">
+        <span class="tl">★ HackerNews</span>
+        <span class="tr">07 / 22</span>
+        <div class="motif">
+          <svg viewBox="0 0 120 70" fill="none"><rect x="36" y="14" width="48" height="42" fill="currentColor" opacity="0.12"/><path d="M46 26 L60 40 L60 48 M60 40 L74 26" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+      <div class="ex-body">
+        <h3>HN Trending <em>Topics</em></h3>
+        <p>Custom source + LLM extraction + live SQL. The showcase multi-stage example.</p>
+        <div class="ex-tags">
+          <span class="tag src"><span class="dt"></span>HN API</span>
+          <span class="tag llm"><span class="dt"></span>Gemini 2.5</span>
+          <span class="tag tgt"><span class="dt"></span>Postgres</span>
+          <span class="tag lvl"><span class="dt"></span>Advanced</span>
+        </div>
+        <div class="ex-foot"><span>~45 min · featured</span><span class="go">Open →</span></div>
+      </div>
+    </a>
+
+    <a class="ex-card" href="/examples/paper_metadata">
+      <div class="ex-thumb llm">
+        <span class="tl">Papers · metadata</span>
+        <span class="tr">15 / 22</span>
+        <div class="motif">
+          <svg viewBox="0 0 120 70" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="28" y="12" width="40" height="50" rx="2"/><path d="M36 22 L60 22 M36 30 L60 30 M36 38 L54 38"/><rect x="72" y="22" width="28" height="40" rx="2" fill="currentColor" opacity="0.14" stroke="none"/><path d="M76 32 L96 32 M76 40 L96 40 M76 48 L90 48" stroke="currentColor" stroke-width="1.2"/></svg>
+        </div>
+      </div>
+      <div class="ex-body">
+        <h3>Paper <em>Metadata</em></h3>
+        <p>Extract title, authors, keywords from PDFs using an LLM. Build a searchable research library.</p>
+        <div class="ex-tags">
+          <span class="tag src"><span class="dt"></span>PDF</span>
+          <span class="tag llm"><span class="dt"></span>Any LLM</span>
+          <span class="tag tgt"><span class="dt"></span>Postgres</span>
+        </div>
+        <div class="ex-foot"><span>~20 min</span><span class="go">Open →</span></div>
+      </div>
+    </a>
+
+    <a class="ex-card" href="/examples/patient_intake_extraction_baml">
+      <div class="ex-thumb llm">
+        <span class="tl">Healthcare · BAML</span>
+        <span class="tr">16 / 22</span>
+        <div class="motif">
+          <svg viewBox="0 0 120 70" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M60 18 L60 52 M43 35 L77 35" stroke-linecap="round"/><circle cx="60" cy="35" r="22"/></svg>
+        </div>
+      </div>
+      <div class="ex-body">
+        <h3>Patient Intake <em>(BAML)</em></h3>
+        <p>Intake forms → structured patient records. BAML provides the typed contract between LLM and code.</p>
+        <div class="ex-tags">
+          <span class="tag src"><span class="dt"></span>Text</span>
+          <span class="tag llm"><span class="dt"></span>BAML</span>
+          <span class="tag ops"><span class="dt"></span>Structured</span>
+        </div>
+        <div class="ex-foot"><span>~25 min</span><span class="go">Open →</span></div>
+      </div>
+    </a>
+
+    <a class="ex-card" href="/examples/patient_intake_extraction_dspy">
+      <div class="ex-thumb llm">
+        <span class="tl">Healthcare · DSPy</span>
+        <span class="tr">17 / 22</span>
+        <div class="motif">
+          <svg viewBox="0 0 120 70" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="30" cy="35" r="10"/><circle cx="60" cy="20" r="8"/><circle cx="60" cy="50" r="8"/><circle cx="90" cy="35" r="10"/><path d="M40 35 L52 22 M40 35 L52 48 M68 22 L80 35 M68 48 L80 35"/></svg>
+        </div>
+      </div>
+      <div class="ex-body">
+        <h3>Patient Intake <em>(DSPy)</em></h3>
+        <p>Same intake problem, DSPy-style prompt programming. Compare the ergonomics side by side.</p>
+        <div class="ex-tags">
+          <span class="tag src"><span class="dt"></span>Text</span>
+          <span class="tag llm"><span class="dt"></span>DSPy</span>
+          <span class="tag ops"><span class="dt"></span>Structured</span>
+        </div>
+        <div class="ex-foot"><span>~25 min</span><span class="go">Open →</span></div>
+      </div>
+    </a>
+
+    <a class="ex-card" href="/examples/pdf_to_markdown">
+      <div class="ex-thumb llm">
+        <span class="tl">PDF · Markdown</span>
+        <span class="tr">18 / 22</span>
+        <div class="motif">
+          <svg viewBox="0 0 120 70" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="18" y="14" width="30" height="42" rx="2"/><path d="M54 35 L70 35 M62 29 L70 35 L62 41" stroke-linecap="round" stroke-linejoin="round"/><rect x="74" y="14" width="30" height="42" rx="2"/><path d="M80 24 L98 24 M80 32 L94 32 M80 40 L98 40 M80 48 L88 48"/></svg>
+        </div>
+      </div>
+      <div class="ex-body">
+        <h3>PDF → <em>Markdown</em></h3>
+        <p>LLM-powered conversion that preserves headings, tables, and code blocks. Feed the result into RAG.</p>
+        <div class="ex-tags">
+          <span class="tag src"><span class="dt"></span>PDF</span>
+          <span class="tag llm"><span class="dt"></span>GPT-4</span>
+          <span class="tag tgt"><span class="dt"></span>Local FS</span>
+        </div>
+        <div class="ex-foot"><span>~15 min</span><span class="go">Open →</span></div>
+      </div>
+    </a>
+
+    <a class="ex-card" href="/examples/multi_codebase_summarization">
+      <div class="ex-thumb llm">
+        <span class="tl">Multi-repo · summaries</span>
+        <span class="tr">19 / 22</span>
+        <div class="motif">
+          <svg viewBox="0 0 120 70" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="14" y="18" width="20" height="34" rx="2"/><rect x="40" y="18" width="20" height="34" rx="2"/><rect x="66" y="18" width="20" height="34" rx="2"/><path d="M92 35 L106 35 M98 30 L106 35 L98 40" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+      <div class="ex-body">
+        <h3>Multi-codebase <em>Summaries</em></h3>
+        <p>Chain an LLM step after the splitter. Write a searchable summary per function across many repos.</p>
+        <div class="ex-tags">
+          <span class="tag src"><span class="dt"></span>Multi-repo</span>
+          <span class="tag llm"><span class="dt"></span>Any LLM</span>
+          <span class="tag lvl"><span class="dt"></span>Advanced</span>
+        </div>
+        <div class="ex-foot"><span>~30 min</span><span class="go">Open →</span></div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- ═══════════ CATEGORY 04 — AGENTS & MEMORY ═══════════ -->
+<section class="cat" id="cat-agents" data-cat="agents">
+  <div class="sec-head">
+    <span class="idx">04</span>
+    <h2>Agents &amp; <em>Memory</em></h2>
+    <p class="lead">Give agents a persistent, searchable memory — conversations, sessions, knowledge graphs.</p>
+    <a class="all" href="#">See all 3 →</a>
+  </div>
+
+  <div class="cat-grid">
+
+    <a class="ex-card" href="/examples/conversation_to_knowledge">
+      <div class="ex-thumb agents">
+        <span class="tl">Conversations</span>
+        <span class="tr">20 / 22</span>
+        <div class="motif">
+          <svg viewBox="0 0 120 70" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="16" y="16" width="40" height="24" rx="4"/><path d="M22 44 L32 36 L50 36" stroke-linecap="round"/><rect x="64" y="30" width="40" height="24" rx="4" fill="currentColor" opacity="0.14" stroke="currentColor"/><path d="M70 58 L80 50 L98 50" stroke-linecap="round"/></svg>
+        </div>
+      </div>
+      <div class="ex-body">
+        <h3>Conversation → <em>Knowledge</em></h3>
+        <p>Extract entities, facts, and relationships from chat transcripts. Build a graph an agent can query.</p>
+        <div class="ex-tags">
+          <span class="tag src"><span class="dt"></span>Chat logs</span>
+          <span class="tag llm"><span class="dt"></span>Any LLM</span>
+          <span class="tag tgt"><span class="dt"></span>Postgres</span>
+        </div>
+        <div class="ex-foot"><span>~30 min</span><span class="go">Open →</span></div>
+      </div>
+    </a>
+
+    <a class="ex-card" href="/examples/entire_session_search">
+      <div class="ex-thumb agents">
+        <span class="tl">Session · search</span>
+        <span class="tr">21 / 22</span>
+        <div class="motif">
+          <svg viewBox="0 0 120 70" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="48" cy="34" r="16"/><path d="M60 46 L76 62" stroke-width="2" stroke-linecap="round"/><path d="M34 34 L62 34 M40 28 L62 28 M40 40 L58 40" stroke-width="1.2"/></svg>
+        </div>
+      </div>
+      <div class="ex-body">
+        <h3>Entire Session <em>Search</em></h3>
+        <p>Full-history search over a user's assistant sessions. Find the answer you had three months ago.</p>
+        <div class="ex-tags">
+          <span class="tag src"><span class="dt"></span>Sessions</span>
+          <span class="tag tgt"><span class="dt"></span>Postgres</span>
+          <span class="tag ops"><span class="dt"></span>Agent memory</span>
+        </div>
+        <div class="ex-foot"><span>~20 min</span><span class="go">Open →</span></div>
+      </div>
+    </a>
+
+    <a class="ex-card" href="/examples/code_index">
+      <div class="ex-thumb agents">
+        <span class="tl">Agent context</span>
+        <span class="tr">01 / 22</span>
+        <div class="motif">
+          <svg viewBox="0 0 120 70" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="60" cy="35" r="18"/><circle cx="60" cy="35" r="4" fill="currentColor"/><path d="M60 17 L60 25 M60 45 L60 53 M42 35 L50 35 M70 35 L78 35"/></svg>
+        </div>
+      </div>
+      <div class="ex-body">
+        <h3>Ground a <em>Coding Agent</em></h3>
+        <p>Same code index, new mission: feed retrieved chunks into your agent's system prompt for real context.</p>
+        <div class="ex-tags">
+          <span class="tag src"><span class="dt"></span>Code</span>
+          <span class="tag llm"><span class="dt"></span>Any LLM</span>
+          <span class="tag ops"><span class="dt"></span>RAG</span>
+        </div>
+        <div class="ex-foot"><span>~10 min</span><span class="go">Open →</span></div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- ═══════════ CATEGORY 05 — MULTIMODAL ═══════════ -->
+<section class="cat" id="cat-image" data-cat="image">
+  <div class="sec-head">
+    <span class="idx">05</span>
+    <h2>Multimodal</h2>
+    <p class="lead">Images and beyond. Same flow, different encoder.</p>
+    <a class="all" href="#">See all 3 →</a>
+  </div>
+
+  <div class="cat-grid">
+
+    <a class="ex-card" href="/examples/image_search">
+      <div class="ex-thumb pink">
+        <span class="tl">CLIP · search</span>
+        <span class="tr">08 / 22</span>
+        <div class="motif">
+          <svg viewBox="0 0 120 70" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="22" y="14" width="76" height="42" rx="3"/><circle cx="38" cy="26" r="4" fill="currentColor"/><path d="M22 46 L44 34 L64 44 L80 32 L98 40" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+      <div class="ex-body">
+        <h3>Image <em>Search</em></h3>
+        <p>CLIP embeddings over a folder of images. Query with a text prompt or a reference image.</p>
+        <div class="ex-tags">
+          <span class="tag src"><span class="dt"></span>Images</span>
+          <span class="tag llm"><span class="dt"></span>CLIP</span>
+          <span class="tag tgt"><span class="dt"></span>Postgres</span>
+        </div>
+        <div class="ex-foot"><span>~15 min</span><span class="go">Open →</span></div>
+      </div>
+    </a>
+
+    <a class="ex-card" href="/examples/image_search_colpali">
+      <div class="ex-thumb pink">
+        <span class="tl">ColPali · docs</span>
+        <span class="tr">22 / 22</span>
+        <div class="motif">
+          <svg viewBox="0 0 120 70" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="14" y="12" width="22" height="46" rx="2"/><rect x="40" y="12" width="22" height="46" rx="2"/><rect x="66" y="12" width="22" height="46" rx="2"/><rect x="92" y="12" width="14" height="46" rx="2" opacity="0.5"/></svg>
+        </div>
+      </div>
+      <div class="ex-body">
+        <h3>ColPali <em>Doc Search</em></h3>
+        <p>Page-level multi-vector embeddings for document images. Beats OCR for charts, forms, scans.</p>
+        <div class="ex-tags">
+          <span class="tag src"><span class="dt"></span>PDFs</span>
+          <span class="tag llm"><span class="dt"></span>ColPali</span>
+          <span class="tag lvl"><span class="dt"></span>Advanced</span>
+        </div>
+        <div class="ex-foot"><span>~25 min</span><span class="go">Open →</span></div>
+      </div>
+    </a>
+
+    <a class="ex-card" href="/examples/pdf_embedding">
+      <div class="ex-thumb pink">
+        <span class="tl">PDF · hybrid</span>
+        <span class="tr">05 / 22</span>
+        <div class="motif">
+          <svg viewBox="0 0 120 70" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="30" y="14" width="34" height="42" rx="2"/><path d="M38 22 L58 22 M38 30 L58 30 M38 38 L50 38"/><rect x="68" y="14" width="30" height="42" rx="2" fill="currentColor" opacity="0.12"/><circle cx="83" cy="35" r="9" fill="currentColor" opacity="0.4"/></svg>
+        </div>
+      </div>
+      <div class="ex-body">
+        <h3>PDF <em>Hybrid Search</em></h3>
+        <p>Text embeddings + page images side by side. Pick whichever retrieves better for your corpus.</p>
+        <div class="ex-tags">
+          <span class="tag src"><span class="dt"></span>PDF</span>
+          <span class="tag ops"><span class="dt"></span>Hybrid</span>
+          <span class="tag tgt"><span class="dt"></span>Postgres</span>
+        </div>
+        <div class="ex-foot"><span>~20 min</span><span class="go">Open →</span></div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- ═══════════ CTA ═══════════ -->
+<section class="cta-end">
+  <div>
+    <h3>Can't find the <em>shape</em> you need?</h3>
+    <p>Clone the closest example, swap the source or the target, and keep the rest. Or request a new example — we ship the ones developers ask for.</p>
+    <div class="btns">
+      <a class="btn btn-coral" href="https://github.com/cocoindex-io/cocoindex">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.6.5.5 5.6.5 12a11.5 11.5 0 0 0 7.9 10.9c.6.1.8-.2.8-.5v-2c-3.2.7-3.9-1.4-3.9-1.4-.5-1.3-1.2-1.6-1.2-1.6-1-.7.1-.7.1-.7 1.1.1 1.7 1.1 1.7 1.1 1 1.7 2.7 1.2 3.4.9.1-.7.4-1.2.7-1.5-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2a11 11 0 0 1 5.8 0C17.4 4.8 18.4 5.1 18.4 5.1c.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.2c0 .3.2.7.8.5A11.5 11.5 0 0 0 23.5 12C23.5 5.6 18.4.5 12 .5Z"/></svg>
+        Request on GitHub
+      </a>
+      <a class="btn btn-primary" href="/docs">Build your own</a>
+      <a class="btn btn-outline-muted" href="https://discord.gg/cocoindex">Ask on Discord</a>
+    </div>
+  </div>
+  <aside class="side">
+    <h5>Popular this week</h5>
+    <ul>
+      <li><span class="k">HN Trending Topics</span><span class="v">1.2k</span></li>
+      <li><span class="k">Code Index</span><span class="v">840</span></li>
+      <li><span class="k">PDF Embedding</span><span class="v">612</span></li>
+      <li><span class="k">Google Drive</span><span class="v">487</span></li>
+      <li><span class="k">Image Search (CLIP)</span><span class="v">412</span></li>
+    </ul>
+  </aside>
+</section>
+
+  </div><!-- /.col-main -->
+</div><!-- /.doc -->
+
+</div>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<footer>
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <a class="logo" href="/" style="text-decoration:none; color:var(--maroon-ink);">
+        <img src="assets/cocoindex.svg" alt="" style="width:24px; height:26px; vertical-align:middle;"/>
+        <span>CocoIndex</span>
+      </a>
+      <p>A declarative data framework for AI. Continuously fresh context, only on the delta.</p>
+    </div>
+    <div class="foot-col">
+      <h6>Examples</h6>
+      <a href="/examples/hackernews-trending-topics">HN Trending Topics</a>
+      <a href="/examples/code_index">Code Index</a>
+      <a href="/examples/pdf_embedding">PDF Embedding</a>
+      <a href="/examples/gdrive_text_embedding">Google Drive</a>
+      <a href="/examples/image_search">Image Search</a>
+    </div>
+    <div class="foot-col">
+      <h6>Product</h6>
+      <a href="/docs">Documentation</a>
+      <a href="/blogs">Blog</a>
+      <a href="/enterprise">Enterprise</a>
+      <a href="https://github.com/cocoindex-io/cocoindex">GitHub</a>
+    </div>
+    <div class="foot-col">
+      <h6>Community</h6>
+      <a href="https://discord.gg/cocoindex">Discord</a>
+      <a href="https://twitter.com/cocoindex_io">Twitter / X</a>
+      <a href="https://www.linkedin.com/company/cocoindex">LinkedIn</a>
+      <a href="mailto:hello@cocoindex.io">hello@cocoindex.io</a>
+    </div>
+  </div>
+  <div class="colo">
+    <span>© 2026 CocoIndex · Examples index</span>
+    <span>Set in Inter &amp; JetBrains Mono</span>
+  </div>
+</footer>
+
+<!-- ═══════════ TWEAKS ═══════════ -->
+<div class="tweaks-panel" id="tweaks">
+  <h4>Tweaks <span>⏻</span></h4>
+  <div class="tw-row">
+    <label>Accent</label>
+    <div class="opts" data-group="accent">
+      <button data-val="coral">Coral</button>
+      <button data-val="peach">Peach</button>
+      <button data-val="palm">Palm</button>
+    </div>
+  </div>
+  <div class="tw-row">
+    <label>Layout</label>
+    <div class="opts" data-group="layout">
+      <button data-val="grid">Grid 3</button>
+      <button data-val="wide">Grid 2</button>
+      <button data-val="list">List</button>
+    </div>
+  </div>
+  <div class="tw-row">
+    <label>Card style</label>
+    <div class="opts" data-group="card_style">
+      <button data-val="pattern">Pattern</button>
+      <button data-val="flat">Flat</button>
+    </div>
+  </div>
+  <div class="tw-row">
+    <label>Density</label>
+    <div class="opts" data-group="density">
+      <button data-val="compact">Compact</button>
+      <button data-val="comfortable">Comfortable</button>
+      <button data-val="spacious">Spacious</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const state = { ...TWEAKS };
+  const apply = () => {
+    const b = document.body;
+    [...b.classList].forEach(c => {
+      if (/^(accent|layout|card_style|density)-/.test(c)) b.classList.remove(c);
+    });
+    b.classList.add(`accent-${state.accent}`);
+    b.classList.add(`layout-${state.layout}`);
+    b.classList.add(`card_style-${state.card_style}`);
+    b.classList.add(`density-${state.density}`);
+    document.querySelectorAll('.tw-row .opts').forEach(grp => {
+      const g = grp.dataset.group;
+      grp.querySelectorAll('button').forEach(btn => {
+        btn.classList.toggle('on', btn.dataset.val === state[g]);
+      });
+    });
+  };
+  apply();
+
+  document.querySelectorAll('.tw-row .opts button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const g = btn.parentElement.dataset.group;
+      state[g] = btn.dataset.val;
+      apply();
+      try { window.parent.postMessage({ type:'__edit_mode_set_keys', edits: { [g]: state[g] } }, '*'); } catch(e){}
+    });
+  });
+
+  window.addEventListener('message', (e) => {
+    const d = e.data || {};
+    if (d.type === '__activate_edit_mode')   document.getElementById('tweaks').classList.add('on');
+    if (d.type === '__deactivate_edit_mode') document.getElementById('tweaks').classList.remove('on');
+  });
+  try { window.parent.postMessage({ type: '__edit_mode_available' }, '*'); } catch(e){}
+
+  /* ─── Category filter chips ─── */
+  (function(){
+    const chips = document.querySelectorAll('#filters .filter-chip');
+    const sections = document.querySelectorAll('section.cat[data-cat]');
+    const feat = document.querySelector('section.feat');
+
+    chips.forEach(chip => chip.addEventListener('click', () => {
+      const f = chip.dataset.filter;
+      chips.forEach(c => c.classList.toggle('on', c === chip));
+      if (f === 'all'){
+        sections.forEach(s => s.style.display = '');
+        if (feat) feat.style.display = '';
+        return;
+      }
+      sections.forEach(s => s.style.display = (s.dataset.cat === f ? '' : 'none'));
+      if (feat) feat.style.display = (f === 'llm' ? '' : 'none');
+    }));
+  })();
+</script>
+
+</body>
+</html>

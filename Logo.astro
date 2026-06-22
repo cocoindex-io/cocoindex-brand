@@ -1,0 +1,41 @@
+---
+// CocoIndex logo lockup — the coconut mark + the "CocoIndex" wordmark. THE one
+// brand mark for every surface (nav, footer, sidebars, mockups). Styles:
+// @cocoindex/brand/logo.css (`.logo`). Renders an <a> when `href` is set (the
+// default), or a static <span> when href is null/'' (e.g. inside another link).
+//
+//   <Logo />                      → md lockup, links to cocoindex.io
+//   <Logo size="lg" />            → footer-scale lockup
+//   <Logo markOnly size="sm" />   → just the mark
+//   <Logo href={null} />          → static (no link)
+//
+// The mark defaults to the absolute cocoindex.io asset so the lockup is byte-
+// identical on any surface regardless of base path; pass `src` to override.
+interface Props {
+  /** Link target. Pass null/'' to render a static <span> instead of an <a>. */
+  href?: string | null;
+  /** Mark height: sm 24 · md 28 · lg 36 px (wordmark scales to match). */
+  size?: 'sm' | 'md' | 'lg';
+  /** Render the mark only, without the wordmark. */
+  markOnly?: boolean;
+  /** Mark asset URL. */
+  src?: string;
+  class?: string;
+}
+const {
+  href = 'https://cocoindex.io/',
+  size = 'md',
+  markOnly = false,
+  src = 'https://cocoindex.io/images/cocoindex.svg',
+  class: className,
+} = Astro.props;
+
+const H = { sm: 24, md: 28, lg: 36 }[size] ?? 28;
+const W = Math.round((H * 220) / 240); // mark is 220×240 — keep the aspect ratio
+const cls = ['logo', `logo-${size}`, className].filter(Boolean).join(' ');
+const Tag = href ? 'a' : 'span';
+---
+<Tag class={cls} {...(href ? { href } : {})}>
+  <img src={src} alt={markOnly ? 'CocoIndex' : ''} width={W} height={H} decoding="async" />
+  {!markOnly && <span class="logo-word">CocoIndex</span>}
+</Tag>

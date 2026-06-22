@@ -21,6 +21,21 @@ CocoIndex's design primitives
 import { cocoindexCodeTheme } from '@cocoindex/brand/code-theme';
 ```
 
-See `package.json` `exports` for the full set: CSS primitives (tokens, base,
-buttons, tags, code-block, cards, nav, stars, footer, docs-chrome), `code-theme`,
-`copy-code`, and the `Footer` / `ExampleRepoCard` / `DocsLinkCard` Astro components.
+See `package.json` `exports` for the full set: CSS primitives (tokens, motion,
+logo, base, buttons, tags, code-block, cards, prose, nav, stars, footer,
+docs-chrome), `code-theme`, `copy-code`, and the `Logo` / `Nav` / `Footer` /
+`Stars` / `MobileSheet` / `ExampleRepoCard` / `DocsLinkCard` Astro components.
+
+`<Logo>` is the one brand lockup (mark + "CocoIndex" wordmark) — `size="sm|md|lg"`,
+`href` (omit/null → static), `markOnly`. Used by `Nav` and `Footer`; reach for it
+anywhere the brand appears. Buttons come in four sizes (`btn-sm`/md/`btn-lg`/`btn-xl`)
+and chips take the same `.t-sm`/`.t-lg` lever. `motion.css` holds the shared
+`coco-pulse` keyframe and `.u-press`/`.u-lift` utilities; the system runs on three
+duration tokens (`--dur-press`/`--dur-fast`/`--dur-slow`) and one `--ease`.
+
+## Design guide
+
+`design_guidelines/` is the living style guide — open `design_guidelines/index.html`.
+Every showcase page imports the real primitives above (through `ui/_shared.css`),
+so it can't drift from what ships. `design_guidelines/GUIDELINE.md` is the written
+law (tokens, color, type, component rules).

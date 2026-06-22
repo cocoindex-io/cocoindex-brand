@@ -3,6 +3,8 @@
      @import '@cocoindex/brand/components.css';
    Or cherry-pick the individual files. Every primitive here is token-only and
    surface-agnostic — safe on home, blog, and docs. */
+@import './motion.css';      /* durations, the coco-pulse keyframe, .u-press / .u-lift */
+@import './logo.css';        /* the CocoIndex mark + wordmark lockup (.logo) */
 @import './base.css';        /* admonitions / callouts */
 @import './buttons.css';     /* .btn system */
 @import './tags.css';        /* .t-pill / .t-category / .t-overlay / .t-status */

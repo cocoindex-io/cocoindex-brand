@@ -10,7 +10,7 @@
   min-width: 74px; justify-content: center;
   text-decoration: none; color: var(--maroon);
   cursor: pointer; -webkit-tap-highlight-color: transparent;
-  transition: border-color .2s var(--ease), background .2s var(--ease), color .2s var(--ease), transform .12s var(--ease);
+  transition: border-color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease), transform var(--dur-press) var(--ease);
 }
 .stars:hover {
   border-color: color-mix(in oklab, var(--coral) 45%, transparent);
@@ -25,6 +25,6 @@
   text-align: center; font-variant-numeric: tabular-nums;
 }
 @media (prefers-reduced-motion: reduce) {
-  .stars { transition: border-color .2s var(--ease), background .2s var(--ease), color .2s var(--ease); }
+  .stars { transition: border-color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease); }
   .stars:active { transform: none; }
 }

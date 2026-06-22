@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="robots" content="noindex, nofollow, noarchive"/>
+<title>CocoIndex — Color · Internal design system</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<link rel="stylesheet" href="./_shared.css">
+
+<style>
+  /* page-specific: palette grid + foundation pairs + accent demos */
+  .cover .swatch-row{ display: flex; gap: 8px; margin-top: 32px; flex-wrap: wrap; }
+  .cover .swatch-row span{
+    width: 24px; height: 24px; border-radius: 50%;
+    border: 1px solid var(--rule);
+    box-shadow: 0 2px 6px rgba(42,18,27,0.08);
+  }
+
+  .pal-grid{
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+    border-top: 1px solid var(--rule-strong);
+    border-left: 1px solid var(--rule-strong);
+  }
+  @media (min-width: 1100px){ .pal-grid{ grid-template-columns: repeat(6, 1fr); } }
+  .sw{
+    border-right: 1px solid var(--rule-strong);
+    border-bottom: 1px solid var(--rule-strong);
+    padding: 22px 18px;
+    display: flex; flex-direction: column; gap: 10px;
+    min-height: 200px; background: var(--paper);
+  }
+  .sw .chip{ width: 100%; aspect-ratio: 1.6/1; border-radius: 6px; border: 1px solid var(--rule); }
+  .sw .name{
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--maroon-ink);
+  }
+  .sw .hex{ font-family: var(--mono); font-size: 11px; color: var(--muted); }
+  .sw .role{ font-size: 13px; color: var(--maroon-ink); line-height: 1.4; }
+
+  .pair-grid{ display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .pair{
+    border-radius: 10px; overflow: hidden;
+    border: 1px solid var(--rule-strong);
+    display: flex; flex-direction: column;
+  }
+  .pair .demo{
+    padding: 40px 28px; min-height: 180px;
+    display: flex; flex-direction: column; justify-content: center; gap: 10px;
+  }
+  .pair .demo .hd{
+    font-family: var(--serif); font-weight: 400;
+    font-size: 30px; line-height: 1; letter-spacing: -0.03em; margin: 0;
+  }
+  .pair .demo .hd em{ font-style: italic; }
+  .pair .demo .tx{ font-size: 15px; line-height: 1.5; margin: 0; opacity: 0.85; }
+  .pair .demo .cap{
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; opacity: 0.75; margin: 0;
+  }
+  .pair .spec{
+    padding: 14px 20px; background: var(--cream-soft);
+    border-top: 1px solid var(--rule-strong);
+    font-family: var(--mono); font-size: 11px; line-height: 1.6;
+    color: var(--maroon-ink);
+  }
+  .pair .spec b{ color: var(--coral); font-weight: 500; }
+  .pair .spec .dim{ color: var(--muted); }
+
+  .p-paper-ink{ background: var(--paper); color: var(--maroon-ink); }
+  .p-paper-ink .hd em{ color: var(--coral); }
+  .p-cream-ink{ background: var(--cream); color: var(--maroon-ink); }
+  .p-cream-ink .hd em{ color: var(--coral); }
+  .p-cream-soft{ background: var(--cream-soft); color: var(--maroon-ink); }
+  .p-cream-soft .hd em{ color: var(--coral); }
+  .p-peach-ink{ background: var(--peach); color: var(--maroon-ink); }
+  .p-peach-ink .hd em{ color: var(--maroon); }
+  .p-maroon-cream{ background: var(--maroon); color: var(--cream); }
+  .p-maroon-cream .hd em{ color: var(--peach); }
+  .p-maroon-ink{ background: var(--maroon-ink); color: var(--cream); }
+  .p-maroon-ink .hd em{ color: var(--peach); }
+  .p-coral-cream{ background: var(--coral); color: var(--cream); }
+  .p-coral-cream .hd em{ color: var(--cream); }
+  .p-berry-cream{ background: var(--berry); color: var(--cream); }
+  .p-berry-cream .hd em{ color: var(--peach); }
+
+  .acc-grid{ display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .acc{
+    padding: 36px 32px; background: var(--paper);
+    border: 1px solid var(--rule-strong); border-radius: 10px;
+  }
+  .acc .hd{
+    font-family: var(--serif); font-weight: 400; line-height: 0.98;
+    font-size: clamp(32px, 4vw, 48px); letter-spacing: -0.03em;
+    margin: 0 0 14px;
+  }
+  .acc .hd em{ font-style: italic; }
+  .acc .note{
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--muted); margin: 0;
+  }
+  .acc.cor .hd em{ color: var(--coral); }
+  .acc.pea .hd em{ color: var(--peach); }
+  .acc.pnk .hd em{ color: var(--pink); }
+  .acc.pal .hd em{ color: var(--palm-ink); }
+
+  /* ─── code showcase — mirrors the blog's .code-figure chrome so this
+         page renders the "extract.py" card identically to a real post. */
+  .code-showcase{
+    margin: 40px 0 28px;
+    border-radius: 10px; overflow: hidden;
+    border: 1px solid rgba(42,18,27,0.2);
+    background: #2A121B;  /* maroon-ink — the brand's fenced-code surface */
+    box-shadow: 0 8px 32px rgba(42,18,27,0.08);
+  }
+  .code-showcase .bar{
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 20px;
+    background: rgba(252,243,216,0.04);
+    border-bottom: 1px solid rgba(252,243,216,0.08);
+  }
+  .code-showcase .bar .dots{ display: flex; gap: 6px; }
+  .code-showcase .bar .dots span{
+    width: 9px; height: 9px; border-radius: 50%;
+    background: rgba(252,243,216,0.18);
+  }
+  .code-showcase .bar .file{
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.04em;
+    color: rgba(252,243,216,0.55);
+  }
+  .code-showcase pre{
+    margin: 0; padding: 26px 28px;
+    font-family: var(--mono); font-size: 13.5px; line-height: 1.75;
+    color: #FCF3D8;  /* cream — default identifier ink */
+    overflow-x: auto;
+  }
+  /* Token palette on maroon-ink — ported from
+     design_guidelines/CocoIndex Design System (2)/preview/code-readability-check.html.
+     Softened against the pure-saturation brand accents so ten-line snippets
+     stay calm: coral → salmon, palm → mint, gold → muted-amber, lavender
+     tuned warmer. Punctuation uses dimmed cream instead of stone so it
+     recedes as a sibling of the identifier colour. */
+  .code-showcase .tk-cm{ color: #978A74; font-style: italic; }  /* comments */
+  .code-showcase .tk-kw{ color: #E59A63; }                       /* keywords */
+  .code-showcase .tk-dc{ color: #E59A63; }                       /* decorators */
+  .code-showcase .tk-fn{ color: #FF9B8A; }                       /* function names */
+  .code-showcase .tk-st{ color: #8EF09E; }                       /* strings */
+  .code-showcase .tk-nm{ color: #D4B86A; }                       /* numbers, True/False/None */
+  .code-showcase .tk-ty{ color: #C9A0FF; }                       /* types, classes */
+  .code-showcase .tk-pn{ color: #FCF3D8; opacity: 0.7; }         /* punctuation — dimmed cream */
+
+  /* Palette legend — one chip per token color, same grid language as
+     the .pal-grid above. */
+  .palette-key{
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 0; list-style: none; margin: 0; padding: 0;
+    border-top: 1px solid var(--rule-strong);
+    border-left: 1px solid var(--rule-strong);
+  }
+  .palette-key li{
+    display: flex; align-items: center; gap: 14px;
+    padding: 16px 20px;
+    border-right: 1px solid var(--rule-strong);
+    border-bottom: 1px solid var(--rule-strong);
+    background: var(--cream-soft);
+    font-family: var(--mono); font-size: 12px; line-height: 1.4;
+    color: var(--maroon-ink);
+  }
+  .palette-key .pk-chip{
+    width: 14px; height: 14px; border-radius: 3px; flex: none;
+    border: 1px solid rgba(42,18,27,0.18);
+  }
+  .palette-key .pk-name{
+    font-weight: 500; color: var(--maroon-ink);
+    min-width: 60px;
+  }
+  .palette-key .pk-role{ color: var(--muted); }
+  .palette-key .pk-exception{ color: var(--coral); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; margin-left: 4px; }
+
+  @media (max-width: 780px){
+    .pair-grid{ grid-template-columns: 1fr; }
+    .acc-grid{ grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <aside class="aside">
+    <div class="brand">
+      <a class="logo logo-md" href="../index.html"><img src="../assets/cocoindex.svg" alt="" width="26" height="28" decoding="async" /><span class="logo-word">CocoIndex</span></a>
+      <span class="kicker">Design system · Internal</span>
+    </div>
+    <nav class="side-nav" aria-label="Design system sections">
+      <a href="../index.html">Overview</a>
+      <a href="./buttons.html">Buttons</a>
+      <a href="./tags.html">Tags</a>
+      <a href="./admonitions.html">Admonitions</a>
+      <a href="./docs-link-card.html">Docs link card</a>
+      <a href="./example-repo-card.html">Example repo card</a>
+      <a href="./hamburger-toc.html">Hamburger / TOC</a>
+      <a href="./typography.html">Typography</a>
+      <a href="./color.html" aria-current="page">Color</a>
+      <a href="./cover-image.html">Blog cover image</a>
+    </nav>
+    <div class="foot">v1 · local only</div>
+  </aside>
+
+  <main class="main">
+    <header class="cover">
+      <div class="wrap">
+        <div class="eyebrow">Page guideline · Color</div>
+        <h1 class="cover-h">Four pairings, <em>one</em> warm palette.</h1>
+        <p class="lead">Warm maroon ink on cream paper is the baseline. Coral, peach, and pink carry emphasis. Palm is reserved for "live" signals. This page documents which colors to stack on which — the combinations that already work on every CocoIndex page, distilled.</p>
+        <div class="swatch-row" aria-hidden="true">
+          <span style="background:var(--paper);"></span>
+          <span style="background:var(--cream);"></span>
+          <span style="background:var(--cream-soft);"></span>
+          <span style="background:var(--peach);"></span>
+          <span style="background:var(--coral);"></span>
+          <span style="background:var(--pink);"></span>
+          <span style="background:var(--maroon);"></span>
+          <span style="background:var(--maroon-ink);"></span>
+          <span style="background:var(--berry);"></span>
+          <span style="background:var(--palm);"></span>
+          <span style="background:var(--palm-ink);"></span>
+          <span style="background:var(--gold);"></span>
+          <span style="background:var(--lavender);"></span>
+        </div>
+      </div>
+    </header>
+
+    <section id="palette">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="idx">01 — Palette</span>
+          <div>
+            <h2>Twelve swatches. <em>Warm</em> by default.</h2>
+            <p class="lead">Every color is warm — no cool grays, no pure white, no pure black. The cream-and-maroon foundation is the voice; the four accents are how it sings.</p>
+          </div>
+        </div>
+
+        <div class="pal-grid">
+          <div class="sw"><div class="chip" style="background:var(--paper);"></div><span class="name">Paper</span><span class="hex">#FBF6E8</span><span class="role">Default page background</span></div>
+          <div class="sw"><div class="chip" style="background:var(--cream);"></div><span class="name">Cream</span><span class="hex">#FCF3D8</span><span class="role">Section fills, cards on paper</span></div>
+          <div class="sw"><div class="chip" style="background:var(--cream-soft);"></div><span class="name">Cream Soft</span><span class="hex">#F6F4E9</span><span class="role">Subtle fills, muted cards</span></div>
+          <div class="sw"><div class="chip" style="background:var(--peach);"></div><span class="name">Peach</span><span class="hex">#E59A63</span><span class="role">Support, secondary accent, chips</span></div>
+          <div class="sw"><div class="chip" style="background:var(--coral);"></div><span class="name">Coral</span><span class="hex">#BE5133</span><span class="role">Primary accent, CTAs, italic em</span></div>
+          <div class="sw"><div class="chip" style="background:var(--pink);"></div><span class="name">Pink</span><span class="hex">#FB6A76</span><span class="role">Spot accent, avatars, playful</span></div>
+
+          <div class="sw"><div class="chip" style="background:var(--maroon);"></div><span class="name">Maroon</span><span class="hex">#532638</span><span class="role">Primary ink, brand, dark fills</span></div>
+          <div class="sw"><div class="chip" style="background:var(--maroon-deep);"></div><span class="name">Maroon Deep</span><span class="hex">#401E2B</span><span class="role">Hover state for maroon fills</span></div>
+          <div class="sw"><div class="chip" style="background:var(--maroon-ink);"></div><span class="name">Maroon Ink</span><span class="hex">#2A121B</span><span class="role">Body text, fenced code blocks</span></div>
+          <div class="sw"><div class="chip" style="background:var(--berry);"></div><span class="name">Berry</span><span class="hex">#6A1E23</span><span class="role">Inline code text, deep accent</span></div>
+          <div class="sw"><div class="chip" style="background:var(--palm);"></div><span class="name">Palm</span><span class="hex">#27E62B</span><span class="role">Live signal on dark bg only</span></div>
+          <div class="sw"><div class="chip" style="background:var(--palm-ink);"></div><span class="name">Palm Ink</span><span class="hex">#16A534</span><span class="role">Live signal on light bg (a11y)</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="foundations">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="idx">02 — Foundations</span>
+          <div>
+            <h2>Canvas <em>plus</em> ink. Eight combinations.</h2>
+            <p class="lead">The foundation is just "what text goes on what background." Four light-on-dark and four dark-on-light pairings cover every page, card, and block.</p>
+          </div>
+        </div>
+
+        <div class="pair-grid">
+          <div class="pair">
+            <div class="demo p-paper-ink">
+              <p class="cap">Default page</p>
+              <h3 class="hd">Paper &amp; <em>ink</em>.</h3>
+              <p class="tx">The most-used pairing. Body copy, navigation, structural chrome.</p>
+            </div>
+            <div class="spec"><span class="dim">bg </span><b>paper</b> <span class="dim">· text </span><b>maroon-ink</b> <span class="dim">· em </span><b>coral</b></div>
+          </div>
+
+          <div class="pair">
+            <div class="demo p-cream-ink">
+              <p class="cap">Filled section</p>
+              <h3 class="hd">Cream &amp; <em>ink</em>.</h3>
+              <p class="tx">Section breaks, cards on paper, inline code chips.</p>
+            </div>
+            <div class="spec"><span class="dim">bg </span><b>cream</b> <span class="dim">· text </span><b>maroon-ink</b> <span class="dim">· em </span><b>coral</b></div>
+          </div>
+
+          <div class="pair">
+            <div class="demo p-cream-soft">
+              <p class="cap">Subtle card</p>
+              <h3 class="hd">Cream soft.</h3>
+              <p class="tx">A half-step fill when you want separation without announcing it.</p>
+            </div>
+            <div class="spec"><span class="dim">bg </span><b>cream-soft</b> <span class="dim">· text </span><b>maroon-ink</b> <span class="dim">· em </span><b>coral</b></div>
+          </div>
+
+          <div class="pair">
+            <div class="demo p-peach-ink">
+              <p class="cap">Warm accent</p>
+              <h3 class="hd">Peach &amp; <em>ink</em>.</h3>
+              <p class="tx">Feature chips, step markers, ornamental cards — sparingly.</p>
+            </div>
+            <div class="spec"><span class="dim">bg </span><b>peach</b> <span class="dim">· text </span><b>maroon-ink</b> <span class="dim">· em </span><b>maroon</b></div>
+          </div>
+
+          <div class="pair">
+            <div class="demo p-maroon-cream">
+              <p class="cap">Brand fill</p>
+              <h3 class="hd">Maroon &amp; <em>cream</em>.</h3>
+              <p class="tx">Dark cards, hero-side panels, primary fills below CTAs.</p>
+            </div>
+            <div class="spec"><span class="dim">bg </span><b>maroon</b> <span class="dim">· text </span><b>cream</b> <span class="dim">· em </span><b>peach</b></div>
+          </div>
+
+          <div class="pair">
+            <div class="demo p-maroon-ink">
+              <p class="cap">Darkest panel</p>
+              <h3 class="hd">Maroon ink &amp; <em>cream</em>.</h3>
+              <p class="tx">Code blocks, terminal cards, quote panels. The dark anchor.</p>
+            </div>
+            <div class="spec"><span class="dim">bg </span><b>maroon-ink</b> <span class="dim">· text </span><b>cream</b> <span class="dim">· em </span><b>peach</b></div>
+          </div>
+
+          <div class="pair">
+            <div class="demo p-coral-cream">
+              <p class="cap">Primary CTA</p>
+              <h3 class="hd">Coral &amp; <em>cream</em>.</h3>
+              <p class="tx">The one button people click. Never for long-form text.</p>
+            </div>
+            <div class="spec"><span class="dim">bg </span><b>coral</b> <span class="dim">· text </span><b>cream</b> <span class="dim">· em </span><b>cream</b></div>
+          </div>
+
+          <div class="pair">
+            <div class="demo p-berry-cream">
+              <p class="cap">Deep accent</p>
+              <h3 class="hd">Berry &amp; <em>cream</em>.</h3>
+              <p class="tx">Quote backgrounds, editorial asides, rare emphasis blocks.</p>
+            </div>
+            <div class="spec"><span class="dim">bg </span><b>berry</b> <span class="dim">· text </span><b>cream</b> <span class="dim">· em </span><b>peach</b></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="accents">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="idx">03 — Accents</span>
+          <div>
+            <h2>Italic <em>em</em>, one color at a time.</h2>
+            <p class="lead">Every serif hero has one italic word. That word gets an accent color — which one depends on the surrounding canvas. On light bg, coral is default. On dark bg, peach takes over. Pink and palm-ink are the rare spices.</p>
+          </div>
+        </div>
+
+        <div class="acc-grid">
+          <div class="acc cor">
+            <p class="hd">Continuously <em>fresh</em> context.</p>
+            <p class="note">Coral · default accent on light canvases</p>
+          </div>
+          <div class="acc pea">
+            <p class="hd">One coconut, <em>infinite</em> reuse.</p>
+            <p class="note">Peach · section emphasis + accent on dark canvases</p>
+          </div>
+          <div class="acc pnk">
+            <p class="hd">Hello, <em>coco</em>.</p>
+            <p class="note">Pink · playful moments, avatars, seasonal</p>
+          </div>
+          <div class="acc pal">
+            <p class="hd">94% cache <em>hit</em>.</p>
+            <p class="note">Palm Ink · live signals, run status on light bg</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="code">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="idx">04 — Code</span>
+          <div>
+            <h2>Two surfaces, <em>never</em> mixed.</h2>
+            <p class="lead">Inline code sits inside prose — it gets a soft coral wash so it tags a word without breaking reading rhythm. Fenced blocks stand alone — they get the maroon-ink panel, the darkest surface in the system.</p>
+          </div>
+        </div>
+
+        <div class="rules-grid">
+          <div class="rule">
+            <span class="tag do">Do</span>
+            <h4><em>Inline</em> code — coral wash + berry ink.</h4>
+            <p>A paragraph mentioning <code>flow_builder.add_source</code> stays readable. Background is <code>rgba(190,81,51,0.12)</code>, text is <code>var(--berry)</code>, font 13px mono, 1&thinsp;/&thinsp;6 padding, 3px radius. Used in prose on the blog, docs, and these guideline pages.</p>
+          </div>
+          <div class="rule">
+            <span class="tag do">Do</span>
+            <h4><em>Block</em> code — maroon-ink panel + cream ink.</h4>
+            <p>Every <code>&lt;pre&gt;</code>, every <code>.tokens</code> demo, every Shiki-rendered snippet lands on <code>var(--maroon-ink)</code> (#2A121B). Cream text, peach/pink/palm syntax tokens. One dark surface for all fenced code, site-wide.</p>
+          </div>
+          <div class="rule">
+            <span class="tag dont">Don't</span>
+            <h4>Don't put <em>inline</em> chips on maroon-ink.</h4>
+            <p>A maroon-ink pill inside flowing prose punches a black hole. The coral wash reads as emphasis; the dark panel reads as a separate object — reserve it for standalone blocks, never mid-sentence.</p>
+          </div>
+          <div class="rule">
+            <span class="tag dont">Don't</span>
+            <h4>Don't wash <em>block</em> code with coral.</h4>
+            <p>The translucent coral is tuned for 1–3 tokens inside a paragraph. At 10+ lines it flattens syntax colors and fails contrast. Block code gets the maroon-ink anchor — always.</p>
+          </div>
+        </div>
+
+        <!-- Large showcase — renders identically to the blog's .code-figure.
+             Token palette is brand-warm first; lavender + gold are the only
+             exceptions, added so types and numbers read distinctly. -->
+        <div class="code-showcase">
+          <div class="bar">
+            <div class="dots"><span></span><span></span><span></span></div>
+            <div class="file">extract.py</div>
+          </div>
+<pre><span class="tk-dc">@coco.fn</span>(<span class="tk-kw">memo</span>=<span class="tk-nm">True</span>)
+<span class="tk-kw">async def</span> <span class="tk-fn">extract_metadata</span>(
+    reformatted_transcript: <span class="tk-ty">str</span>, transcript: <span class="tk-ty">SessionTranscript</span>
+) -&gt; <span class="tk-ty">SessionMetadata</span>:
+    <span class="tk-cm"># Structured extraction via instructor — one round-trip per transcript.</span>
+    client = instructor.<span class="tk-fn">from_litellm</span>(litellm.acompletion, mode=instructor.Mode.JSON)
+    <span class="tk-kw">return await</span> client.chat.completions.<span class="tk-fn">create</span>(
+        model=coco.<span class="tk-fn">use_context</span>(<span class="tk-ty">LLM_MODEL</span>),
+        response_model=<span class="tk-ty">SessionMetadata</span>,
+        temperature=<span class="tk-nm">0.2</span>,
+        max_retries=<span class="tk-nm">3</span>,
+        messages=[
+            {<span class="tk-st">"role"</span>: <span class="tk-st">"system"</span>, <span class="tk-st">"content"</span>: <span class="tk-ty">METADATA_PROMPT</span>}<span class="tk-pn">,</span>
+            {<span class="tk-st">"role"</span>: <span class="tk-st">"user"</span>, <span class="tk-st">"content"</span>:
+                <span class="tk-st">f"YouTube channel: {transcript.yt_channel}\n"</span>
+                <span class="tk-st">f"Video title: {transcript.yt_title}\n"</span>
+                <span class="tk-st">f"Description: {transcript.yt_description or 'N/A'}\n\n"</span>
+                <span class="tk-st">f"Transcript:\n{reformatted_transcript}"</span>}<span class="tk-pn">,</span>
+        ]<span class="tk-pn">,</span>
+    )</pre>
+        </div>
+
+        <ul class="palette-key" aria-label="Syntax token palette">
+          <li><span class="pk-chip" style="background:#FCF3D8"></span><span class="pk-name">Cream</span><span class="pk-role">identifiers, default text</span></li>
+          <li><span class="pk-chip" style="background:#E59A63"></span><span class="pk-name">Peach</span><span class="pk-role">keywords, decorators</span></li>
+          <li><span class="pk-chip" style="background:#FF9B8A"></span><span class="pk-name">Salmon</span><span class="pk-role">function names</span></li>
+          <li><span class="pk-chip" style="background:#8EF09E"></span><span class="pk-name">Mint</span><span class="pk-role">strings, f-strings</span></li>
+          <li><span class="pk-chip" style="background:#D4B86A;border-color:rgba(42,18,27,0.24)"></span><span class="pk-name">Amber</span><span class="pk-role">numbers, True · False · None</span></li>
+          <li><span class="pk-chip" style="background:#C9A0FF"></span><span class="pk-name">Lavender</span><span class="pk-role">types, classes</span><span class="pk-exception">Cool exception</span></li>
+          <li><span class="pk-chip" style="background:#978A74"></span><span class="pk-name">Taupe</span><span class="pk-role">comments (italic)</span></li>
+          <li><span class="pk-chip" style="background:#FCF3D8;opacity:0.7"></span><span class="pk-name">Cream · dim</span><span class="pk-role">punctuation</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="tokens" class="dark">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="idx">05 — Tokens</span>
+          <div>
+            <h2>Drop these into <em>:root</em>.</h2>
+            <p class="lead">The full CSS custom-property set for color. Reference these tokens — never the raw hex — so future palette shifts stay one-file changes.</p>
+          </div>
+        </div>
+
+<pre class="tokens"><span class="c">/* foundation — canvas + ink */</span>
+<span class="k">--paper</span>:       <span class="v">#FBF6E8</span>;  <span class="c">/* default page bg */</span>
+<span class="k">--cream</span>:       <span class="v">#FCF3D8</span>;  <span class="c">/* filled section bg */</span>
+<span class="k">--cream-soft</span>:  <span class="v">#F6F4E9</span>;  <span class="c">/* muted card bg */</span>
+<span class="k">--maroon</span>:      <span class="v">#532638</span>;  <span class="c">/* brand ink, dark fill */</span>
+<span class="k">--maroon-deep</span>: <span class="v">#401E2B</span>;  <span class="c">/* maroon hover */</span>
+<span class="k">--maroon-ink</span>:  <span class="v">#2A121B</span>;  <span class="c">/* body text, darkest bg */</span>
+
+<span class="c">/* accents */</span>
+<span class="k">--coral</span>: <span class="v">#BE5133</span>;  <span class="c">/* primary accent, CTA, em on light */</span>
+<span class="k">--peach</span>: <span class="v">#E59A63</span>;  <span class="c">/* secondary accent, em on dark */</span>
+<span class="k">--pink</span>:  <span class="v">#FB6A76</span>;  <span class="c">/* spot accent, playful */</span>
+<span class="k">--berry</span>: <span class="v">#6A1E23</span>;  <span class="c">/* inline code text, deep accent */</span>
+
+<span class="c">/* signals */</span>
+<span class="k">--palm</span>:     <span class="v">#27E62B</span>;  <span class="c">/* live on dark bg */</span>
+<span class="k">--palm-ink</span>: <span class="v">#16A534</span>;  <span class="c">/* live on light bg (a11y) */</span>
+
+<span class="c">/* semantic — borders + muted text */</span>
+<span class="k">--rule</span>:        <span class="s">rgba(42,18,27,0.14)</span>;  <span class="c">/* subtle divider */</span>
+<span class="k">--rule-strong</span>: <span class="s">rgba(42,18,27,0.35)</span>;  <span class="c">/* strong divider, outlines */</span>
+<span class="k">--muted</span>:       <span class="s">rgba(42,18,27,0.58)</span>;  <span class="c">/* secondary text */</span></pre>
+      </div>
+    </section>
+  </main>
+</div>
+
+</body>
+</html>

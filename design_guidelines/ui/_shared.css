@@ -1,0 +1,182 @@
+/* ──────────────────────────────────────────────────────────
+   Style-guide chrome — the page furniture for the UI reference pages
+   (buttons.html, tags.html, typography.html, color.html, …).
+
+   ONE PRIMITIVE SOURCE: every token, button, tag, card, callout, code and
+   prose style is imported live from the package below — this file no longer
+   mirrors them, so the showcase can't drift from what ships. What's left here
+   is only the guide's own layout (sidebar shell, cover, section heads, do/don't
+   grid, the .tokens syntax demo). The pages live inside @cocoindex/brand now, so
+   the relative imports resolve over file:// too; fonts still load from
+   ../assets/fonts/fonts.css (self-hosted WOFF2) for file:// rendering.
+   ──────────────────────────────────────────────────────── */
+@import url("../../tokens.css");      /* :root design tokens (single source) */
+@import url("../../components.css");  /* buttons · tags · cards · callouts · code · prose · nav · stars · footer */
+
+/* ── base reset (the package styles primitives, not the page) ── */
+*{ box-sizing: border-box; }
+html, body{ margin: 0; padding: 0; background: var(--paper); color: var(--maroon-ink); }
+body{ font-family: var(--sans); font-size: 17px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+a{ color: inherit; }
+
+/* Breakpoints (documented; CSS custom props can't be used in @media, so these
+   are the canonical values to hard-code):
+     1120px · docs drops the right TOC   ·   900px · marketing collapses nav
+     820px  · docs drops the left sidebar
+   Standardize on 1120 / 900 / 600 unless a surface has a structural reason. */
+
+/* ───── shell (sidebar + main) ───── */
+.shell{ display: grid; grid-template-columns: 240px 1fr; min-height: 100vh; }
+.aside{
+  position: sticky; top: 0; height: 100vh; overflow-y: auto;
+  background: var(--cream-soft); border-right: 1px solid var(--rule);
+  padding: 32px 24px;
+  display: flex; flex-direction: column; gap: 32px;
+}
+.aside .brand{ display: flex; flex-direction: column; gap: 4px; }
+.aside .brand .name{ font-family: var(--sans); font-weight: 600; font-size: 17px; letter-spacing: -0.02em; }
+.aside .brand .kicker{
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--muted);
+}
+.aside .side-nav{ display: flex; flex-direction: column; gap: 2px; }
+.aside .side-nav a{
+  padding: 8px 12px;
+  font-family: var(--sans); font-size: 14px; font-weight: 500;
+  color: var(--maroon-ink); text-decoration: none;
+  border-radius: var(--r-sm);
+  transition: background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
+}
+.aside .side-nav a:hover{ background: var(--cream); color: var(--maroon); }
+.aside .side-nav a[aria-current="page"]{
+  background: color-mix(in oklab, var(--coral) 14%, transparent);
+  color: var(--coral);
+}
+.aside .foot{
+  margin-top: auto;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--muted);
+}
+/* The stars pill in the sidebar foot is the package's .stars (stars.css);
+   the count is filled by _shared.js. No styling needed here. */
+.main{ width: 100%; }
+.wrap{ max-width: 1100px; margin: 0 auto; padding: 0 clamp(24px, 4vw, 56px); }
+
+/* ───── cover ───── */
+.cover{ padding: 72px 0 56px; border-bottom: 1px solid var(--rule); }
+.cover .eyebrow{
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--coral); margin-bottom: 24px;
+}
+h1.cover-h{
+  font-family: var(--serif); font-weight: 400;
+  font-size: clamp(48px, 6.4vw, 96px);
+  line-height: 0.98; letter-spacing: -0.03em;
+  margin: 0 0 22px; max-width: 16ch;
+}
+h1.cover-h em{ font-style: italic; color: var(--coral); }
+.cover .lead{
+  font-size: clamp(17px, 1.4vw, 20px); line-height: 1.55; letter-spacing: -0.005em;
+  max-width: 62ch; color: var(--maroon-ink);
+}
+
+/* ───── section head ───── */
+section{ padding: 72px 0; border-bottom: 1px solid var(--rule); }
+section:last-of-type{ border-bottom: none; }
+.sec-head{
+  margin-bottom: 48px;
+  display: grid; grid-template-columns: 120px 1fr; gap: 32px; align-items: start;
+}
+.sec-head .idx{
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--coral); padding-top: 14px;
+}
+.sec-head h2{
+  font-family: var(--sans); font-weight: 600;
+  font-size: clamp(28px, 3.2vw, 44px);
+  line-height: 1.05; letter-spacing: -0.03em;
+  margin: 0 0 14px; max-width: 24ch;
+}
+.sec-head h2 em{ font-style: italic; color: var(--coral); }
+.sec-head .lead{
+  font-size: clamp(16px, 1.3vw, 19px); color: var(--maroon-ink); max-width: 62ch;
+  line-height: 1.55; letter-spacing: -0.005em; margin: 0;
+}
+
+/* ───── rules (do/don't) — shared across pages ───── */
+.rules-grid{
+  display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+  border-top: 1px solid var(--rule-strong);
+  border-left: 1px solid var(--rule-strong);
+}
+.rule{
+  padding: 28px 32px;
+  border-right: 1px solid var(--rule-strong);
+  border-bottom: 1px solid var(--rule-strong);
+  background: var(--cream-soft);
+}
+.rule h4{
+  font-family: var(--sans); font-weight: 600; font-size: 19px; line-height: 1.3;
+  letter-spacing: -0.015em; margin: 0 0 10px;
+}
+.rule h4 em{ font-style: italic; color: var(--coral); }
+.rule p{ font-size: 14px; line-height: 1.55; margin: 0; color: var(--maroon-ink); }
+.rule .tag{
+  display: inline-block; font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em;
+  text-transform: uppercase; padding: 4px 8px; border-radius: var(--r-xs); margin-bottom: 14px;
+}
+.rule .tag.do{ background: color-mix(in oklab, var(--palm) 18%, transparent); color: var(--maroon-ink); }
+.rule .tag.dont{ background: color-mix(in oklab, var(--coral) 16%, transparent); color: var(--coral); }
+
+/* ───── tokens (syntax-highlighted code demo — guide-only markup) ─────
+   Bespoke `.tokens .c/.k/.fn/…` spans, painted with the readability-tuned
+   --code-* palette that ships in @cocoindex/brand (code-theme.mjs → Shiki,
+   code-block.css) so the demo matches live blog/docs code. The literals mirror
+   tokens.json `code`; keep in sync with color.html § 04. */
+.tokens{
+  background: var(--code-bg); color: var(--code-fg);
+  border-radius: var(--r-lg); padding: 28px 32px;
+  font-family: var(--mono); font-size: 13px; line-height: 1.8;
+  overflow-x: auto;
+}
+.tokens .c{ color: var(--code-comment); font-style: italic; } /* comment   */
+.tokens .k{ color: var(--code-keyword); }     /* keyword   */
+.tokens .v{ color: var(--code-string); }      /* string    */
+.tokens .s{ color: var(--code-string); }      /* string    */
+.tokens .fn{ color: var(--code-function); }   /* function  */
+.tokens .num{ color: var(--code-number); }    /* number    */
+.tokens .ty{ color: var(--code-type); }       /* type      */
+.tokens .dec{ color: var(--code-decorator); } /* decorator */
+.tokens .pn{ color: var(--code-punctuation); }/* punct     */
+
+/* dark-variant section (used on the color tokens block) */
+section.dark{
+  background: var(--maroon-ink); color: var(--cream);
+  border-bottom-color: color-mix(in oklab, var(--cream) 14%, transparent);
+}
+section.dark .sec-head .idx{ color: var(--peach); }
+section.dark .sec-head h2{ color: var(--cream); }
+section.dark .sec-head h2 em{ color: var(--peach); }
+section.dark .sec-head .lead{ color: color-mix(in oklab, var(--cream) 78%, transparent); }
+section.dark .tokens{
+  background: transparent;
+  border: 1px solid color-mix(in oklab, var(--cream) 18%, transparent);
+}
+
+/* ───── responsive ───── */
+@media (max-width: 900px){
+  .shell{ grid-template-columns: 1fr; }
+  .aside{
+    position: static; height: auto;
+    flex-direction: row; padding: 16px 20px; gap: 16px;
+    border-right: none; border-bottom: 1px solid var(--rule);
+    flex-wrap: wrap; align-items: center;
+  }
+  .aside .foot{ margin-top: 0; margin-left: auto; }
+  .aside .side-nav{ flex-direction: row; gap: 4px; }
+  .sec-head{ grid-template-columns: 1fr; gap: 12px; }
+  .rules-grid{ grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce){
+  .aside .side-nav a{ transition: none; }
+}

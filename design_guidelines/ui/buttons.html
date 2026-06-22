@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="robots" content="noindex, nofollow, noarchive"/>
+<title>CocoIndex — Buttons · Internal design system</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<link rel="stylesheet" href="./_shared.css">
+
+<style>
+  /* page-specific — button demo grid + rule demos */
+  .btn-grid{
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 0;
+    border-top: 1px solid var(--rule-strong);
+    border-left: 1px solid var(--rule-strong);
+  }
+  @media (max-width: 980px){ .btn-grid{ grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px){ .btn-grid{ grid-template-columns: 1fr; } }
+  .btn-cell{
+    border-right: 1px solid var(--rule-strong);
+    border-bottom: 1px solid var(--rule-strong);
+    padding: 32px 28px 22px; background: var(--cream-soft);
+    display: flex; flex-direction: column; gap: 20px; min-height: 160px;
+  }
+  .btn-cell .btn-meta{ display: flex; flex-direction: column; gap: 4px; margin-top: auto; }
+  .btn-cell .btn-meta .role{
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--coral);
+  }
+  .btn-cell .btn-meta .desc{ font-family: var(--sans); font-size: 13px; color: var(--muted); line-height: 1.5; }
+  .btn-row{ display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+  .btn-rows{ display: flex; flex-direction: column; gap: 16px; }
+  .btn-sub{
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--muted); margin-top: 4px;
+  }
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <aside class="aside">
+    <div class="brand">
+      <a class="logo logo-md" href="../index.html"><img src="../assets/cocoindex.svg" alt="" width="26" height="28" decoding="async" /><span class="logo-word">CocoIndex</span></a>
+      <span class="kicker">Design system · Internal</span>
+    </div>
+    <nav class="side-nav" aria-label="Design system sections">
+      <a href="../index.html">Overview</a>
+      <a href="./buttons.html" aria-current="page">Buttons</a>
+      <a href="./tags.html">Tags</a>
+      <a href="./admonitions.html">Admonitions</a>
+      <a href="./docs-link-card.html">Docs link card</a>
+      <a href="./example-repo-card.html">Example repo card</a>
+      <a href="./hamburger-toc.html">Hamburger / TOC</a>
+      <a href="./typography.html">Typography</a>
+      <a href="./color.html">Color</a>
+      <a href="./cover-image.html">Blog cover image</a>
+    </nav>
+    <div class="foot">v1 · local only</div>
+  </aside>
+
+  <main class="main">
+    <header class="cover">
+      <div class="wrap">
+        <div class="eyebrow">Page guideline · Buttons</div>
+        <h1 class="cover-h">One base, <em>six</em> variants.</h1>
+        <p class="lead">A single <code>.btn</code> class carries the structural shape. Variants, sizes, and shape modifiers compose on top. Focus ring and disabled state are built in. Every token resolves from the brand palette.</p>
+      </div>
+    </header>
+
+    <section id="variants">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="idx">01 — Variants</span>
+          <div>
+            <h2>Six <em>shapes</em> of intent.</h2>
+            <p class="lead">Use <code>btn-coral</code> for the single most important action on a view. Use <code>btn-primary</code> (maroon) for secondary emphasis. Everything else de-escalates from there.</p>
+          </div>
+        </div>
+
+        <div class="btn-grid">
+          <div class="btn-cell">
+            <div class="btn-row"><a href="#" class="btn btn-coral">Start indexing</a></div>
+            <div class="btn-meta"><span class="role">btn-coral</span><span class="desc">Primary CTA · highest priority</span></div>
+          </div>
+          <div class="btn-cell">
+            <div class="btn-row"><a href="#" class="btn btn-primary">Read the docs</a></div>
+            <div class="btn-meta"><span class="role">btn-primary</span><span class="desc">Maroon fill · secondary emphasis</span></div>
+          </div>
+          <div class="btn-cell">
+            <div class="btn-row"><a href="#" class="btn btn-outline">View on GitHub</a></div>
+            <div class="btn-meta"><span class="role">btn-outline</span><span class="desc">Default outline · supporting action</span></div>
+          </div>
+          <div class="btn-cell">
+            <div class="btn-row"><a href="#" class="btn btn-outline-muted">Visit the blog</a></div>
+            <div class="btn-meta"><span class="role">btn-outline-muted</span><span class="desc">Muted outline · tertiary</span></div>
+          </div>
+          <div class="btn-cell">
+            <div class="btn-row"><a href="#" class="btn btn-ghost">Learn more</a></div>
+            <div class="btn-meta"><span class="role">btn-ghost</span><span class="desc">Borderless · low-emphasis inline</span></div>
+          </div>
+          <div class="btn-cell">
+            <div class="btn-row"><a href="#" class="btn btn-mono">View source</a></div>
+            <div class="btn-meta"><span class="role">btn-mono</span><span class="desc">Mono UPPERCASE · meta, tools</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="sizes">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="idx">02 — Sizes</span>
+          <div>
+            <h2>Small · medium · large · <em>extra-large</em>.</h2>
+            <p class="lead">Four real steps, one type + padding rhythm. <code>btn-sm</code> (12px) for inline actions and card footers · default <code>md</code> (14px) is the workhorse · <code>btn-lg</code> (16px) for prominent secondary actions · <code>btn-xl</code> (18px) is the hero scale.</p>
+          </div>
+        </div>
+
+        <div class="btn-rows">
+          <div class="btn-row">
+            <a href="#" class="btn btn-coral btn-sm">Small</a>
+            <a href="#" class="btn btn-coral">Medium</a>
+            <a href="#" class="btn btn-coral btn-lg">Large</a>
+            <a href="#" class="btn btn-coral btn-xl">Extra-large</a>
+          </div>
+          <div class="btn-row">
+            <a href="#" class="btn btn-outline btn-sm">Small</a>
+            <a href="#" class="btn btn-outline">Medium</a>
+            <a href="#" class="btn btn-outline btn-lg">Large</a>
+            <a href="#" class="btn btn-outline btn-xl">Extra-large</a>
+          </div>
+          <div class="btn-row">
+            <a href="#" class="btn btn-mono btn-sm">Small</a>
+            <a href="#" class="btn btn-mono">Medium</a>
+            <a href="#" class="btn btn-mono btn-lg">Large</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="shape">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="idx">03 — Shape</span>
+          <div>
+            <h2>Pill, or <em>rounded</em>.</h2>
+            <p class="lead">Pill (<code>999px</code>) is the default — brand-warm. Use <code>btn-rounded</code> (<code>8px</code>) inside rectangular layouts like data cards or pager tiles.</p>
+          </div>
+        </div>
+
+        <div class="btn-row">
+          <a href="#" class="btn btn-primary">Pill · default</a>
+          <a href="#" class="btn btn-primary btn-rounded">Rounded · 8px</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="icons">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="idx">04 — Icons</span>
+          <div>
+            <h2>Icon + label, or <em>icon-only</em>.</h2>
+            <p class="lead">Icons live inside the button as children — <code>gap</code> handles spacing. For icon-only buttons, <b>always</b> include <code>aria-label</code>.</p>
+          </div>
+        </div>
+
+        <div class="btn-rows">
+          <div class="btn-row">
+            <a href="#" class="btn btn-coral">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.7.5.7 5.6.7 11.9c0 5 3.3 9.3 7.8 10.8.6.1.8-.2.8-.6v-2c-3.2.7-3.8-1.4-3.8-1.4-.5-1.3-1.2-1.6-1.2-1.6-1-.7.1-.7.1-.7 1.1.1 1.7 1.2 1.7 1.2 1 1.7 2.6 1.2 3.2.9.1-.7.4-1.2.7-1.5-2.5-.3-5.2-1.3-5.2-5.8 0-1.3.4-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2.9-.3 1.9-.4 2.9-.4s2 .1 2.9.4c2.2-1.5 3.2-1.2 3.2-1.2.6 1.6.2 2.8.1 3.1.7.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.2 5.8.4.4.8 1.1.8 2.2v3.2c0 .3.2.7.8.6 4.5-1.5 7.8-5.8 7.8-10.8C23.3 5.6 18.3.5 12 .5Z"/></svg>
+              Star on GitHub
+            </a>
+            <a href="#" class="btn btn-outline">
+              Continue
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a href="#" class="btn btn-mono">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M5 15V5a2 2 0 0 1 2-2h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+              Copy
+            </a>
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-outline btn-icon" aria-label="Copy snippet">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M5 15V5a2 2 0 0 1 2-2h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+            </button>
+            <button class="btn btn-primary btn-icon btn-icon-circle" aria-label="Next slide">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <button class="btn btn-outline-muted btn-icon btn-sm" aria-label="Dismiss">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </button>
+            <button class="btn btn-coral btn-icon btn-lg" aria-label="Open GitHub">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.7.5.7 5.6.7 11.9c0 5 3.3 9.3 7.8 10.8.6.1.8-.2.8-.6v-2c-3.2.7-3.8-1.4-3.8-1.4-.5-1.3-1.2-1.6-1.2-1.6-1-.7.1-.7.1-.7 1.1.1 1.7 1.2 1.7 1.2 1 1.7 2.6 1.2 3.2.9.1-.7.4-1.2.7-1.5-2.5-.3-5.2-1.3-5.2-5.8 0-1.3.4-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2.9-.3 1.9-.4 2.9-.4s2 .1 2.9.4c2.2-1.5 3.2-1.2 3.2-1.2.6 1.6.2 2.8.1 3.1.7.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.2 5.8.4.4.8 1.1.8 2.2v3.2c0 .3.2.7.8.6 4.5-1.5 7.8-5.8 7.8-10.8C23.3 5.6 18.3.5 12 .5Z"/></svg>
+            </button>
+          </div>
+          <div class="btn-sub">sm 28 · md 36 · lg 44 — circle or square</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="social">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="idx">05 — Social</span>
+          <div>
+            <h2>Hairline square, <em>coral on hover</em>.</h2>
+            <p class="lead">LinkedIn, X, GitHub — the three canonical social glyphs. Compose <code>btn btn-social</code>. 32px square, 6px radius, barely-there rule border, maroon icon at rest; border and icon recolor to coral on hover. No fill. This is the exact pattern from the blog post author card — keep it consistent across the site.</p>
+          </div>
+        </div>
+
+        <div class="btn-rows">
+          <div class="btn-row">
+            <a href="#" class="btn btn-social" aria-label="LinkedIn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.42v1.56h.05a3.75 3.75 0 0 1 3.38-1.85c3.61 0 4.28 2.37 4.28 5.46ZM5.34 7.43a2.06 2.06 0 1 1 2.06-2.06 2.06 2.06 0 0 1-2.06 2.06Zm1.78 13.02H3.56V9h3.56ZM22.22 0H1.77A1.75 1.75 0 0 0 0 1.72v20.56A1.75 1.75 0 0 0 1.77 24h20.45A1.76 1.76 0 0 0 24 22.28V1.72A1.76 1.76 0 0 0 22.22 0Z"/></svg>
+            </a>
+            <a href="#" class="btn btn-social" aria-label="X (Twitter)">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117Z"/></svg>
+            </a>
+            <a href="#" class="btn btn-social" aria-label="GitHub">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5A11.5 11.5 0 0 0 .5 12a11.5 11.5 0 0 0 7.86 10.92c.57.1.78-.25.78-.55v-1.92c-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.69-1.28-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.2 1.77 1.2 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69a4.45 4.45 0 0 1 1.19-3.09 4.13 4.13 0 0 1 .11-3.04s.97-.31 3.18 1.18a10.97 10.97 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18a4.13 4.13 0 0 1 .12 3.04 4.44 4.44 0 0 1 1.18 3.09c0 4.42-2.69 5.39-5.26 5.68.41.36.78 1.07.78 2.16v3.2c0 .31.21.67.79.55A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5Z"/></svg>
+            </a>
+          </div>
+          <div class="btn-sub">32 × 32 · 6px radius — one size, everywhere</div>
+        </div>
+
+        <div class="rules-grid" style="margin-top: 40px;">
+          <div class="rule">
+            <span class="tag do">Do</span>
+            <h4>Use <em>one</em> size — 32px.</h4>
+            <p>Footer, blog post author card, share rows, author hero. Single token, single rhythm across the whole site.</p>
+          </div>
+          <div class="rule">
+            <span class="tag do">Do</span>
+            <h4>Recolor, don't <em>fill</em>, on hover.</h4>
+            <p>Border and icon shift to coral together. No background change — keeps the surface quiet even when the pointer is over the glyph.</p>
+          </div>
+          <div class="rule">
+            <span class="tag dont">Don't</span>
+            <h4>Don't use <em>btn-outline</em> for socials.</h4>
+            <p><code>btn-outline</code> has a heavy maroon border and fills maroon on hover — too loud for a byline. Use <code>btn-social</code>.</p>
+          </div>
+          <div class="rule">
+            <span class="tag dont">Don't</span>
+            <h4>Don't use <em>circles</em> or platform colors.</h4>
+            <p>Square + 6px radius is the house style. Icons inherit <code>currentColor</code> — never paint them LinkedIn blue, X black, or GitHub's octocat. The system owns the palette.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="states">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="idx">06 — States</span>
+          <div>
+            <h2>Hover · focus · active · <em>disabled</em>.</h2>
+            <p class="lead">Tab into the row below to see the focus ring — 2px coral, 2px offset. Disabled is 45% opacity with no pointer events.</p>
+          </div>
+        </div>
+
+        <div class="btn-rows">
+          <div class="btn-row">
+            <a href="#" class="btn btn-coral">Default</a>
+            <a href="#" class="btn btn-coral is-hover">Hover</a>
+            <a href="#" class="btn btn-coral is-focus">Focus</a>
+            <button class="btn btn-coral" disabled>Disabled</button>
+          </div>
+          <div class="btn-row">
+            <a href="#" class="btn btn-outline">Default</a>
+            <a href="#" class="btn btn-outline is-hover">Hover</a>
+            <a href="#" class="btn btn-outline is-focus">Focus</a>
+            <button class="btn btn-outline" disabled>Disabled</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="rules">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="idx">07 — Rules</span>
+          <div>
+            <h2>Hierarchy <em>rules</em>.</h2>
+            <p class="lead">One primary action per view. The rest de-escalate. Mono chips stay short.</p>
+          </div>
+        </div>
+
+        <div class="rules-grid">
+          <div class="rule">
+            <span class="tag do">Do</span>
+            <h4>One <em>coral</em> CTA per view.</h4>
+            <p>Pair the coral primary with an outline. Scannable hierarchy — the user knows exactly where to click.</p>
+            <div class="btn-row" style="margin-top:14px;">
+              <a href="#" class="btn btn-coral">Start indexing</a>
+              <a href="#" class="btn btn-outline">Read the docs</a>
+            </div>
+          </div>
+          <div class="rule">
+            <span class="tag dont">Don't</span>
+            <h4>Don't stack <em>three fills</em>.</h4>
+            <p>Coral + maroon + another fill means no primary. Every action competes and none wins.</p>
+            <div class="btn-row" style="margin-top:14px;">
+              <a href="#" class="btn btn-coral">Start indexing</a>
+              <a href="#" class="btn btn-coral">Read the docs</a>
+              <a href="#" class="btn btn-primary">Star us</a>
+            </div>
+          </div>
+          <div class="rule">
+            <span class="tag do">Do</span>
+            <h4>Mono chips for <em>utility</em> actions.</h4>
+            <p>Short labels — 1–3 words. "Edit this page", "View source", "Copy", "Share".</p>
+            <div class="btn-row" style="margin-top:14px;">
+              <a href="#" class="btn btn-mono">Edit this page</a>
+            </div>
+          </div>
+          <div class="rule">
+            <span class="tag dont">Don't</span>
+            <h4>Don't use mono for <em>long</em> labels.</h4>
+            <p>Uppercase + tracking kills scanability past ~18 characters. Use <code>btn-outline</code> instead.</p>
+            <div class="btn-row" style="margin-top:14px;">
+              <a href="#" class="btn btn-mono">Read the full getting-started guide</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tokens" class="dark">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="idx">08 — Cheat sheet</span>
+          <div>
+            <h2>Class <em>combinations</em>.</h2>
+            <p class="lead">Copy-paste starting points. Compose variant + size + shape + icon as needed.</p>
+          </div>
+        </div>
+
+<pre class="tokens"><span class="c">&lt;!-- Primary CTA --&gt;</span>
+&lt;a class=<span class="v">"btn btn-coral"</span>&gt;Start indexing&lt;/a&gt;
+
+<span class="c">&lt;!-- Hero CTA --&gt;</span>
+&lt;a class=<span class="v">"btn btn-primary btn-lg"</span>&gt;Read the docs&lt;/a&gt;
+
+<span class="c">&lt;!-- Inline meta action --&gt;</span>
+&lt;a class=<span class="v">"btn btn-mono btn-sm"</span>&gt;View source&lt;/a&gt;
+
+<span class="c">&lt;!-- Icon-only, circular --&gt;</span>
+&lt;button class=<span class="v">"btn btn-outline btn-icon btn-icon-circle"</span>
+        aria-label=<span class="s">"Next"</span>&gt;&hellip;&lt;/button&gt;
+
+<span class="c">&lt;!-- Social icon — LinkedIn / X / GitHub --&gt;</span>
+&lt;a class=<span class="v">"btn btn-social"</span>
+   href=<span class="v">"https://github.com/cocoindex-io/cocoindex"</span>
+   aria-label=<span class="v">"GitHub"</span>&gt;&lt;svg&gt;&hellip;&lt;/svg&gt;&lt;/a&gt;
+
+<span class="c">&lt;!-- Disabled --&gt;</span>
+&lt;button class=<span class="v">"btn btn-coral"</span> disabled&gt;Submitting&hellip;&lt;/button&gt;</pre>
+      </div>
+    </section>
+  </main>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="robots" content="noindex, nofollow, noarchive"/>
+<title>CocoIndex — Tags · Internal design system</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<link rel="stylesheet" href="./_shared.css">
+
+<style>
+  /* Tag primitives (.t-pill / .t-category / .t-overlay / .t-status + the
+     coco-pulse dot) come from @cocoindex/brand via ui/_shared.css — this page
+     no longer copies them, so it renders exactly what ships. Only the demo
+     scaffolding below is page-local. */
+
+
+  /* page-specific demo scaffolding */
+  .variant-grid{
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 0;
+    border-top: 1px solid var(--rule-strong);
+    border-left: 1px solid var(--rule-strong);
+  }
+  @media (max-width: 780px){ .variant-grid{ grid-template-columns: 1fr; } }
+  .variant-cell{
+    border-right: 1px solid var(--rule-strong);
+    border-bottom: 1px solid var(--rule-strong);
+    padding: 32px 28px 22px; background: var(--cream-soft);
+    display: flex; flex-direction: column; gap: 18px; min-height: 200px;
+  }
+  .variant-cell.on-dark{ background: var(--maroon); }
+  .variant-cell.on-dark .desc{ color: rgba(252,243,216,0.72); }
+  .variant-cell.on-dark .role{ color: var(--peach); }
+  .variant-cell .demo{ display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .variant-cell .meta{ display: flex; flex-direction: column; gap: 4px; margin-top: auto; }
+  .variant-cell .role{
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--coral);
+  }
+  .variant-cell .desc{ font-family: var(--sans); font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+  .sub{
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--muted); margin-top: 4px;
+  }
+  .rows{ display: flex; flex-direction: column; gap: 16px; }
+  .row{ display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .row.on-dark{
+    background: var(--maroon); padding: 18px 20px; border-radius: 8px;
+  }
+
+  /* usage-table — list of where each variant lives in production */
+  .usage{
+    width: 100%; border-collapse: collapse;
+    font-family: var(--sans); font-size: 14px;
+  }
+  .usage th, .usage td{
+    text-align: left; padding: 12px 16px;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+  }
+  .usage th{
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--coral); font-weight: 500;
+    border-bottom-color: var(--rule-strong);
+  }
+  .usage td:first-child{ white-space: nowrap; padding-right: 24px; }
+  .usage td code{ font-size: 12px; }
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <aside class="aside">
+    <div class="brand">
+      <a class="logo logo-md" href="../index.html"><img src="../assets/cocoindex.svg" alt="" width="26" height="28" decoding="async" /><span class="logo-word">CocoIndex</span></a>
+      <span class="kicker">Design system · Internal</span>
+    </div>
+    <nav class="side-nav" aria-label="Design system sections">
+      <a href="../index.html">Overview</a>
+      <a href="./buttons.html">Buttons</a>
+      <a href="./tags.html" aria-current="page">Tags</a>
+      <a href="./admonitions.html">Admonitions</a>
+      <a href="./docs-link-card.html">Docs link card</a>
+      <a href="./example-repo-card.html">Example repo card</a>
+      <a href="./hamburger-toc.html">Hamburger / TOC</a>
+      <a href="./typography.html">Typography</a>
+      <a href="./color.html">Color</a>
+      <a href="./cover-image.html">Blog cover image</a>
+    </nav>
+    <div class="foot">v1 · local only</div>
+  </aside>
+
+  <main class="main">
+    <header class="cover">
+      <div class="wrap">
+        <div class="eyebrow">Page guideline · Tags</div>
+        <h1 class="cover-h">Four roles, <em>one</em> voice.</h1>
+        <p class="lead">A tag is a small label that classifies, filters, or signals state. CocoIndex uses four distinct variants — all share the same typographic voice (mono, UPPERCASE, 0.14em tracking), but each reserves a specific role so the reader can tell taxonomy from status at a glance. Never invent a fifth.</p>
+      </div>
+    </header>
+
+    <section id="variants">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="idx">01 — Variants</span>
+          <div>
+            <h2>Pill · category · overlay · <em>status</em>.</h2>
+            <p class="lead">Pick by <em>role</em>, not by aesthetics. Clickable taxonomy uses <code>t-pill</code>. The one hero kicker per post uses <code>t-category</code>. Labels on dark media use <code>t-overlay</code>. State flags (Enterprise, Beta, Live) use <code>t-status</code>.</p>
+          </div>
+        </div>
+
+        <div class="variant-grid">
+          <div class="variant-cell">
+            <div class="demo">
+              <a href="#" class="t-pill">Knowledge graph</a>
+              <a href="#" class="t-pill">Incremental</a>
+              <a href="#" class="t-pill">Postgres</a>
+            </div>
+            <div class="meta">
+              <span class="role">t-pill</span>
+              <span class="desc">Clickable taxonomy. Filter links under blog posts, author pages, tag archives.</span>
+            </div>
+          </div>
+
+          <div class="variant-cell">
+            <div class="demo">
+              <span class="t-category">Engineering</span>
+              <span class="t-category">Release notes</span>
+            </div>
+            <div class="meta">
+              <span class="role">t-category</span>
+              <span class="desc">Filled coral pill. One per hero. Used only at the top of a blog post to identify its category.</span>
+            </div>
+          </div>
+
+          <div class="variant-cell on-dark">
+            <div class="demo">
+              <span class="t-overlay">Codebase · real-time</span>
+              <span class="t-overlay">Meetings · KG</span>
+            </div>
+            <div class="meta">
+              <span class="role">t-overlay</span>
+              <span class="desc">Backdrop-blurred cream-on-cream. Only on dark media — thumbnail corners, hero artwork overlays.</span>
+            </div>
+          </div>
+
+          <div class="variant-cell">
+            <div class="demo">
+              <span class="t-status t-status-lg"><span class="dt"></span>Live</span>
+              <span class="t-status"><span class="dt"></span>Enterprise</span>
+            </div>
+            <div class="meta">
+              <span class="role">t-status · t-status-lg</span>
+              <span class="desc">Warm pill, pulsing green dot. Large (8px dot) for hero eyebrows like the home page "Live". Default (7px dot) for inline flags like "Enterprise".</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="anatomy">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="idx">02 — Anatomy</span>
+          <div>
+            <h2>Mono, tight, <em>UPPERCASE</em>.</h2>
+            <p class="lead">Every variant shares the same type voice so a row of mixed tags still reads as one system. Only the chrome (fill, border, backdrop) and any leading ornament differs.</p>
+          </div>
+        </div>
+
+        <div class="rows">
+          <div class="row">
+            <a href="#" class="t-pill">Tag label</a>
+            <span class="sub">10px mono · 0.14em · UPPERCASE · pill (999px) · 3 × 9 padding · 1px rule border</span>
+          </div>
+          <div class="row">
+            <span class="t-category">Tag label</span>
+            <span class="sub">11px mono · 0.14em · coral fill · 5 × 10 padding · no border</span>
+          </div>
+          <div class="row on-dark">
+            <span class="t-overlay">Tag label</span>
+            <span class="sub" style="color: rgba(252,243,216,0.6);">10px mono · cream @ 12% · backdrop-blur(6px) · dark surface required</span>
+          </div>
+          <div class="row">
+            <span class="t-status t-status-lg"><span class="dt"></span>Live</span>
+            <span class="sub">hero · 8px dot · 4→8px pulsing glow · 6/14/6/8 padding</span>
+          </div>
+          <div class="row">
+            <span class="t-status"><span class="dt"></span>Enterprise</span>
+            <span class="sub">inline · 7px dot · 3→6px pulsing glow · 5/14/5/10 padding</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="density">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="idx">03 — Density</span>
+          <div>
+            <h2>Cluster with <em>6–8px</em> gap.</h2>
+            <p class="lead">Tags live in flex-wrap rows. Never horizontal-scroll a tag list — overflow hides content and hurts SEO. Cap labels at ~18 characters; longer strings belong in a title, not a tag.</p>
+          </div>
+        </div>
+
+        <div class="rows">
+          <div class="row">
+            <a href="#" class="t-pill">RAG</a>
+            <a href="#" class="t-pill">Embeddings</a>
+            <a href="#" class="t-pill">Postgres</a>
+            <a href="#" class="t-pill">Qdrant</a>
+            <a href="#" class="t-pill">Knowledge graph</a>
+            <a href="#" class="t-pill">Realtime</a>
+            <a href="#" class="t-pill">Incremental</a>
+            <a href="#" class="t-pill">Python</a>
+            <a href="#" class="t-pill">Rust</a>
+          </div>
+          <div class="sub">good — flex-wrap, 8px gap, no truncation</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="rules">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="idx">04 — Rules</span>
+          <div>
+            <h2>Role over <em>look</em>.</h2>
+            <p class="lead">Tags are tiny; the wrong variant is easy to miss. These rules keep roles legible and accessible.</p>
+          </div>
+        </div>
+
+        <div class="rules-grid">
+          <div class="rule">
+            <span class="tag do">Do</span>
+            <h4>Pulse means <em>live</em>.</h4>
+            <p>The green-dot pulse is a semantic signal: something is on, running, or available right now. Reserve it for "Live", "Enterprise", "Beta-active" — never decorative.</p>
+          </div>
+          <div class="rule">
+            <span class="tag dont">Don't</span>
+            <h4>Don't pulse a <em>non-live</em> label.</h4>
+            <p>If the underlying thing isn't actually on/available, use a plain <code>t-pill</code> instead. Motion without meaning trains users to ignore it — the next real "Live" gets missed too.</p>
+          </div>
+          <div class="rule">
+            <span class="tag do">Do</span>
+            <h4>One <em>category</em> per post.</h4>
+            <p>The filled coral <code>t-category</code> is the hero's single emphasized kicker. Use <code>t-pill</code> for the rest of the post's tags underneath.</p>
+          </div>
+          <div class="rule">
+            <span class="tag dont">Don't</span>
+            <h4>Don't use <em>t-overlay</em> on light surfaces.</h4>
+            <p>Backdrop-blur on cream-soft is invisible. Overlay tags belong on dark media only — thumbnails, hero art, video covers.</p>
+          </div>
+          <div class="rule">
+            <span class="tag do">Do</span>
+            <h4>Keep labels under <em>~18</em> characters.</h4>
+            <p>"Knowledge graph" is fine. "Incremental knowledge graph indexing pipeline" is a title, not a tag — UPPERCASE 0.14em past that length becomes unreadable.</p>
+          </div>
+          <div class="rule">
+            <span class="tag dont">Don't</span>
+            <h4>Don't invent <em>rainbow</em> categories.</h4>
+            <p>One maroon-on-cream pill for everything; let content do the coloring. Platform or product-family colors here just add visual noise without helping classification.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="usage">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="idx">05 — Where it lives</span>
+          <div>
+            <h2>Every tag on <em>the</em> site.</h2>
+            <p class="lead">If you're adding a new tag, start from an existing one — the class, the file, the pattern. Don't hand-roll chrome.</p>
+          </div>
+        </div>
+
+        <table class="usage">
+          <thead>
+            <tr>
+              <th>Variant</th>
+              <th>Production class</th>
+              <th>Location</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="t-pill">Tag</span></td>
+              <td><code>.blog-theme .post-tag</code></td>
+              <td>
+                <code>src/pages/blogs/index.astro</code><br>
+                <code>src/pages/blogs/tags/[tag].astro</code><br>
+                <code>src/pages/blogs/authors/[slug].astro</code>
+              </td>
+            </tr>
+            <tr>
+              <td><span class="t-category">Category</span></td>
+              <td><code>.blog-theme .meta-strip .cat</code></td>
+              <td><code>src/layouts/BlogPost.astro</code> — hero</td>
+            </tr>
+            <tr>
+              <td style="background:var(--maroon);padding:12px 16px;border-radius:4px;"><span class="t-overlay">Overlay</span></td>
+              <td><code>.icon-theme .ex-thumb .tag</code></td>
+              <td><code>src/pages/index.astro</code> — example thumbnails</td>
+            </tr>
+            <tr>
+              <td><span class="t-status t-status-lg"><span class="dt"></span>Live</span></td>
+              <td><code>.icon-theme .eyebrow</code></td>
+              <td><code>src/pages/index.astro</code> — home hero<br><code>src/pages/cocoindex-code.astro</code></td>
+            </tr>
+            <tr>
+              <td><span class="t-status"><span class="dt"></span>Enterprise</span></td>
+              <td><code>.icon-theme .ent-tag</code></td>
+              <td>
+                <code>src/pages/enterprise.astro</code><br>
+                <code>src/pages/cocoindex-code.astro</code>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="tokens" class="dark">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="idx">06 — Cheat sheet</span>
+          <div>
+            <h2>Copy-paste <em>starts</em>.</h2>
+            <p class="lead">Class names below are the guideline shorthand (<code>t-*</code>). Production uses the scoped classes listed in § 05.</p>
+          </div>
+        </div>
+
+<pre class="tokens"><span class="c">&lt;!-- Clickable taxonomy tag --&gt;</span>
+&lt;a class=<span class="v">"t-pill"</span> href=<span class="v">"/blogs/tags/rag"</span>&gt;RAG&lt;/a&gt;
+
+<span class="c">&lt;!-- Filled category — one per hero --&gt;</span>
+&lt;span class=<span class="v">"t-category"</span>&gt;Engineering&lt;/span&gt;
+
+<span class="c">&lt;!-- Overlay on dark media (backdrop-blur) --&gt;</span>
+&lt;span class=<span class="v">"t-overlay"</span>&gt;Codebase · real-time&lt;/span&gt;
+
+<span class="c">&lt;!-- Status · Enterprise (7px pulsing dot, inline) --&gt;</span>
+&lt;span class=<span class="v">"t-status"</span>&gt;
+  &lt;span class=<span class="v">"dt"</span>&gt;&lt;/span&gt;Enterprise
+&lt;/span&gt;
+
+<span class="c">&lt;!-- Status · Live (8px pulsing dot, hero eyebrow) --&gt;</span>
+&lt;span class=<span class="v">"t-status t-status-lg"</span>&gt;
+  &lt;span class=<span class="v">"dt"</span>&gt;&lt;/span&gt;Live
+&lt;/span&gt;
+
+<span class="c">&lt;!-- Motion respects prefers-reduced-motion (guarded in CSS) --&gt;</span></pre>
+      </div>
+    </section>
+  </main>
+</div>
+
+</body>
+</html>

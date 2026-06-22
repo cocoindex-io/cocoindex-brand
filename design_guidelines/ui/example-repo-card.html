@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="robots" content="noindex, nofollow, noarchive"/>
+<title>CocoIndex — Example repo card · Internal design system</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<link rel="stylesheet" href="./_shared.css">
+
+<style>
+  /* ─────────────────────────────────────────────────────────────
+     Example repo card — inline card linking to a runnable example
+     folder on GitHub, with a separate "star us" CTA.
+
+     Two interactive elements live inside one container:
+       · the title row (mono path, links to /tree/main/examples/...)
+       · a small star pill (mono kicker, links to the repo root)
+
+     Hover on the container fades a dotted ink overlay in (same
+     transition as `.cp-tile-dots`). The Octocat disc breathes
+     gently and a peach star sticker wobbles in the top-right —
+     the only "cute" beats.
+
+     Production CSS lives in src/styles/globals.css under
+     `.blog-theme article .example-repo-card`. The Astro wrapper
+     is at src/components/ExampleRepoCard.astro.
+     ───────────────────────────────────────────────────────────── */
+
+  a.erc{
+    display: flex; gap: 16px; align-items: center;
+    padding: 18px 22px;
+    margin: 28px 0;
+    background: var(--cream);
+    border: 1px solid var(--rule-strong);
+    border-radius: 10px;
+    color: var(--maroon-ink);
+    text-decoration: none;
+    position: relative;
+    isolation: isolate;
+    transition: border-color .18s ease-out;
+    max-width: 68ch;
+  }
+  a.erc::before{
+    content: ""; position: absolute; inset: 0;
+    border-radius: inherit;
+    background-image: radial-gradient(circle, rgba(229,154,99,0.55) 1.3px, transparent 1.7px);
+    background-size: 14px 14px;
+    -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 28%, rgba(0,0,0,0) 72%);
+            mask-image: linear-gradient(to left, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 28%, rgba(0,0,0,0) 72%);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .25s ease-out;
+    z-index: -1;
+  }
+  a.erc:hover, a.erc.is-hover{ border-color: var(--maroon); }
+  a.erc:hover::before, a.erc.is-hover::before{ opacity: 1; }
+
+  .erc__ico{
+    width: 44px; height: 44px; flex: none;
+    border-radius: 12px;
+    background: var(--maroon-ink); color: var(--cream);
+    display: grid; place-items: center;
+  }
+  .erc__ico svg{ display: block; }
+
+  .erc__body{
+    flex: 1; min-width: 0;
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .erc__eyebrow{
+    font-family: var(--mono);
+    font-size: 11px; letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--coral);
+  }
+  .erc__path{
+    display: inline-flex; align-items: baseline; gap: 8px;
+  }
+  .erc__path code{
+    font-family: var(--mono);
+    font-size: 16px; font-weight: 600;
+    background: transparent;
+    color: var(--maroon-ink);
+    padding: 0;
+    transition: color .18s ease;
+  }
+  .erc__path-arrow{
+    font-family: var(--mono);
+    font-size: 16px; font-weight: 500; line-height: 1;
+    color: var(--maroon);
+    transition: color .18s ease, transform .18s ease;
+  }
+  a.erc:hover .erc__path code, a.erc.is-hover .erc__path code{ color: var(--coral); }
+  a.erc:hover .erc__path-arrow, a.erc.is-hover .erc__path-arrow{
+    color: var(--palm-ink);
+    transform: translateX(3px);
+  }
+
+  .erc__desc{
+    font-family: var(--sans);
+    font-size: 14px; line-height: 1.5;
+    color: var(--maroon-ink); opacity: 0.8;
+  }
+  .erc__desc strong{ font-weight: 700; opacity: 1; }
+
+  .erc__star{
+    flex: none;
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 7px 12px;
+    font-family: var(--mono);
+    font-size: 11px; letter-spacing: 0.14em;
+    text-transform: uppercase; font-weight: 700;
+    color: var(--maroon-ink);
+    background: var(--cream);
+    border: 1px solid var(--rule-strong);
+    border-radius: 999px;
+    white-space: nowrap;
+    transition: background .16s ease, color .16s ease, border-color .16s ease;
+  }
+  .erc__star svg{
+    color: var(--peach);
+    transition: transform .25s cubic-bezier(.4,1.6,.5,1);
+  }
+  a.erc:hover .erc__star, a.erc.is-hover .erc__star{
+    background: var(--maroon-ink);
+    color: var(--cream);
+    border-color: var(--maroon-ink);
+  }
+  a.erc:hover .erc__star svg, a.erc.is-hover .erc__star svg{
+    transform: rotate(-12deg) scale(1.2);
+  }
+
+  /* layout */
+  .props{ width: 100%; border-collapse: collapse; font-family: var(--sans); font-size: 14px; }
+  .props th, .props td{
+    text-align: left; padding: 12px 16px;
+    border-bottom: 1px solid var(--rule); vertical-align: top;
+  }
+  .props th{
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--coral); font-weight: 500;
+    border-bottom-color: var(--rule-strong);
+  }
+  .props td:first-child{ white-space: nowrap; padding-right: 24px; min-width: 160px; }
+  .props td code{ font-size: 12px; }
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <aside class="aside">
+    <div class="brand">
+      <a class="logo logo-md" href="../index.html"><img src="../assets/cocoindex.svg" alt="" width="26" height="28" decoding="async" /><span class="logo-word">CocoIndex</span></a>
+      <span class="kicker">Design system · Internal</span>
+    </div>
+    <nav class="side-nav" aria-label="Design system sections">
+      <a href="../index.html">Overview</a>
+      <a href="./buttons.html">Buttons</a>
+      <a href="./tags.html">Tags</a>
+      <a href="./admonitions.html">Admonitions</a>
+      <a href="./docs-link-card.html">Docs link card</a>
+      <a href="./example-repo-card.html" aria-current="page">Example repo card</a>
+      <a href="./hamburger-toc.html">Hamburger / TOC</a>
+      <a href="./typography.html">Typography</a>
+      <a href="./color.html">Color</a>
+      <a href="./cover-image.html">Blog cover image</a>
+    </nav>
+    <div class="foot">v1 · local only</div>
+  </aside>
+
+  <main class="main">
+    <header class="cover">
+      <div class="wrap">
+        <div class="eyebrow">Page guideline · Example repo card</div>
+        <h1 class="cover-h">Send the reader <em>to the example</em>.</h1>
+        <p class="lead">An example repo card lifts a runnable folder on GitHub out of the prose. Octocat disc + monospaced path + one-line description, with a small "star us" pill on the right as a soft kicker. The whole card is a single link to the example folder — one click target, the star pill is decorative. Use it once per post, right where you'd otherwise paste a long <code>github.com/...</code> link.</p>
+      </div>
+    </header>
+
+    <section id="anatomy">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="idx">01 — Anatomy</span>
+          <div>
+            <h2>Octocat · path · description · <em>star pill</em>.</h2>
+            <p class="lead">Octocat sits in a maroon-ink disc on the left. The path is monospaced and reads as a real folder path. The description supports <code>&lt;strong&gt;</code> to flag the star ask. The right-hand <code>star us</code> pill is decorative — the whole card is one anchor, so clicking anywhere takes the reader to the example.</p>
+          </div>
+        </div>
+
+        <a class="erc" href="#" onclick="return false;">
+          <span class="erc__ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-2.05c-3.2.7-3.88-1.36-3.88-1.36-.53-1.34-1.29-1.69-1.29-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.23-1.28-5.23-5.69 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.18 1.18a11.05 11.05 0 0 1 5.78 0c2.21-1.49 3.18-1.18 3.18-1.18.62 1.58.23 2.75.11 3.04.74.81 1.18 1.84 1.18 3.1 0 4.42-2.69 5.4-5.25 5.68.41.36.78 1.06.78 2.13v3.16c0 .31.21.67.8.56C20.71 21.39 24 17.08 24 12 24 5.65 18.85.5 12 .5z"/></svg>
+          </span>
+          <span class="erc__body">
+            <span class="erc__eyebrow">Example · GitHub</span>
+            <span class="erc__path">
+              <code>examples/csv_to_kafka</code>
+              <span class="erc__path-arrow" aria-hidden="true">→</span>
+            </span>
+            <span class="erc__desc">Clone it, point it at a Kafka broker, and watch a folder of CSVs flow into a topic. <strong>If it saves you an afternoon, drop a ⭐ on the repo</strong> — that's how more connectors get prioritized.</span>
+          </span>
+          <span class="erc__star" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M12 2.6l2.78 5.63 6.22.9-4.5 4.39 1.06 6.2L12 16.79 6.44 19.72 7.5 13.52 3 9.13l6.22-.9L12 2.6z"/></svg>
+            <span>star us</span>
+          </span>
+        </a>
+      </div>
+    </section>
+
+    <section id="usage">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="idx">02 — Usage</span>
+          <div>
+            <h2>Where it goes, where it <em>doesn't</em>.</h2>
+            <p class="lead">Reach for it where you'd otherwise paste a long <code>github.com/cocoindex-io/...</code> URL into prose. One per post is right; two starts to feel beggy.</p>
+          </div>
+        </div>
+
+        <div class="rules-grid">
+          <div class="rule">
+            <span class="tag do">Do</span>
+            <h4>Place it where the reader is about to <em>run</em> something.</h4>
+            <p>Right after the prose says "the full example lives at…". The card replaces that sentence — don't leave both.</p>
+          </div>
+          <div class="rule">
+            <span class="tag do">Do</span>
+            <h4>Bold the star ask in the description.</h4>
+            <p><code>&lt;strong&gt;</code> wraps the "drop a ⭐" part. The bold pulls the eye back to the star pill, which is the actual click.</p>
+          </div>
+          <div class="rule">
+            <span class="tag dont">Don't</span>
+            <h4>Don't use it as the post's closing CTA.</h4>
+            <p>End-of-post star asks belong in the maroon `.cta` strip, not here. This card is a mid-article hand-off; the strip is the goodbye.</p>
+          </div>
+          <div class="rule">
+            <span class="tag dont">Don't</span>
+            <h4>Don't stack two of them.</h4>
+            <p>One example per post. If a post points to multiple repos, link them inline — the card's job is to spotlight a single runnable thing.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="api">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="idx">03 — API</span>
+          <div>
+            <h2>Astro <em>component</em> props.</h2>
+            <p class="lead">Wrapper component lives at <code>src/components/ExampleRepoCard.astro</code>. Import from MDX. <code>description</code> accepts HTML so authors can use <code>&lt;strong&gt;</code> and emoji to flag the star ask.</p>
+          </div>
+        </div>
+
+        <table class="props">
+          <thead>
+            <tr><th>Prop</th><th>Type</th><th>Notes</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>href</code></td>
+              <td><code>string</code> · required</td>
+              <td>Direct link to the example folder, e.g. <code>github.com/cocoindex-io/cocoindex/tree/main/examples/csv_to_kafka</code>.</td>
+            </tr>
+            <tr>
+              <td><code>path</code></td>
+              <td><code>string</code> · required</td>
+              <td>The mono label rendered inside <code>&lt;code&gt;</code>. Match the repo path so the card reads as a real file path.</td>
+            </tr>
+            <tr>
+              <td><code>description</code></td>
+              <td><code>string</code> · optional</td>
+              <td>HTML-permitted. One sentence; bold the star ask with <code>&lt;strong&gt;</code>. Add an emoji ⭐ if it helps the eye.</td>
+            </tr>
+            <tr>
+              <td><code>eyebrow</code></td>
+              <td><code>string</code> · default <code>"Example · GitHub"</code></td>
+              <td>The kicker. Override for non-GitHub examples ("Example · GitLab" etc).</td>
+            </tr>
+            <tr>
+              <td><code>starLabel</code></td>
+              <td><code>string</code> · default <code>"star us"</code></td>
+              <td>Pill label. Lowercase mono looks right; keep it short (≤ 8 chars).</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="tokens" style="margin-top: 28px;">
+<span class="c">// MDX usage</span>
+<span class="k">import</span> <span class="ty">ExampleRepoCard</span> <span class="k">from</span> <span class="s">'../../../components/ExampleRepoCard.astro'</span><span class="pn">;</span>
+
+<span class="pn">&lt;</span><span class="fn">ExampleRepoCard</span>
+  href=<span class="s">"https://github.com/cocoindex-io/cocoindex/tree/main/examples/csv_to_kafka"</span>
+  path=<span class="s">"examples/csv_to_kafka"</span>
+  description=<span class="s">"Clone it, point it at a Kafka broker, and watch a folder of CSVs flow into a topic. &lt;strong&gt;If it saves you an afternoon, drop a ⭐ on the repo&lt;/strong&gt;."</span>
+<span class="pn">/&gt;</span>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+</body>
+</html>

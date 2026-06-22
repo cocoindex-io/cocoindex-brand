@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="robots" content="noindex, nofollow, noarchive"/>
+<title>CocoIndex — Admonitions · Internal design system</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<link rel="stylesheet" href="./_shared.css">
+
+<style>
+  /* ─────────────────────────────────────────────────────────────
+     Admonition system — four semantic variants.
+
+     Ported verbatim from CocoIndex Design System (2) preview/callouts.html.
+     The `.co` class name stays local to this system so it doesn't collide
+     with anything else; in production you can rename to `.admonition`
+     without touching structure.
+
+     Variant        Role                          Tint            Icon
+     ─────────────  ────────────────────────────  ──────────────  ──────
+     .co            Default · neutral annotation  plain cream     coral disc · i
+     .co.note       Quietest · side-remark        plain cream     berry disc · i
+     .co.info       Prerequisite · setup note     peach-washed    coral disc · i
+     .co.tip        Helpful suggestion · non-blocking  palm-washed  palm disc · ✓
+     .co.warn       Might break · attention       pink-washed     pink disc · !
+
+     Design notes
+     · Single hairline border + cream fill + circular icon badge.
+       Colour carries semantics; the glyph is a single-character mark
+       (i / ✓ / !) — no icon library needed.
+     · Tints are layered via `color-mix(... in oklab, <accent> N%, cream)`
+       so they stay inside the warm palette and sit calmly on the page.
+     · Note uses berry for the icon to differentiate it from default
+       coral without adding a tint (it is the quietest level).
+     ───────────────────────────────────────────────────────────── */
+
+  /* Base */
+  .co{
+    display: flex;
+    gap: 14px;
+    padding: 14px 16px;
+    border: 1px solid var(--rule-strong);
+    border-radius: 8px;
+    background: var(--cream);
+    font-size: 13.5px;
+    color: var(--maroon-ink);
+    margin: 18px 0;
+  }
+  .co .ico{
+    width: 24px; height: 24px; flex: none;
+    border-radius: 50%;
+    display: grid; place-items: center;
+    font-family: var(--mono); font-size: 12px; font-weight: 500;
+    color: var(--cream);
+    background: var(--coral);
+  }
+  .co b{
+    display: block;
+    font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+  .co .body{ flex: 1; line-height: 1.5; min-width: 0; }
+
+  /* Variants */
+  .co.note .ico{ background: var(--berry); }
+
+  .co.info{
+    border-color: color-mix(in oklab, var(--coral) 45%, transparent);
+    background: color-mix(in oklab, var(--peach) 16%, var(--cream));
+  }
+
+  .co.tip{
+    border-color: color-mix(in oklab, var(--palm) 50%, var(--rule-strong));
+    background: color-mix(in oklab, var(--palm) 7%, var(--cream));
+  }
+  .co.tip .ico{ background: var(--palm); color: var(--maroon-ink); }
+
+  .co.warn{
+    border-color: var(--coral);
+    background: color-mix(in oklab, var(--pink) 10%, var(--cream));
+  }
+  .co.warn .ico{ background: var(--pink); color: var(--maroon-ink); }
+
+  /* page-specific demo scaffolding */
+  .variant-grid{
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 0;
+    border-top: 1px solid var(--rule-strong);
+    border-left: 1px solid var(--rule-strong);
+  }
+  @media (max-width: 780px){ .variant-grid{ grid-template-columns: 1fr; } }
+  .variant-cell{
+    border-right: 1px solid var(--rule-strong);
+    border-bottom: 1px solid var(--rule-strong);
+    padding: 32px 28px 22px; background: var(--cream-soft);
+    display: flex; flex-direction: column; gap: 18px; min-height: 220px;
+  }
+  .variant-cell .meta{ display: flex; flex-direction: column; gap: 4px; margin-top: auto; }
+  .variant-cell .role{
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--coral);
+  }
+  .variant-cell .desc{ font-family: var(--sans); font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+  .rows{ display: flex; flex-direction: column; gap: 16px; }
+
+  .sub{
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--muted); margin-top: 4px;
+  }
+
+  /* usage-table */
+  .usage{ width: 100%; border-collapse: collapse; font-family: var(--sans); font-size: 14px; }
+  .usage th, .usage td{
+    text-align: left; padding: 12px 16px;
+    border-bottom: 1px solid var(--rule); vertical-align: top;
+  }
+  .usage th{
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--coral); font-weight: 500;
+    border-bottom-color: var(--rule-strong);
+  }
+  .usage td:first-child{ white-space: nowrap; padding-right: 24px; min-width: 220px; }
+  .usage td code{ font-size: 12px; }
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <aside class="aside">
+    <div class="brand">
+      <a class="logo logo-md" href="../index.html"><img src="../assets/cocoindex.svg" alt="" width="26" height="28" decoding="async" /><span class="logo-word">CocoIndex</span></a>
+      <span class="kicker">Design system · Internal</span>
+    </div>
+    <nav class="side-nav" aria-label="Design system sections">
+      <a href="../index.html">Overview</a>
+      <a href="./buttons.html">Buttons</a>
+      <a href="./tags.html">Tags</a>
+      <a href="./admonitions.html" aria-current="page">Admonitions</a>
+      <a href="./docs-link-card.html">Docs link card</a>
+      <a href="./example-repo-card.html">Example repo card</a>
+      <a href="./hamburger-toc.html">Hamburger / TOC</a>
+      <a href="./typography.html">Typography</a>
+      <a href="./color.html">Color</a>
+      <a href="./cover-image.html">Blog cover image</a>
+    </nav>
+    <div class="foot">v1 · local only</div>
+  </aside>
+
+  <main class="main">
+    <header class="cover">
+      <div class="wrap">
+        <div class="eyebrow">Page guideline · Admonitions</div>
+        <h1 class="cover-h">Four calls, <em>one</em> voice.</h1>
+        <p class="lead">An admonition lifts a sentence out of the prose — a note, a prerequisite, a tip, or a warning. CocoIndex uses four variants, all on the same cream card with a hairline border and a circular icon badge. Tint and icon colour carry the signal; the typography stays identical so a doc page with three admonitions still reads as one calm system.</p>
+      </div>
+    </header>
+
+    <section id="variants">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="idx">01 — Variants</span>
+          <div>
+            <h2>Note · info · tip · <em>warn</em>.</h2>
+            <p class="lead">Pick by intent. <code>note</code> is the quietest — a plain cream card with a berry disc, for a side-remark. <code>info</code> peach-washes the card to mark setup or a prerequisite. <code>tip</code> adds a palm wash and a check mark for a helpful, non-blocking suggestion. <code>warn</code> pink-washes for things that might break.</p>
+          </div>
+        </div>
+
+        <div class="variant-grid">
+          <div class="variant-cell">
+            <div class="co note">
+              <div class="ico">i</div>
+              <div class="body"><b>Note</b>Plain-cream annotation — the quietest level.</div>
+            </div>
+            <div class="meta">
+              <span class="role">.co.note</span>
+              <span class="desc">Side-remark or soft clarification. Berry icon; no tint on the card.</span>
+            </div>
+          </div>
+
+          <div class="variant-cell">
+            <div class="co info">
+              <div class="ico">i</div>
+              <div class="body"><b>Prerequisite</b>Peach-tinted cream. Use when directing attention to setup.</div>
+            </div>
+            <div class="meta">
+              <span class="role">.co.info</span>
+              <span class="desc">Setup, context, or prerequisite. Peach-washed cream with a coral hairline.</span>
+            </div>
+          </div>
+
+          <div class="variant-cell">
+            <div class="co tip">
+              <div class="ico">✓</div>
+              <div class="body"><b>Tip</b>Palm-tinted. Helpful suggestion, never blocking.</div>
+            </div>
+            <div class="meta">
+              <span class="role">.co.tip</span>
+              <span class="desc">Helpful, optional. Palm wash + check glyph. Not for required steps.</span>
+            </div>
+          </div>
+
+          <div class="variant-cell">
+            <div class="co warn">
+              <div class="ico">!</div>
+              <div class="body"><b>Warning</b>Pink-wash on cream. Reserved for things that might break.</div>
+            </div>
+            <div class="meta">
+              <span class="role">.co.warn</span>
+              <span class="desc">Might break, data-loss risk, non-reversible. Pink wash + coral border.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="anatomy">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="idx">02 — Anatomy</span>
+          <div>
+            <h2>Cream card, <em>hairline</em> border.</h2>
+            <p class="lead">Every variant shares the same skeleton: 8px radius, 1px border, 14/16 padding, 14px gap between the icon disc and the body. The icon sits on a 24px circle; the label is 11px UPPERCASE mono followed by a single body line at 13.5px.</p>
+          </div>
+        </div>
+
+        <div class="rows">
+          <div class="co">
+            <div class="ico">i</div>
+            <div class="body"><b>Default</b>The base <code>.co</code> with no variant modifier. Coral icon on plain cream.</div>
+          </div>
+          <div class="sub">base · coral disc · cream card · rule-strong border</div>
+
+          <div class="co note">
+            <div class="ico">i</div>
+            <div class="body"><b>Note</b>Swap the icon to berry. Everything else stays identical.</div>
+          </div>
+          <div class="sub">note · berry disc · no tint</div>
+
+          <div class="co info">
+            <div class="ico">i</div>
+            <div class="body"><b>Info</b>Peach-washed card; coral hairline at 45% alpha.</div>
+          </div>
+          <div class="sub">info · peach 16% tint · coral border at 45% alpha</div>
+
+          <div class="co tip">
+            <div class="ico">✓</div>
+            <div class="body"><b>Tip</b>Palm 7% wash + palm icon + palm-mixed border.</div>
+          </div>
+          <div class="sub">tip · palm 7% tint · palm disc · check glyph</div>
+
+          <div class="co warn">
+            <div class="ico">!</div>
+            <div class="body"><b>Warning</b>Pink 10% wash with a coral border to carry the stop signal.</div>
+          </div>
+          <div class="sub">warn · pink 10% tint · coral border · pink disc</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="rules">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="idx">03 — Rules</span>
+          <div>
+            <h2>Intent over <em>decoration</em>.</h2>
+            <p class="lead">Admonitions are loud by design — every use trains readers to stop and look. Under-use them, pick the right variant, and let the default paragraph do the quiet work.</p>
+          </div>
+        </div>
+
+        <div class="rules-grid">
+          <div class="rule">
+            <span class="tag do">Do</span>
+            <h4>One admonition per <em>idea</em>.</h4>
+            <p>If a page has three warnings in a row, collapse them into one. The first is a signal; the third is wallpaper. Readers start skipping past them.</p>
+          </div>
+          <div class="rule">
+            <span class="tag dont">Don't</span>
+            <h4>Don't use <em>warn</em> for best practices.</h4>
+            <p>Warn is reserved for things that can actually break: data loss, non-reversible state, production-only footguns. "Prefer X over Y" is a <code>tip</code>.</p>
+          </div>
+          <div class="rule">
+            <span class="tag do">Do</span>
+            <h4>Lead with the <em>consequence</em>.</h4>
+            <p>"This drops the index and rebuilds from scratch" beats "Be careful with this command." The label already says it's a warning; use the body for the specifics.</p>
+          </div>
+          <div class="rule">
+            <span class="tag dont">Don't</span>
+            <h4>Don't invent a <em>fifth</em> variant.</h4>
+            <p>No "success", no "danger", no custom colour. Four variants cover every case the docs need; a rogue variant breaks the visual rhythm of the page.</p>
+          </div>
+          <div class="rule">
+            <span class="tag do">Do</span>
+            <h4>Keep the label <em>single-word</em> when you can.</h4>
+            <p>"Note · Prerequisite · Tip · Warning" is the short list. Custom labels are allowed ("Known issue", "Enterprise only") — keep them under three words.</p>
+          </div>
+          <div class="rule">
+            <span class="tag dont">Don't</span>
+            <h4>Don't stack <em>code blocks</em> inside.</h4>
+            <p>A fenced code block inside an admonition fights the wash for visual weight. Put the code <em>after</em> the admonition and let the body reference it in prose.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="usage">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="idx">04 — Where it lives</span>
+          <div>
+            <h2>Docs &amp; <em>blog</em> prose.</h2>
+            <p class="lead">Admonitions ship inside long-form content. Render them from the site's MDX admonition plugin; don't hand-write them in page templates.</p>
+          </div>
+        </div>
+
+        <table class="usage">
+          <thead>
+            <tr>
+              <th>Variant</th>
+              <th>MDX shorthand</th>
+              <th>Location</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="co note" style="margin:0;padding:10px 12px;"><span class="ico">i</span><span class="body"><b style="margin:0">Note</b></span></span></td>
+              <td><code>:::note</code></td>
+              <td><code>cocoindex/docs/src/content/docs/**/*.md</code></td>
+            </tr>
+            <tr>
+              <td><span class="co info" style="margin:0;padding:10px 12px;"><span class="ico">i</span><span class="body"><b style="margin:0">Prerequisite</b></span></span></td>
+              <td><code>:::info</code></td>
+              <td><code>cocoindex/docs/src/content/docs/getting-started/*</code></td>
+            </tr>
+            <tr>
+              <td><span class="co tip" style="margin:0;padding:10px 12px;"><span class="ico">✓</span><span class="body"><b style="margin:0">Tip</b></span></span></td>
+              <td><code>:::tip</code></td>
+              <td><code>cocoindex-io.github.io/src/blogs/**/*.mdx</code></td>
+            </tr>
+            <tr>
+              <td><span class="co warn" style="margin:0;padding:10px 12px;"><span class="ico">!</span><span class="body"><b style="margin:0">Warning</b></span></span></td>
+              <td><code>:::warning</code></td>
+              <td><code>cocoindex/docs/src/content/docs/ops/*</code> · migration pages</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="tokens" class="dark">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="idx">05 — Cheat sheet</span>
+          <div>
+            <h2>Copy-paste <em>starts</em>.</h2>
+            <p class="lead">Markup for each variant. The <code>.co</code> shorthand stays in the design system; production markdown pipelines lower <code>:::note</code> / <code>:::tip</code> / etc. to the same structure.</p>
+          </div>
+        </div>
+
+<pre class="tokens"><span class="c">&lt;!-- Default · neutral annotation --&gt;</span>
+&lt;div class=<span class="v">"co"</span>&gt;
+  &lt;div class=<span class="v">"ico"</span>&gt;i&lt;/div&gt;
+  &lt;div class=<span class="v">"body"</span>&gt;&lt;b&gt;Note&lt;/b&gt;Plain-cream annotation.&lt;/div&gt;
+&lt;/div&gt;
+
+<span class="c">&lt;!-- Note · berry icon, no tint --&gt;</span>
+&lt;div class=<span class="v">"co note"</span>&gt;
+  &lt;div class=<span class="v">"ico"</span>&gt;i&lt;/div&gt;
+  &lt;div class=<span class="v">"body"</span>&gt;&lt;b&gt;Note&lt;/b&gt;The quietest level.&lt;/div&gt;
+&lt;/div&gt;
+
+<span class="c">&lt;!-- Info · peach-washed, setup / prerequisite --&gt;</span>
+&lt;div class=<span class="v">"co info"</span>&gt;
+  &lt;div class=<span class="v">"ico"</span>&gt;i&lt;/div&gt;
+  &lt;div class=<span class="v">"body"</span>&gt;&lt;b&gt;Prerequisite&lt;/b&gt;Start here before running the flow.&lt;/div&gt;
+&lt;/div&gt;
+
+<span class="c">&lt;!-- Tip · palm-washed, non-blocking suggestion --&gt;</span>
+&lt;div class=<span class="v">"co tip"</span>&gt;
+  &lt;div class=<span class="v">"ico"</span>&gt;✓&lt;/div&gt;
+  &lt;div class=<span class="v">"body"</span>&gt;&lt;b&gt;Tip&lt;/b&gt;Use --dry-run to preview the diff first.&lt;/div&gt;
+&lt;/div&gt;
+
+<span class="c">&lt;!-- Warn · pink-washed, might break --&gt;</span>
+&lt;div class=<span class="v">"co warn"</span>&gt;
+  &lt;div class=<span class="v">"ico"</span>&gt;!&lt;/div&gt;
+  &lt;div class=<span class="v">"body"</span>&gt;&lt;b&gt;Warning&lt;/b&gt;This rebuilds the index from scratch.&lt;/div&gt;
+&lt;/div&gt;</pre>
+      </div>
+    </section>
+  </main>
+</div>
+
+</body>
+</html>

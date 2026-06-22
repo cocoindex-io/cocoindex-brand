@@ -1,0 +1,29 @@
+/* CocoIndex logo lockup — the coconut mark + "CocoIndex" wordmark, the single
+   definition for nav, footer, sidebars and anywhere the brand appears. Rendered
+   by Logo.astro. Surface-agnostic, token-only; import after tokens.css.
+
+   The mark is 220×240, so we size by HEIGHT and let width follow the aspect
+   ratio (never force a square — that squished it before). align-items:center
+   keeps the mark optically centered on the wordmark at every size. */
+.logo {
+  display: inline-flex; align-items: center; gap: 10px;
+  text-decoration: none; color: var(--maroon-ink); line-height: 1;
+}
+.logo:hover, .logo:hover .logo-word { text-decoration: none; }
+.logo img { display: block; width: auto; }
+.logo-word {
+  font-family: var(--sans); font-weight: 600; letter-spacing: -0.02em;
+  line-height: 1; color: inherit; white-space: nowrap;
+}
+
+/* Sizes — mark height + a wordmark tuned to match it. */
+.logo-sm { gap: 8px; }
+.logo-sm img { height: 24px; }
+.logo-sm .logo-word { font-size: 16px; }
+
+.logo-md img { height: 28px; }
+.logo-md .logo-word { font-size: 18px; }
+
+.logo-lg { gap: 12px; }
+.logo-lg img { height: 36px; }
+.logo-lg .logo-word { font-size: 20px; }

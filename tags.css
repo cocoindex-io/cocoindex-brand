@@ -8,6 +8,9 @@
                   + `.t-status-lg`, `.t-status-dark` (on maroon), `.t-status-ghost` (on media)
      .t-eyebrow   bare kicker above a hero        — mono caps + dot, no fill (`.live` pulses)
      .t-filter    on/off toggle pill              — faceted nav / examples filters
+   SIZE: every chip has a native size; `.t-sm` / `.t-lg` are the shared step-down
+   / step-up lever (compose on any role, e.g. `t-pill t-lg`). Padding stays
+   role-owned (dots + asymmetry depend on it), so the lever moves the type scale.
    Token-only and surface-agnostic. Import after tokens.css. */
 
 /* Pill — clickable taxonomy. */
@@ -58,11 +61,14 @@ a.t-pill:hover, .t-pill.is-hover { border-color: var(--coral); color: var(--cora
   color: var(--maroon);
   white-space: nowrap;
 }
+/* The pulsing "live" dot uses the shared `coco-pulse` keyframe (motion.css),
+   driven by --pulse-r1/--pulse-r2 (radius) and --pulse-color (defaults palm). */
 .t-status .dt {
   width: 7px; height: 7px; border-radius: 50%;
   background: var(--palm);
+  --pulse-r1: 3px; --pulse-r2: 6px;
   box-shadow: 0 0 0 3px color-mix(in oklab, var(--palm) 18%, transparent);
-  animation: t-live-pulse 2s ease-in-out infinite;
+  animation: coco-pulse 2s ease-in-out infinite;
 }
 /* Large — hero/eyebrow use, matches the homepage "LIVE" pill. */
 .t-status.t-status-lg {
@@ -73,19 +79,11 @@ a.t-pill:hover, .t-pill.is-hover { border-color: var(--coral); color: var(--cora
 }
 .t-status.t-status-lg .dt {
   width: 8px; height: 8px;
+  --pulse-r1: 4px; --pulse-r2: 8px;
   box-shadow: 0 0 0 4px color-mix(in oklab, var(--palm) 18%, transparent);
-  animation: t-live-pulse-lg 2s ease-in-out infinite;
-}
-@keyframes t-live-pulse {
-  0%, 100% { box-shadow: 0 0 0 3px color-mix(in oklab, var(--palm) 18%, transparent); }
-  50%      { box-shadow: 0 0 0 6px color-mix(in oklab, var(--palm) 6%, transparent); }
-}
-@keyframes t-live-pulse-lg {
-  0%, 100% { box-shadow: 0 0 0 4px color-mix(in oklab, var(--palm) 18%, transparent); }
-  50%      { box-shadow: 0 0 0 8px color-mix(in oklab, var(--palm) 6%, transparent); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .t-status .dt { animation: none !important; }
+  .t-status .dt, .t-eyebrow.live .dt { animation: none !important; }
 }
 
 /* Filter toggle — a clickable pill that switches on/off (examples filters,
@@ -97,7 +95,7 @@ a.t-pill:hover, .t-pill.is-hover { border-color: var(--coral); color: var(--cora
   padding: 8px 14px; border-radius: var(--r-pill);
   background: var(--cream); color: var(--maroon-ink);
   border: 1px solid var(--rule); cursor: pointer; white-space: nowrap;
-  transition: background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease), transform .12s var(--ease);
+  transition: background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease), transform var(--dur-press) var(--ease);
 }
 .t-filter:hover { border-color: var(--coral); color: var(--coral); }
 .t-filter.on { background: var(--maroon); color: var(--cream); border-color: var(--maroon); }
@@ -137,11 +135,14 @@ a.t-pill:hover, .t-pill.is-hover { border-color: var(--coral); color: var(--cora
 }
 .t-eyebrow .dt { width: 7px; height: 7px; border-radius: 50%; background: var(--dt, var(--coral)); flex: none; }
 .t-eyebrow.live .dt {
+  --pulse-color: var(--dt, var(--coral)); --pulse-r1: 3px; --pulse-r2: 6px;
   box-shadow: 0 0 0 3px color-mix(in oklab, var(--dt, var(--coral)) 18%, transparent);
-  animation: t-eyebrow-pulse 2s ease-in-out infinite;
+  animation: coco-pulse 2s ease-in-out infinite;
 }
-@keyframes t-eyebrow-pulse {
-  0%, 100% { box-shadow: 0 0 0 3px color-mix(in oklab, var(--dt, var(--coral)) 18%, transparent); }
-  50%      { box-shadow: 0 0 0 6px color-mix(in oklab, var(--dt, var(--coral)) 6%, transparent); }
-}
-@media (prefers-reduced-motion: reduce) { .t-eyebrow.live .dt { animation: none !important; } }
+
+/* ── Size lever — one consistent step across every chip role. Defined last so it
+   wins over each role's native font-size by source order. `.t-lg` matches the
+   `.t-pill-lg` / `.t-status-lg` type step, so the scale reads the same name
+   everywhere. ── */
+.t-sm { font-size: 9px; }
+.t-lg { font-size: 12px; }

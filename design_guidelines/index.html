@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="robots" content="noindex, nofollow, noarchive"/>
+<title>CocoIndex — Design system</title>
+<link rel="stylesheet" href="./assets/fonts/fonts.css">
+<link rel="stylesheet" href="./ui/_shared.css">
+
+<style>
+  /* page-specific — the overview card grids */
+  .ov-section{ padding: 56px 0; border-bottom: 1px solid var(--rule); }
+  .ov-section:last-of-type{ border-bottom: none; }
+  .ov-head{ display: flex; align-items: baseline; gap: 14px; margin-bottom: 26px; }
+  .ov-head h2{
+    font-family: var(--sans); font-weight: 600;
+    font-size: clamp(22px, 2.4vw, 30px); line-height: 1.1; letter-spacing: -0.025em; margin: 0;
+  }
+  .ov-head .idx{
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--coral);
+  }
+  .ov-grid{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  @media (max-width: 980px){ .ov-grid{ grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 600px){ .ov-grid{ grid-template-columns: 1fr; } }
+
+  .ov-card{
+    position: relative; isolation: isolate; overflow: hidden;
+    display: flex; flex-direction: column; gap: 9px;
+    padding: 22px 22px 20px;
+    background: var(--cream); color: var(--maroon-ink);
+    border: 1px solid var(--rule-strong); border-radius: var(--r-lg);
+    text-decoration: none;
+    transition: border-color .18s ease-out, transform .18s var(--ease);
+  }
+  .ov-card::before{
+    content: ""; position: absolute; inset: 0; border-radius: inherit;
+    background-image: var(--dot-reveal); background-size: var(--dot-reveal-size) var(--dot-reveal-size);
+    -webkit-mask-image: linear-gradient(to top left, #000 0%, transparent 60%);
+            mask-image: linear-gradient(to top left, #000 0%, transparent 60%);
+    opacity: 0; pointer-events: none; transition: opacity .25s ease-out; z-index: -1;
+  }
+  .ov-card:hover{ border-color: var(--maroon); transform: translateY(-2px); }
+  .ov-card:hover::before{ opacity: 1; }
+  .ov-card:focus-visible{ outline: var(--focus); outline-offset: var(--focus-offset); }
+  .ov-card .kind{
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--coral);
+  }
+  .ov-card .name{
+    font-family: var(--serif); font-weight: 400; font-size: 21px;
+    line-height: 1.12; letter-spacing: -0.02em; color: var(--maroon-ink);
+  }
+  .ov-card .name em{ font-style: italic; color: var(--coral); }
+  .ov-card .desc{ font-family: var(--sans); font-size: 13px; line-height: 1.5; color: var(--muted); }
+  .ov-card .arrow{
+    position: absolute; top: 18px; right: 20px;
+    font-family: var(--mono); font-size: 16px; line-height: 1; color: var(--maroon);
+    transition: color .18s ease, transform .18s ease;
+  }
+  .ov-card:hover .arrow{ color: var(--palm-ink); transform: translateX(3px); }
+
+  .ov-foot{ padding: 40px 0 64px; color: var(--muted); font-size: 13.5px; line-height: 1.6; max-width: 64ch; }
+  .ov-foot code{ font-family: var(--mono); }
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <aside class="aside">
+    <div class="brand">
+      <a class="logo logo-md" href="./index.html">
+        <img src="./assets/cocoindex.svg" alt="" width="26" height="28" decoding="async" />
+        <span class="logo-word">CocoIndex</span>
+      </a>
+      <span class="kicker">Design system · Internal</span>
+    </div>
+    <nav class="side-nav" aria-label="Design system sections">
+      <a href="./index.html" aria-current="page">Overview</a>
+      <a href="./ui/buttons.html">Buttons</a>
+      <a href="./ui/tags.html">Tags</a>
+      <a href="./ui/admonitions.html">Admonitions</a>
+      <a href="./ui/docs-link-card.html">Docs link card</a>
+      <a href="./ui/example-repo-card.html">Example repo card</a>
+      <a href="./ui/hamburger-toc.html">Hamburger / TOC</a>
+      <a href="./ui/typography.html">Typography</a>
+      <a href="./ui/color.html">Color</a>
+      <a href="./ui/cover-image.html">Blog cover image</a>
+    </nav>
+    <div class="foot">
+      <a class="stars" data-repo="cocoindex-io/cocoindex" href="https://github.com/cocoindex-io/cocoindex" target="_blank" rel="noopener">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+        </svg>
+        <span class="count">—</span>
+      </a>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="cover">
+      <div class="wrap">
+        <div class="eyebrow">@cocoindex/brand · Design system</div>
+        <h1 class="cover-h">One source of <em>truth.</em></h1>
+        <p class="lead">
+          Every page below renders from the same package these primitives ship in — tokens,
+          buttons, tags, cards, callouts, code and prose. No mirrored CSS, no drift: change a
+          token, and the whole system moves with it.
+        </p>
+      </div>
+    </header>
+
+    <div class="wrap">
+      <section class="ov-section">
+        <div class="ov-head"><span class="idx">01</span><h2>Primitives</h2></div>
+        <div class="ov-grid">
+          <a class="ov-card" href="./ui/buttons.html">
+            <span class="arrow" aria-hidden="true">→</span>
+            <span class="kind">Controls</span>
+            <span class="name">Buttons</span>
+            <span class="desc">One <em>base</em>, six variants × sizes × shapes. The shared interaction contract.</span>
+          </a>
+          <a class="ov-card" href="./ui/tags.html">
+            <span class="arrow" aria-hidden="true">→</span>
+            <span class="kind">Labels</span>
+            <span class="name">Tags &amp; chips</span>
+            <span class="desc">Pill, category, overlay, status, eyebrow, filter — picked by role, not by look.</span>
+          </a>
+          <a class="ov-card" href="./ui/admonitions.html">
+            <span class="arrow" aria-hidden="true">→</span>
+            <span class="kind">Callouts</span>
+            <span class="name">Admonitions</span>
+            <span class="desc">The canonical four — note, info, tip, warn. Caution &amp; danger alias warn.</span>
+          </a>
+          <a class="ov-card" href="./ui/docs-link-card.html">
+            <span class="arrow" aria-hidden="true">→</span>
+            <span class="kind">Cards</span>
+            <span class="name">Docs link card</span>
+            <span class="desc">Inline link to docs or a resource, with the dotted hover reveal.</span>
+          </a>
+          <a class="ov-card" href="./ui/example-repo-card.html">
+            <span class="arrow" aria-hidden="true">→</span>
+            <span class="kind">Cards</span>
+            <span class="name">Example repo card</span>
+            <span class="desc">A runnable GitHub example folder, with a star kicker.</span>
+          </a>
+          <a class="ov-card" href="./ui/hamburger-toc.html">
+            <span class="arrow" aria-hidden="true">→</span>
+            <span class="kind">Navigation</span>
+            <span class="name">Hamburger / TOC</span>
+            <span class="desc">The phone drawer + table-of-contents shell shared across surfaces.</span>
+          </a>
+          <a class="ov-card" href="./ui/typography.html">
+            <span class="arrow" aria-hidden="true">→</span>
+            <span class="kind">Foundations</span>
+            <span class="name">Typography</span>
+            <span class="desc">Serif display, Inter body, mono labels — the type scale and prose.</span>
+          </a>
+          <a class="ov-card" href="./ui/color.html">
+            <span class="arrow" aria-hidden="true">→</span>
+            <span class="kind">Foundations</span>
+            <span class="name">Color</span>
+            <span class="desc">Maroon ink on cream, coral emphasis, and the readability-tuned code palette.</span>
+          </a>
+        </div>
+      </section>
+
+      <section class="ov-section">
+        <div class="ov-head"><span class="idx">02</span><h2>Full-page references</h2></div>
+        <div class="ov-grid">
+          <a class="ov-card" href="./CocoIndex Home.html">
+            <span class="arrow" aria-hidden="true">→</span>
+            <span class="kind">Comp</span><span class="name">Home</span>
+            <span class="desc">The marketing home page composition.</span>
+          </a>
+          <a class="ov-card" href="./CocoIndex Blog Post.html">
+            <span class="arrow" aria-hidden="true">→</span>
+            <span class="kind">Comp</span><span class="name">Blog post</span>
+            <span class="desc">Long-form article layout with prose + code.</span>
+          </a>
+          <a class="ov-card" href="./CocoIndex Docs.html">
+            <span class="arrow" aria-hidden="true">→</span>
+            <span class="kind">Comp</span><span class="name">Docs</span>
+            <span class="desc">The three-pane documentation shell.</span>
+          </a>
+          <a class="ov-card" href="./CocoIndex Examples Listing.html">
+            <span class="arrow" aria-hidden="true">→</span>
+            <span class="kind">Comp</span><span class="name">Examples listing</span>
+            <span class="desc">Faceted gallery of runnable examples.</span>
+          </a>
+          <a class="ov-card" href="./CocoIndex Example HN Trending Topics.html">
+            <span class="arrow" aria-hidden="true">→</span>
+            <span class="kind">Comp</span><span class="name">Example detail</span>
+            <span class="desc">A single example walkthrough (HN trending topics).</span>
+          </a>
+          <a class="ov-card" href="./CocoIndex Brand Guidelines.html">
+            <span class="arrow" aria-hidden="true">→</span>
+            <span class="kind">Comp</span><span class="name">Brand guidelines</span>
+            <span class="desc">Logo, voice, and the public press kit.</span>
+          </a>
+          <a class="ov-card" href="./ui/cover-image.html">
+            <span class="arrow" aria-hidden="true">→</span>
+            <span class="kind">Templates</span><span class="name">Blog cover image</span>
+            <span class="desc">The 2400×1260 editorial cover recipe.</span>
+          </a>
+        </div>
+      </section>
+
+      <p class="ov-foot">
+        Authoring guidance lives in <code>GUIDELINE.md</code>. These pages are co-located with the
+        primitives in <code>@cocoindex/brand</code> and load them through <code>ui/_shared.css</code>,
+        so the showcase always reflects exactly what ships.
+      </p>
+    </div>
+  </main>
+</div>
+
+<script src="./ui/_shared.js"></script>
+</body>
+</html>

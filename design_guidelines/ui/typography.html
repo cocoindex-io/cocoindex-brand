@@ -1,0 +1,506 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="robots" content="noindex, nofollow, noarchive"/>
+<title>CocoIndex — Typography · Internal design system</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<link rel="stylesheet" href="./_shared.css">
+
+<style>
+  /* page-specific: family cards + scale rows + type samples */
+  .fam-grid{
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0;
+    border-top: 1px solid var(--rule-strong);
+    border-left: 1px solid var(--rule-strong);
+  }
+  .fam-card{
+    border-right: 1px solid var(--rule-strong);
+    border-bottom: 1px solid var(--rule-strong);
+    padding: 36px 28px; background: var(--cream-soft);
+    display: flex; flex-direction: column; gap: 16px;
+  }
+  .fam-card.serif-card{ background: var(--cream); }
+  .fam-card.mono-card{ background: var(--paper); }
+  .fam-card .tag{ font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--coral); }
+  .fam-card .big{ font-size: 96px; line-height: 1; letter-spacing: -0.035em; color: var(--maroon-ink); margin: 12px 0 20px; }
+  .fam-card .big.serif{ font-family: var(--serif); font-weight: 400; }
+  .fam-card .big.sans{ font-family: var(--sans); font-weight: 500; }
+  .fam-card .big.mono{ font-family: var(--mono); font-weight: 400; font-size: 72px; letter-spacing: -0.01em; }
+  .fam-card .big em{ font-style: italic; color: var(--coral); }
+  .fam-card .meta{ display: flex; flex-direction: column; gap: 10px; font-size: 13px; line-height: 1.5; }
+  .fam-card .meta .row{ display: grid; grid-template-columns: 96px 1fr; gap: 12px; align-items: baseline; }
+  .fam-card .meta .k{ font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+  .fam-card .meta .v{ color: var(--maroon-ink); }
+  .fam-card .meta .v em{ font-style: italic; color: var(--coral); }
+
+  .scale-list{ display: flex; flex-direction: column; gap: 0; }
+  .scale-row{
+    display: grid; grid-template-columns: 220px 1fr; gap: 40px;
+    padding: 40px 0; border-top: 1px solid var(--rule);
+    align-items: baseline;
+  }
+  .scale-row:first-child{ border-top: 1px solid var(--rule-strong); }
+  .scale-row .meta{ display: flex; flex-direction: column; gap: 8px; }
+  .scale-row .meta .role{ font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--coral); }
+  .scale-row .meta .desc{ font-size: 13px; line-height: 1.5; color: var(--muted); }
+  .scale-row .spec{ font-family: var(--mono); font-size: 11px; color: var(--maroon-ink); line-height: 1.7; margin-top: 4px; }
+  .scale-row .spec .dim{ color: var(--muted); }
+  .scale-row .sample{ display: block; color: var(--maroon-ink); word-break: break-word; }
+  .scale-row .sample em{ font-style: italic; color: var(--coral); }
+
+  .s-display{ font-family: var(--serif); font-weight: 400; font-size: clamp(48px, 7vw, 96px); line-height: 0.98; letter-spacing: -0.03em; }
+  .s-page{ font-family: var(--serif); font-weight: 400; font-size: clamp(32px, 4.6vw, 60px); line-height: 0.98; letter-spacing: -0.03em; }
+  .s-h2{ font-family: var(--sans); font-weight: 600; font-size: clamp(24px, 3.2vw, 44px); line-height: 1.05; letter-spacing: -0.03em; }
+  .s-h3{ font-family: var(--sans); font-weight: 600; font-size: 22px; line-height: 1.2; letter-spacing: -0.02em; }
+  .s-lede{ font-family: var(--sans); font-weight: 400; font-size: clamp(17px, 1.4vw, 20px); line-height: 1.5; letter-spacing: -0.005em; }
+  .s-body{ font-family: var(--sans); font-weight: 400; font-size: 17px; line-height: 1.55; }
+  .s-eyebrow{ font-family: var(--mono); font-weight: 500; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; }
+  .s-caps{ font-family: var(--mono); font-weight: 400; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+  .s-caption{ font-family: var(--mono); font-weight: 400; font-size: 12px; line-height: 1.5; color: var(--muted); }
+  .s-code{
+    font-family: var(--mono); font-weight: 400; font-size: 13px; line-height: 1.7;
+    background: var(--maroon-ink); color: var(--cream);
+    padding: 16px 20px; border-radius: 8px; display: block; white-space: pre;
+  }
+  .s-code .kw{ color: var(--peach); }
+  .s-code .fn{ color: var(--pink); }
+  .s-code .str{ color: var(--palm); }
+  .s-code .cm{ color: var(--taupe); font-style: italic; }
+
+  @media (max-width: 900px){
+    .fam-grid{ grid-template-columns: 1fr; }
+    .scale-row{ grid-template-columns: 1fr; gap: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <aside class="aside">
+    <div class="brand">
+      <a class="logo logo-md" href="../index.html"><img src="../assets/cocoindex.svg" alt="" width="26" height="28" decoding="async" /><span class="logo-word">CocoIndex</span></a>
+      <span class="kicker">Design system · Internal</span>
+    </div>
+    <nav class="side-nav" aria-label="Design system sections">
+      <a href="../index.html">Overview</a>
+      <a href="./buttons.html">Buttons</a>
+      <a href="./tags.html">Tags</a>
+      <a href="./admonitions.html">Admonitions</a>
+      <a href="./docs-link-card.html">Docs link card</a>
+      <a href="./example-repo-card.html">Example repo card</a>
+      <a href="./hamburger-toc.html">Hamburger / TOC</a>
+      <a href="./typography.html" aria-current="page">Typography</a>
+      <a href="./color.html">Color</a>
+      <a href="./cover-image.html">Blog cover image</a>
+    </nav>
+    <div class="foot">v1 · local only</div>
+  </aside>
+
+  <main class="main">
+    <header class="cover">
+      <div class="wrap">
+        <div class="eyebrow">Page guideline · Typography</div>
+        <h1 class="cover-h">Three families. <em>One</em> voice.</h1>
+        <p class="lead">Source Serif 4 carries every hero. Inter carries everything below it. JetBrains Mono handles labels, captions, and code. This page documents the full scale so every CocoIndex page — homepage, docs, examples, blog — sounds the same.</p>
+      </div>
+    </header>
+
+    <section id="families">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="idx">01 — Families</span>
+          <div>
+            <h2>A <em>three-family</em> system, used with restraint.</h2>
+            <p class="lead">Each family has a dedicated job. Never swap them and never introduce a fourth.</p>
+          </div>
+        </div>
+
+        <div class="fam-grid">
+          <div class="fam-card serif-card">
+            <span class="tag">Hero only</span>
+            <div class="big serif">R<em>a</em></div>
+            <div class="meta">
+              <div class="row"><span class="k">Family</span><span class="v">Source Serif 4</span></div>
+              <div class="row"><span class="k">Token</span><span class="v">var(--serif)</span></div>
+              <div class="row"><span class="k">Weight</span><span class="v">400 only</span></div>
+              <div class="row"><span class="k">Style</span><span class="v">italic for <em>emphasis</em></span></div>
+              <div class="row"><span class="k">Used for</span><span class="v">Page hero H1</span></div>
+            </div>
+          </div>
+
+          <div class="fam-card">
+            <span class="tag">UI · body · headings</span>
+            <div class="big sans">Rg</div>
+            <div class="meta">
+              <div class="row"><span class="k">Family</span><span class="v">Inter</span></div>
+              <div class="row"><span class="k">Token</span><span class="v">var(--sans)</span></div>
+              <div class="row"><span class="k">Weights</span><span class="v">400 · 500 · 600</span></div>
+              <div class="row"><span class="k">Style</span><span class="v">Roman, tight tracking</span></div>
+              <div class="row"><span class="k">Used for</span><span class="v">Everything below the hero</span></div>
+            </div>
+          </div>
+
+          <div class="fam-card mono-card">
+            <span class="tag">Labels · code · numerals</span>
+            <div class="big mono">{ fn }</div>
+            <div class="meta">
+              <div class="row"><span class="k">Family</span><span class="v">JetBrains Mono</span></div>
+              <div class="row"><span class="k">Token</span><span class="v">var(--mono)</span></div>
+              <div class="row"><span class="k">Weights</span><span class="v">400 · 500</span></div>
+              <div class="row"><span class="k">Style</span><span class="v">Uppercase for caps labels</span></div>
+              <div class="row"><span class="k">Used for</span><span class="v">Eyebrows, captions, code</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="scale">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="idx">02 — Scale</span>
+          <div>
+            <h2>The full <em>type scale</em>, top to bottom.</h2>
+            <p class="lead">Two hero tiers, three body tiers, three label tiers. Use <code>clamp()</code> on every hero and section heading so they breathe on every viewport.</p>
+          </div>
+        </div>
+
+        <div class="scale-list">
+          <div class="scale-row">
+            <div class="meta">
+              <span class="role">Display hero</span>
+              <span class="desc">Homepage only. The biggest headline on the site.</span>
+              <div class="spec">
+                <div><span class="dim">family&nbsp;&nbsp;</span>serif</div>
+                <div><span class="dim">weight&nbsp;&nbsp;</span>400</div>
+                <div><span class="dim">size&nbsp;&nbsp;&nbsp;&nbsp;</span>clamp(56px, 7.4vw, 112px)</div>
+                <div><span class="dim">line&nbsp;&nbsp;&nbsp;&nbsp;</span>0.98</div>
+                <div><span class="dim">track&nbsp;&nbsp;&nbsp;</span>-0.03em</div>
+              </div>
+            </div>
+            <span class="sample s-display">Continuously <em>fresh</em> context.</span>
+          </div>
+
+          <div class="scale-row">
+            <div class="meta">
+              <span class="role">Page hero</span>
+              <span class="desc">Every page that isn't the homepage — docs, examples, blog, post titles.</span>
+              <div class="spec">
+                <div><span class="dim">family&nbsp;&nbsp;</span>serif</div>
+                <div><span class="dim">weight&nbsp;&nbsp;</span>400</div>
+                <div><span class="dim">size&nbsp;&nbsp;&nbsp;&nbsp;</span>clamp(40px, 4.6vw, 60px)</div>
+                <div><span class="dim">line&nbsp;&nbsp;&nbsp;&nbsp;</span>0.98</div>
+                <div><span class="dim">track&nbsp;&nbsp;&nbsp;</span>-0.03em</div>
+              </div>
+            </div>
+            <span class="sample s-page">Podcast → <em>knowledge</em> graph.</span>
+          </div>
+
+          <div class="scale-row">
+            <div class="meta">
+              <span class="role">Section H2</span>
+              <span class="desc">Section headings inside a page. Inter 600.</span>
+              <div class="spec">
+                <div><span class="dim">family&nbsp;&nbsp;</span>sans</div>
+                <div><span class="dim">weight&nbsp;&nbsp;</span>600</div>
+                <div><span class="dim">size&nbsp;&nbsp;&nbsp;&nbsp;</span>clamp(28px, 3.2vw, 44px)</div>
+                <div><span class="dim">line&nbsp;&nbsp;&nbsp;&nbsp;</span>1.05</div>
+                <div><span class="dim">track&nbsp;&nbsp;&nbsp;</span>-0.03em</div>
+              </div>
+            </div>
+            <span class="sample s-h2">One coconut, <em>infinite</em> reuse.</span>
+          </div>
+
+          <div class="scale-row">
+            <div class="meta">
+              <span class="role">Subsection H3</span>
+              <span class="desc">Card titles, feature names, step headings.</span>
+              <div class="spec">
+                <div><span class="dim">family&nbsp;&nbsp;</span>sans</div>
+                <div><span class="dim">weight&nbsp;&nbsp;</span>600</div>
+                <div><span class="dim">size&nbsp;&nbsp;&nbsp;&nbsp;</span>22px</div>
+                <div><span class="dim">line&nbsp;&nbsp;&nbsp;&nbsp;</span>1.2</div>
+                <div><span class="dim">track&nbsp;&nbsp;&nbsp;</span>-0.02em</div>
+              </div>
+            </div>
+            <span class="sample s-h3">Declarative flows with native incremental refresh.</span>
+          </div>
+
+          <div class="scale-row">
+            <div class="meta">
+              <span class="role">Lede · Subtitle</span>
+              <span class="desc">The paragraph directly under a hero or section head.</span>
+              <div class="spec">
+                <div><span class="dim">family&nbsp;&nbsp;</span>sans</div>
+                <div><span class="dim">weight&nbsp;&nbsp;</span>400</div>
+                <div><span class="dim">size&nbsp;&nbsp;&nbsp;&nbsp;</span>clamp(17px, 1.4vw, 20px)</div>
+                <div><span class="dim">line&nbsp;&nbsp;&nbsp;&nbsp;</span>1.5</div>
+                <div><span class="dim">track&nbsp;&nbsp;&nbsp;</span>-0.005em</div>
+              </div>
+            </div>
+            <span class="sample s-lede">A lightweight framework for building continuously-updated context for AI — from any source, into any store. Declare your flow, and CocoIndex syncs what changed.</span>
+          </div>
+
+          <div class="scale-row">
+            <div class="meta">
+              <span class="role">Body</span>
+              <span class="desc">All paragraph text. Never below 15px on desktop.</span>
+              <div class="spec">
+                <div><span class="dim">family&nbsp;&nbsp;</span>sans</div>
+                <div><span class="dim">weight&nbsp;&nbsp;</span>400</div>
+                <div><span class="dim">size&nbsp;&nbsp;&nbsp;&nbsp;</span>17px</div>
+                <div><span class="dim">line&nbsp;&nbsp;&nbsp;&nbsp;</span>1.55</div>
+                <div><span class="dim">track&nbsp;&nbsp;&nbsp;</span>0</div>
+              </div>
+            </div>
+            <span class="sample s-body">Body copy sits at 17px with 1.55 line-height — the comfortable reading rhythm for the rest of the site. Strong emphasis uses Inter 500 and the maroon ink color. Links inherit the surrounding color and pick up a 1px underline on hover.</span>
+          </div>
+
+          <div class="scale-row">
+            <div class="meta">
+              <span class="role">Eyebrow</span>
+              <span class="desc">Tiny label above a headline. Coral by default.</span>
+              <div class="spec">
+                <div><span class="dim">family&nbsp;&nbsp;</span>mono</div>
+                <div><span class="dim">weight&nbsp;&nbsp;</span>500</div>
+                <div><span class="dim">size&nbsp;&nbsp;&nbsp;&nbsp;</span>11px</div>
+                <div><span class="dim">tracking&nbsp;</span>0.14em</div>
+                <div><span class="dim">case&nbsp;&nbsp;&nbsp;&nbsp;</span>UPPERCASE</div>
+              </div>
+            </div>
+            <span class="sample s-eyebrow" style="color:var(--coral);">Page guideline · Typography</span>
+          </div>
+
+          <div class="scale-row">
+            <div class="meta">
+              <span class="role">Caps label</span>
+              <span class="desc">Metadata rows, tags, sidebar section headings.</span>
+              <div class="spec">
+                <div><span class="dim">family&nbsp;&nbsp;</span>mono</div>
+                <div><span class="dim">weight&nbsp;&nbsp;</span>400</div>
+                <div><span class="dim">size&nbsp;&nbsp;&nbsp;&nbsp;</span>11px</div>
+                <div><span class="dim">tracking&nbsp;</span>0.14em</div>
+                <div><span class="dim">case&nbsp;&nbsp;&nbsp;&nbsp;</span>UPPERCASE</div>
+              </div>
+            </div>
+            <span class="sample s-caps">Read time · 8 min &nbsp;·&nbsp; Last updated Apr 20 2026</span>
+          </div>
+
+          <div class="scale-row">
+            <div class="meta">
+              <span class="role">Caption</span>
+              <span class="desc">Figure captions, footnotes, secondary helper text.</span>
+              <div class="spec">
+                <div><span class="dim">family&nbsp;&nbsp;</span>mono</div>
+                <div><span class="dim">weight&nbsp;&nbsp;</span>400</div>
+                <div><span class="dim">size&nbsp;&nbsp;&nbsp;&nbsp;</span>12px</div>
+                <div><span class="dim">line&nbsp;&nbsp;&nbsp;&nbsp;</span>1.5</div>
+                <div><span class="dim">case&nbsp;&nbsp;&nbsp;&nbsp;</span>Sentence</div>
+              </div>
+            </div>
+            <span class="sample s-caption">Fig. 2 — A podcast episode is decomposed into speakers, topics, and claims. Each gets its own node, each stays in sync as the episode transcript changes.</span>
+          </div>
+
+          <div class="scale-row">
+            <div class="meta">
+              <span class="role">Code block</span>
+              <span class="desc">Syntax tokens use brand colors: peach · palm · pink.</span>
+              <div class="spec">
+                <div><span class="dim">family&nbsp;&nbsp;</span>mono</div>
+                <div><span class="dim">weight&nbsp;&nbsp;</span>400</div>
+                <div><span class="dim">size&nbsp;&nbsp;&nbsp;&nbsp;</span>13px</div>
+                <div><span class="dim">line&nbsp;&nbsp;&nbsp;&nbsp;</span>1.7</div>
+                <div><span class="dim">bg&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>maroon-ink</div>
+              </div>
+            </div>
+<code class="sample s-code"><span class="cm"># declare a flow</span>
+<span class="kw">@coco.fn</span>
+<span class="kw">async def</span> <span class="fn">process_file</span>(file, target):
+    target.declare_file(name=<span class="str">"out.html"</span>, content=html)</code>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="docs-scale">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="idx">03 — Docs scale</span>
+          <div>
+            <h2>A tighter scale for <em>docs</em>.</h2>
+            <p class="lead">Technical documentation is scanned, not read. The docs site runs a sidebar + content + TOC layout that squeezes the content column to ~720px, and H3s appear several times per page. A denser type scale — fixed sizes, tighter hierarchy, no clamp — serves readers better. This variant is the ratified default for the docs site only; marketing, blog, and examples keep the canonical Scale in §02.</p>
+          </div>
+        </div>
+
+        <div class="scale-list">
+          <div class="scale-row">
+            <div class="meta">
+              <span class="role">Docs body</span>
+              <span class="desc">All paragraph text in reference docs. Denser than marketing body to preserve scannable hierarchy inside the 3-column shell.</span>
+              <div class="spec">
+                <div><span class="dim">family&nbsp;&nbsp;</span>sans</div>
+                <div><span class="dim">weight&nbsp;&nbsp;</span>400</div>
+                <div><span class="dim">size&nbsp;&nbsp;&nbsp;&nbsp;</span>15.5px</div>
+                <div><span class="dim">line&nbsp;&nbsp;&nbsp;&nbsp;</span>1.65</div>
+                <div><span class="dim">vs marketing</span>&nbsp;17px / 1.55</div>
+              </div>
+            </div>
+            <span class="sample s-body" style="font-size:15.5px; line-height:1.65;">CocoIndex maintains derived data from source data incrementally. Declare a flow and the engine reprocesses only what changed — sources, transforms, and target writes stay in sync without a rebuild. This paragraph is rendered at the docs size so you can feel the density difference directly.</span>
+          </div>
+
+          <div class="scale-row">
+            <div class="meta">
+              <span class="role">Docs H2</span>
+              <span class="desc">Section headings in docs. Fixed — the narrow column never justifies the clamp's top end, and 44px wraps awkwardly on short labels like "Install".</span>
+              <div class="spec">
+                <div><span class="dim">family&nbsp;&nbsp;</span>sans</div>
+                <div><span class="dim">weight&nbsp;&nbsp;</span>600</div>
+                <div><span class="dim">size&nbsp;&nbsp;&nbsp;&nbsp;</span>28px</div>
+                <div><span class="dim">line&nbsp;&nbsp;&nbsp;&nbsp;</span>1.1</div>
+                <div><span class="dim">vs marketing</span>&nbsp;clamp(28, 3.2vw, 44)</div>
+              </div>
+            </div>
+            <span class="sample" style="font-family:var(--sans); font-weight:600; font-size:28px; line-height:1.1; letter-spacing:-0.025em;">Install and <em style="font-style:italic; color:var(--coral);">index</em> your first source.</span>
+          </div>
+
+          <div class="scale-row">
+            <div class="meta">
+              <span class="role">Docs H3</span>
+              <span class="desc">Subsection headings. H3s recur every few hundred words in reference docs — 22px would compete with the 28px H2 at this density.</span>
+              <div class="spec">
+                <div><span class="dim">family&nbsp;&nbsp;</span>sans</div>
+                <div><span class="dim">weight&nbsp;&nbsp;</span>600</div>
+                <div><span class="dim">size&nbsp;&nbsp;&nbsp;&nbsp;</span>18px</div>
+                <div><span class="dim">line&nbsp;&nbsp;&nbsp;&nbsp;</span>1.3</div>
+                <div><span class="dim">vs marketing</span>&nbsp;22px</div>
+              </div>
+            </div>
+            <span class="sample" style="font-family:var(--sans); font-weight:600; font-size:18px; line-height:1.3; letter-spacing:-0.01em;">Configure a Postgres target</span>
+          </div>
+        </div>
+
+        <div class="rules-grid" style="margin-top: 40px;">
+          <div class="rule">
+            <span class="tag do">Do</span>
+            <h4>Use the <em>docs scale</em> inside <code>/docs</code>.</h4>
+            <p>15.5 / 28 / 18 applies to every reference page. The denser hierarchy preserves the h1(60)→h2(28)→h3(18) ratio at the narrower column width — the marketing 60→44→22 would flatten visibly.</p>
+          </div>
+          <div class="rule">
+            <span class="tag do">Do</span>
+            <h4>Lift from <em>Stripe, Vercel, GitHub</em>.</h4>
+            <p>14–16px body is the standard for scan-heavy technical documentation. 15.5 lands in the middle of the pack — dense enough to reference, comfortable enough to read inline.</p>
+          </div>
+          <div class="rule">
+            <span class="tag dont">Don't</span>
+            <h4>Don't mix scales <em>inside</em> docs.</h4>
+            <p>Once a page enters the docs shell, every heading and paragraph uses this scale. Pulling a 17px paragraph or a 44px H2 in from a marketing template breaks the rhythm the reader has already calibrated to.</p>
+          </div>
+          <div class="rule">
+            <span class="tag dont">Don't</span>
+            <h4>Don't apply this scale <em>outside</em> docs.</h4>
+            <p>Marketing, blog, examples, and the home page all read paragraph-by-paragraph in wider columns. Those surfaces keep §02 — Scale. The docs variant exists because the shell is narrow, not because the brand got denser.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="rules">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="idx">04 — Rules</span>
+          <div>
+            <h2>How these <em>work together</em>.</h2>
+            <p class="lead">Four rules keep the system legible across every page.</p>
+          </div>
+        </div>
+
+        <div class="rules-grid">
+          <div class="rule">
+            <span class="tag do">Do</span>
+            <h4>Serif is for the <em>hero</em>, nothing else.</h4>
+            <p>Source Serif 4 appears exactly once per page — on the hero H1. Section heads, cards, and body use Inter. This keeps the serif rare enough to stay powerful.</p>
+          </div>
+          <div class="rule">
+            <span class="tag do">Do</span>
+            <h4>Emphasis is <em>italic coral</em>.</h4>
+            <p>Inside a hero, wrap the one word you want to sing in <code>&lt;em&gt;</code>. The em gets italic + coral. Never bold, never underlined, never more than one word per hero.</p>
+          </div>
+          <div class="rule">
+            <span class="tag do">Do</span>
+            <h4>Use <em>clamp()</em> for every hero and H2.</h4>
+            <p>Fluid sizing prevents awkward tablet breakpoints. Body text and labels stay at fixed px — only headings respond to viewport width.</p>
+          </div>
+          <div class="rule">
+            <span class="tag do">Do</span>
+            <h4>Caps labels always use <em>mono</em>.</h4>
+            <p>Any uppercase text with 0.14em tracking — eyebrows, metadata, tags, sidebar section heads — is JetBrains Mono, 11px. Never small-caps Inter, never Source Serif uppercase.</p>
+          </div>
+          <div class="rule">
+            <span class="tag dont">Don't</span>
+            <h4>Don't mix <em>weights</em> inside a single hero.</h4>
+            <p>The hero is serif 400 only. No 500, no 700, no italic-bold hybrids. If you need more emphasis, change the copy — not the type.</p>
+          </div>
+          <div class="rule">
+            <span class="tag dont">Don't</span>
+            <h4>Don't introduce a <em>fourth</em> family.</h4>
+            <p>No display fonts, no "friendly" handwritten scripts, no additional monospace. Three families is the whole system.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tokens" class="dark">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="idx">05 — Tokens</span>
+          <div>
+            <h2>Drop these into <em>:root</em>.</h2>
+            <p class="lead">The full CSS custom-property set for typography.</p>
+          </div>
+        </div>
+
+<pre class="tokens"><span class="c">/* font families */</span>
+<span class="k">--serif</span>: <span class="v">"Source Serif 4", ui-serif, Georgia, serif</span>;
+<span class="k">--sans</span>:  <span class="v">"Inter", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif</span>;
+<span class="k">--mono</span>:  <span class="v">"JetBrains Mono", ui-monospace, Menlo, monospace</span>;
+
+<span class="c">/* hero sizes */</span>
+<span class="k">--fs-display</span>: <span class="v">clamp(56px, 7.4vw, 112px)</span>;  <span class="c">/* homepage only */</span>
+<span class="k">--fs-hero</span>:    <span class="v">clamp(40px, 4.6vw, 60px)</span>;    <span class="c">/* every other page */</span>
+<span class="k">--lh-hero</span>:    <span class="v">0.98</span>;
+<span class="k">--tr-hero</span>:    <span class="v">-0.03em</span>;
+
+<span class="c">/* section + subsection */</span>
+<span class="k">--fs-h2</span>: <span class="v">clamp(28px, 3.2vw, 44px)</span>;
+<span class="k">--fs-h3</span>: <span class="v">22px</span>;
+<span class="k">--lh-h2</span>: <span class="v">1.05</span>;
+<span class="k">--lh-h3</span>: <span class="v">1.2</span>;
+
+<span class="c">/* body + lede */</span>
+<span class="k">--fs-lede</span>: <span class="v">clamp(17px, 1.4vw, 20px)</span>;
+<span class="k">--fs-body</span>: <span class="v">17px</span>;
+<span class="k">--lh-body</span>: <span class="v">1.55</span>;
+
+<span class="c">/* labels + code */</span>
+<span class="k">--fs-caps</span>:    <span class="v">11px</span>;
+<span class="k">--fs-caption</span>: <span class="v">12px</span>;
+<span class="k">--fs-code</span>:    <span class="v">13px</span>;
+<span class="k">--tr-caps</span>:    <span class="v">0.14em</span>;
+
+<span class="c">/* docs scale — override inside /docs only (§03) */</span>
+<span class="k">--fs-docs-body</span>: <span class="v">15.5px</span>;
+<span class="k">--lh-docs-body</span>: <span class="v">1.65</span>;
+<span class="k">--fs-docs-h2</span>:   <span class="v">28px</span>;
+<span class="k">--fs-docs-h3</span>:   <span class="v">18px</span>;</pre>
+      </div>
+    </section>
+  </main>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,490 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="robots" content="noindex, nofollow, noarchive"/>
+<title>CocoIndex — Blog cover image · Internal design system</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<link rel="stylesheet" href="./_shared.css">
+
+<style>
+  /* Page-specific: canvas demo, safe-area overlay, anatomy callouts */
+  .canvas-shell{
+    position: relative;
+    background: var(--cream);
+    border: 1px solid var(--rule-strong);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  /* The canonical 1.91:1 frame, scaled to fit */
+  .canvas{
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1.91 / 1;
+    background: var(--cream);
+    overflow: hidden;
+  }
+  .canvas .grid{
+    position:absolute; inset:0;
+    background-image:
+      linear-gradient(to right, rgba(83,38,56,0.06) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(83,38,56,0.06) 1px, transparent 1px);
+    background-size: calc(100%/12) calc(100%/8);
+    pointer-events:none;
+  }
+  .canvas .safe{
+    position:absolute;
+    inset: 6% 6% 6% 6%;
+    border: 1.5px dashed var(--coral);
+    border-radius: 6px;
+    pointer-events:none;
+  }
+  .canvas .safe::after{
+    content:'safe area · 88% center · keep title + key elements inside';
+    position:absolute; left:0; top:-22px;
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--coral);
+  }
+  .canvas .twitter-crop{
+    position:absolute;
+    left: 0; right: 0;
+    top: 4.5%; bottom: 4.5%;
+    border: 1px dotted rgba(83,38,56,0.55);
+    pointer-events:none;
+  }
+  .canvas .twitter-crop::after{
+    content:'twitter in-feed crop ≈ 2:1';
+    position:absolute; right:0; bottom:-22px;
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: rgba(83,38,56,0.7);
+  }
+
+  /* Anatomy diagram */
+  .anatomy{
+    position:relative;
+    aspect-ratio: 1.91 / 1;
+    background: var(--cream);
+    border: 1px solid var(--rule-strong);
+    border-radius: 8px;
+    overflow: hidden;
+    padding: 6%;
+    color: var(--maroon-ink);
+  }
+  .anatomy .a-eyebrow{
+    font-family: var(--mono); font-size: clamp(8px, 0.9vw, 12px);
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--coral); font-weight: 500;
+  }
+  .anatomy .a-h{
+    font-family: var(--serif); font-weight: 600;
+    font-size: clamp(20px, 2.6vw, 36px);
+    line-height: 1.04; letter-spacing: -0.02em;
+    margin: 8px 0 6px; max-width: 80%;
+  }
+  .anatomy .a-h em{ font-style: italic; color: var(--coral); font-weight: 600; }
+  .anatomy .a-deck{
+    font-family: var(--sans); font-size: clamp(10px, 1.05vw, 14px);
+    color: var(--maroon); max-width: 70%; line-height: 1.4;
+  }
+  .anatomy .a-corner{
+    position:absolute; top:5%; right:5%;
+    font-family: var(--mono); font-size: clamp(8px, 0.85vw, 11px);
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--muted);
+  }
+  .anatomy .a-corner .dot{ display:inline-block; width:6px; height:6px; border-radius:50%; background: var(--coral); margin-right: 6px; vertical-align: 1px;}
+  .anatomy .a-art{
+    position:absolute; right: 5%; bottom: 5%;
+    width: 28%; height: 50%;
+    background: var(--cream-soft);
+    border: 1.5px dashed var(--rule-strong);
+    border-radius: 8px;
+    display:flex; align-items:center; justify-content:center;
+    font-family: var(--mono); font-size: clamp(9px, 0.9vw, 12px);
+    color: var(--muted); letter-spacing: 0.14em; text-transform: uppercase;
+  }
+
+  /* Callout pins */
+  .pin{
+    position:absolute;
+    font-family: var(--mono); font-size: 11px;
+    letter-spacing: 0.06em; color: var(--coral);
+    background: var(--cream); padding: 3px 8px;
+    border: 1px solid var(--coral); border-radius: 999px;
+    white-space: nowrap;
+  }
+
+  /* Spec table */
+  .spec-table{
+    width: 100%; border-collapse: collapse;
+    font-family: var(--sans); font-size: 14px;
+    margin: 18px 0 6px;
+  }
+  .spec-table th, .spec-table td{
+    border-bottom: 1px solid var(--rule);
+    padding: 12px 14px;
+    text-align: left;
+    vertical-align: top;
+  }
+  .spec-table th{
+    font-family: var(--mono); font-size: 11px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--muted); font-weight: 500;
+    border-bottom: 1px solid var(--rule-strong);
+  }
+  .spec-table td.k{ font-family: var(--mono); font-size: 13px; color: var(--berry); white-space: nowrap; }
+  .spec-table td.v{ font-family: var(--mono); font-size: 13px; color: var(--maroon-ink); }
+
+  /* Two-up grid */
+  .two-up{
+    display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+    margin: 18px 0 0;
+  }
+  @media (max-width: 880px){ .two-up{ grid-template-columns: 1fr; } }
+  .two-up .cell{
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .two-up .meta{
+    font-family: var(--mono); font-size: 11px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--muted);
+  }
+  .two-up .meta .ok{ color: var(--palm-ink); }
+  .two-up .meta .no{ color: var(--coral); }
+
+  /* Token chip row (for color usage) */
+  .chips{ display:flex; flex-wrap:wrap; gap: 10px; margin: 14px 0 6px; }
+  .chip{
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 12px; border-radius: 999px;
+    border: 1px solid var(--rule-strong);
+    background: var(--cream-soft);
+    font-family: var(--mono); font-size: 12px;
+    color: var(--maroon-ink);
+  }
+  .chip .sw{ width: 12px; height: 12px; border-radius: 50%; }
+
+  .do-row{
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
+    margin-top: 16px;
+  }
+  @media (max-width: 880px){ .do-row{ grid-template-columns: 1fr; } }
+  .do-card{
+    border: 1px solid var(--rule-strong);
+    border-radius: 8px;
+    padding: 16px 18px;
+    background: var(--cream-soft);
+    font-family: var(--sans); font-size: 14px;
+    line-height: 1.45;
+    color: var(--maroon-ink);
+  }
+  .do-card .head{
+    font-family: var(--mono); font-size: 11px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    margin-bottom: 8px; font-weight: 600;
+  }
+  .do-card.do .head{ color: var(--palm-ink); }
+  .do-card.dont .head{ color: var(--coral); }
+
+  /* Code-style spec value blocks */
+  pre.spec-code{
+    background: var(--maroon-ink); color: var(--cream-soft);
+    padding: 16px 18px; border-radius: 8px;
+    font-family: var(--mono); font-size: 13px; line-height: 1.55;
+    overflow-x: auto;
+    margin: 12px 0 6px;
+  }
+  pre.spec-code .com{ color: var(--taupe); font-style: italic; }
+  pre.spec-code .key{ color: var(--gold); }
+  pre.spec-code .val{ color: var(--lavender); }
+
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <aside class="aside">
+    <div class="brand">
+      <a class="logo logo-md" href="../index.html"><img src="../assets/cocoindex.svg" alt="" width="26" height="28" decoding="async" /><span class="logo-word">CocoIndex</span></a>
+      <span class="kicker">Design system · Internal</span>
+    </div>
+    <nav class="side-nav" aria-label="Design system sections">
+      <a href="../index.html">Overview</a>
+      <a href="./buttons.html">Buttons</a>
+      <a href="./tags.html">Tags</a>
+      <a href="./admonitions.html">Admonitions</a>
+      <a href="./docs-link-card.html">Docs link card</a>
+      <a href="./example-repo-card.html">Example repo card</a>
+      <a href="./hamburger-toc.html">Hamburger / TOC</a>
+      <a href="./typography.html">Typography</a>
+      <a href="./color.html">Color</a>
+      <a href="./cover-image.html" aria-current="page">Blog cover image</a>
+    </nav>
+    <div class="foot">v1 · local only</div>
+  </aside>
+
+  <main class="main">
+    <header class="cover">
+      <div class="wrap">
+        <div class="eyebrow">Page guideline · Blog cover image</div>
+        <h1 class="cover-h">One canvas. <em>1.91:1</em>. Every share.</h1>
+        <p class="lead">Every blog post ships a single <code>cover.png</code> mastered at <strong>2400&nbsp;×&nbsp;1260</strong>. That's the Open Graph standard ratio — Facebook, LinkedIn, Slack, Discord, iMessage, Twitter/X, Bluesky, Hashnode, Substack and WordPress all expect 1.91:1. One file, every preview, no crop.</p>
+      </div>
+    </header>
+
+    <section id="dimensions">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="idx">01 — Canvas</span>
+          <div>
+            <h2>Master at <em>2400&nbsp;×&nbsp;1260</em>.</h2>
+            <p class="lead">Width is 2× the 1200&nbsp;px Open Graph minimum so retina displays render every glyph crisply. Anything under 1200&nbsp;px wide downgrades to a thumbnail card on Facebook and LinkedIn.</p>
+          </div>
+        </div>
+
+        <table class="spec-table">
+          <thead>
+            <tr><th>Property</th><th>Value</th><th>Notes</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="k">Aspect ratio</td>
+              <td class="v">1.91 : 1</td>
+              <td>Open Graph spec. Adopted by every major link-preview surface.</td>
+            </tr>
+            <tr>
+              <td class="k">Master size</td>
+              <td class="v">2400 × 1260 px</td>
+              <td>2× retina. Sharp on DPR&nbsp;2 displays.</td>
+            </tr>
+            <tr>
+              <td class="k">Minimum size</td>
+              <td class="v">1200 × 630 px</td>
+              <td>Below this, social previews render the small thumbnail card, not the wide card.</td>
+            </tr>
+            <tr>
+              <td class="k">Maximum size</td>
+              <td class="v">≤ 8000 px on long edge</td>
+              <td>Twitter and WhatsApp re-encode aggressively past 5&nbsp;MB.</td>
+            </tr>
+            <tr>
+              <td class="k">File format</td>
+              <td class="v">PNG (or JPG for photographic)</td>
+              <td>Astro emits responsive variants automatically. PNG keeps text edges sharp.</td>
+            </tr>
+            <tr>
+              <td class="k">File size target</td>
+              <td class="v">&lt; 800 KB PNG · &lt; 200 KB JPG/WebP</td>
+              <td>Keeps LCP under 2.5&nbsp;s on 4G.</td>
+            </tr>
+            <tr>
+              <td class="k">Filename</td>
+              <td class="v"><code>cover.png</code></td>
+              <td>Sits next to <code>index.md</code>. Referenced via <code>heroImage: ./cover.png</code> frontmatter.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <pre class="spec-code"><span class="com"># content collection schema (src/content/blogs/&lt;slug&gt;/index.md)</span>
+<span class="key">heroImage</span>: <span class="val">./cover.png</span>     <span class="com"># required · 2400×1260</span>
+<span class="key">heroAlt</span>:   <span class="val">"&lt;descriptive title&gt;"</span></pre>
+
+        <h3 style="margin-top:32px">Safe area</h3>
+        <p class="lead">Twitter occasionally crops 1.91:1 down to 2:1 in-feed. Keep the title, mascot, and any critical detail inside the <strong>center 88%</strong> of the canvas. The dashed coral box below is the safe area; the dotted line is the typical Twitter crop.</p>
+
+        <div class="canvas-shell" style="margin-top:18px">
+          <div class="canvas">
+            <div class="grid"></div>
+            <div class="twitter-crop"></div>
+            <div class="safe"></div>
+          </div>
+        </div>
+
+        <h3 style="margin-top:32px">In-page frame · consistent padding</h3>
+        <p class="lead">When the cover renders inside the blog post, the surrounding <code>.cover-art</code> container is the visual frame: aspect-ratio matches the source (<strong>1.91 : 1</strong>) so the image never crops, and a <strong>14&nbsp;px cream inset</strong> with a hairline rule gives every cover the same breathing room. The image inside uses <code>object-fit: contain</code> — letterbox before crop. Any cover that doesn't ship at 1.91 : 1 will sit on cream bars; do not rebalance it by switching to <code>cover</code>.</p>
+
+        <pre class="spec-code"><span class="com">/* src/styles/globals.css · .blog-theme .cover-art */</span>
+<span class="key">aspect-ratio</span>: <span class="val">1.91 / 1</span>;     <span class="com"># matches the source canvas — no crop</span>
+<span class="key">background</span>:   <span class="val">var(--cream)</span>;
+<span class="key">border</span>:       <span class="val">1px solid var(--rule)</span>;
+<span class="key">padding</span>:      <span class="val">14px</span>;            <span class="com"># consistent inset on every post</span>
+<span class="key">border-radius</span>: <span class="val">12px</span>;
+<span class="com">/* img */</span>
+<span class="key">object-fit</span>:   <span class="val">contain</span>;         <span class="com"># letterbox, never crop</span>
+<span class="key">border-radius</span>: <span class="val">8px</span>;</pre>
+      </div>
+    </section>
+
+    <section id="anatomy" style="margin-top:48px">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="idx">02 — Anatomy</span>
+          <div>
+            <h2>Five <em>regions</em> of the canvas.</h2>
+            <p class="lead">Every cover composes from the same five elements. Drop one if the post doesn't need it — never add a sixth.</p>
+          </div>
+        </div>
+
+        <div class="anatomy" style="margin-top:18px">
+          <div class="a-corner"><span class="dot"></span>CocoIndex · Insight</div>
+          <div class="a-eyebrow">Python · Type-Guided Serde</div>
+          <div class="a-h">Your <em>type hints</em> already know your schema.</div>
+          <div class="a-deck">Deck. One sentence. State the takeaway. Use <strong>bold</strong> for the noun, <span style="text-decoration:line-through;text-decoration-color:var(--coral)">strikethrough</span> for what's been removed.</div>
+          <div class="a-art">central illustration / code / mascot</div>
+
+          <!-- pins -->
+          <span class="pin" style="top:5%; left:5%">A · eyebrow</span>
+          <span class="pin" style="top:21%; left:5%">B · headline</span>
+          <span class="pin" style="top:50%; left:5%">C · deck</span>
+          <span class="pin" style="top:5%; right:5%; transform:translate(0,-22px)">D · corner mark</span>
+          <span class="pin" style="bottom:5%; right:5%; transform:translate(0,22px)">E · art</span>
+        </div>
+
+        <table class="spec-table" style="margin-top:24px">
+          <thead><tr><th>Region</th><th>Role</th><th>Spec</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="k">A · eyebrow</td>
+              <td>Category / topic tag.</td>
+              <td>JetBrains Mono · 16–18 px · uppercase · letter-spacing 0.20em · color <code>var(--coral)</code>.</td>
+            </tr>
+            <tr>
+              <td class="k">B · headline</td>
+              <td>The single takeaway. Italic emphasis on the key noun phrase.</td>
+              <td>Source Serif 4 · 64–80 px · weight 600 · line-height 1.05 · italic-coral on key noun. Ends with a period.</td>
+            </tr>
+            <tr>
+              <td class="k">C · deck</td>
+              <td>One sentence that names the mechanism.</td>
+              <td>Inter · 21–24 px · weight 400 · color <code>var(--maroon)</code>. Bold the active nouns.</td>
+            </tr>
+            <tr>
+              <td class="k">D · corner mark</td>
+              <td>Brand sigil. Always present.</td>
+              <td>JetBrains Mono · 16 px · uppercase · letter-spacing 0.18em · coral dot + "<em>CocoIndex · &lt;Section&gt;</em>".</td>
+            </tr>
+            <tr>
+              <td class="k">E · art</td>
+              <td>Central illustration: code, diagram, or mascot scene.</td>
+              <td>Sits inside the safe area. Background contrast must clear AA on cream. No drop shadows.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3 style="margin-top:32px">Mascot · canonical SVG only</h3>
+        <p class="lead">If Coco appears on a cover, the mascot <strong>must be the canonical brand SVG</strong> — never a redrawn, simplified, or AI-generated copy. Inline the file at <code>/design_guidelines/assets/cocoindex.svg</code> (mirror at <code>/public/images/cocoindex.svg</code>) so the renderer ships an offline-safe PNG. Re-drawing the coconut shell, eyes, or palm leaves drifts the brand silhouette every release; lock it.</p>
+
+        <div style="display:grid; grid-template-columns: 140px 1fr; gap: 24px; align-items: center; margin-top: 14px;">
+          <div style="background: var(--cream); border: 1px solid var(--rule-strong); border-radius: 8px; padding: 14px; display:flex; align-items:center; justify-content:center;">
+            <img src="../assets/cocoindex.svg" alt="Canonical CocoIndex mascot" width="100" height="109" style="display:block;"/>
+          </div>
+          <div>
+            <pre class="spec-code" style="margin:0"><span class="com">&lt;!-- correct: inline the canonical asset --&gt;</span>
+<span class="key">&lt;svg</span> <span class="val">viewBox="0 0 220 240"</span> <span class="key">…&gt;</span>
+  <span class="com">&lt;!-- paths copied verbatim from cocoindex.svg --&gt;</span>
+<span class="key">&lt;/svg&gt;</span>
+
+<span class="com">&lt;!-- wrong: redrawn / approximate paths --&gt;</span>
+<span class="key">&lt;circle</span> <span class="val">cx="50" cy="62" r="42"</span> <span class="key">/&gt;</span>  <span class="com"># do not</span></pre>
+          </div>
+        </div>
+
+        <ul class="lead" style="margin-top:14px; padding-left: 18px;">
+          <li>Use the SVG verbatim — do not edit colours, leaf shape, or eye geometry.</li>
+          <li>Render at <strong>96–140&nbsp;px</strong> wide on the 1200&nbsp;×&nbsp;628 canvas; the viewBox is <code>220 × 240</code>.</li>
+          <li>Place fully inside the 88% safe area, including any speech bubble, halo, or tail.</li>
+          <li>Never apply <code>filter</code>, <code>drop-shadow</code>, or hue rotation. Stroke + fill contrast only.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="palette" style="margin-top:48px">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="idx">03 — Color</span>
+          <div>
+            <h2>Cream <em>paper</em>. Coral accent. Maroon text.</h2>
+            <p class="lead">The canvas is always <code>--cream</code>. Italic emphasis in the headline always uses <code>--coral</code>. Code blocks sit on <code>--maroon-ink</code> with the canonical Shiki-mirrored token colors.</p>
+          </div>
+        </div>
+
+        <div class="chips">
+          <span class="chip"><span class="sw" style="background:var(--cream)"></span>--cream <code>#FCF3D8</code> · canvas</span>
+          <span class="chip"><span class="sw" style="background:var(--maroon-ink)"></span>--maroon-ink <code>#2A121B</code> · headline + code bg</span>
+          <span class="chip"><span class="sw" style="background:var(--maroon)"></span>--maroon <code>#532638</code> · deck</span>
+          <span class="chip"><span class="sw" style="background:var(--coral)"></span>--coral <code>#BE5133</code> · italic emphasis + eyebrow</span>
+          <span class="chip"><span class="sw" style="background:var(--peach)"></span>--peach <code>#E59A63</code> · accent + fills</span>
+          <span class="chip"><span class="sw" style="background:var(--palm)"></span>--palm <code>#27E62B</code> · success / "after" highlight</span>
+          <span class="chip"><span class="sw" style="background:var(--pink)"></span>--pink <code>#FB6A76</code> · warning / "before" tag</span>
+        </div>
+
+        <p class="lead" style="margin-top:14px"><strong>No drop shadows.</strong> Use stroke + fill contrast for elevation. Never gradient-shade for depth.</p>
+      </div>
+    </section>
+
+    <section id="dos" style="margin-top:48px">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="idx">04 — Rules</span>
+          <div>
+            <h2><em>Do</em> &amp; don't.</h2>
+            <p class="lead">Six rules. They cover 95% of decisions; the seventh judgement-call should always favor reading clarity over decoration.</p>
+          </div>
+        </div>
+
+        <div class="do-row">
+          <div class="do-card do">
+            <div class="head">DO · headline</div>
+            One italic phrase, one period. The reader should grasp the post in one glance.
+          </div>
+          <div class="do-card do">
+            <div class="head">DO · safe area</div>
+            Keep title + mascot inside the center 88%. Twitter crops to 2:1.
+          </div>
+          <div class="do-card do">
+            <div class="head">DO · canonical mascot</div>
+            If Coco shows up, inline <code>/design_guidelines/assets/cocoindex.svg</code> verbatim — never redraw, never substitute.
+          </div>
+          <div class="do-card dont">
+            <div class="head">DON'T · drop shadow</div>
+            No <code>box-shadow</code> for depth. Use stroke + fill contrast instead.
+          </div>
+          <div class="do-card dont">
+            <div class="head">DON'T · redrawn mascot</div>
+            No hand-redrawn coconuts, no approximate path data, no AI-generated photo-real imagery. Canonical SVG only.
+          </div>
+          <div class="do-card dont">
+            <div class="head">DON'T · 16:9</div>
+            16:9 (1.78:1) gets letter-boxed by every social preview. Use 1.91:1 even if it feels wide.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="reference" style="margin-top:48px; margin-bottom:80px">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="idx">05 — Reference render</span>
+          <div>
+            <h2>The <em>type-guided serde</em> cover.</h2>
+            <p class="lead">Live render from <code>/tmp/coco-cover/serde-cover.html</code> at the canonical 2400&nbsp;×&nbsp;1260. Use this layout as a reference for any post that contrasts a "before / after" code state.</p>
+          </div>
+        </div>
+
+        <div class="canvas-shell" style="margin-top:18px">
+          <div class="canvas">
+            <img src="../../src/content/blogs/type-guided-serde/cover.png" alt="Type-guided serde reference cover" style="width:100%; height:100%; display:block; object-fit:cover;"/>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,1011 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="robots" content="noindex, nofollow, noarchive"/>
+<title>CocoIndex — Hamburger / TOC · Internal design system</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/fonts/fonts.css">
+<link rel="stylesheet" href="./_shared.css">
+
+<style>
+  /* ─────────────────────────────────────────────────────────────
+     Phone-mode hamburger / TOC
+
+     Why one component, not two
+     ──────────────────────────
+     On desktop the docs use three rails: Sidebar (pages tree),
+     Content, and Toc (page headings). On phones we collapse all
+     three into one column, which leaves *both* navigation jobs
+     homeless. A second-tier "menu" plus a third-tier "TOC" would
+     stack two hamburgers — confusing. So one hamburger, one sheet,
+     two segmented tabs:
+
+       · On this page  — the current doc's headings (default tab).
+                         Phones are mid-page readers; this is the
+                         scrub-friendly common case.
+       · Pages         — the sidebar tree.
+
+     Surface           Role                                      Class
+     ────────────────  ────────────────────────────────────────  ────────────
+     .ph-burger        Trigger button in the topbar              + .open
+     .ph-sheet         Right-anchored drawer (full-height)       + .open
+     .ph-scrim         Backdrop that closes on tap               + .open
+     .ph-tabs          Segmented control · Pages | On this page
+     .ph-list          Tappable list (≥44px rows)
+     .ph-list .num     H2 step number — same shape as desktop Toc
+
+     Token discipline
+     ────────────────
+     · No drop shadows. The drawer rests on a hairline + maroon
+       scrim. Elevation reads from the scrim, not from blur.
+     · One coral accent at a time — the active row, or the burger
+       glyph during the open transition. Never both.
+     · Animation ≤ 220ms. Anything longer reads as a "menu", not
+       a sheet. Bezier matches buttons (.16s ease).
+     ───────────────────────────────────────────────────────── */
+
+  /* ════ Phone frame (demo scaffolding) ════ */
+  .ph-frame{
+    position: relative;
+    width: 360px; max-width: 100%;
+    margin: 0 auto;
+    border-radius: 36px;
+    border: 1px solid var(--rule-strong);
+    background: var(--cream);
+    overflow: hidden;
+    aspect-ratio: 360 / 720;
+    isolation: isolate;
+  }
+  .ph-frame::before{
+    content: "";
+    position: absolute;
+    top: 14px; left: 50%; transform: translateX(-50%);
+    width: 110px; height: 22px;
+    border-radius: 999px;
+    background: var(--maroon-ink);
+    z-index: 5;
+  }
+  .ph-status{
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 44px;
+    display: flex; align-items: center;
+    padding: 0 24px;
+    font-family: var(--mono); font-weight: 500;
+    font-size: 11px; letter-spacing: 0.04em;
+    color: var(--maroon-ink);
+    z-index: 4;
+  }
+  .ph-status .time{ font-variant-numeric: tabular-nums; }
+  .ph-status .ind{
+    margin-left: auto;
+    display: inline-flex; gap: 5px; align-items: center;
+  }
+  .ph-status .ind i{
+    width: 4px; height: 4px; border-radius: 50%;
+    background: var(--maroon-ink);
+  }
+
+  /* page contents — a partial mocked doc page */
+  .ph-page{
+    position: absolute; inset: 44px 0 0 0;
+    overflow: hidden;
+    background: var(--paper);
+  }
+  .ph-topbar{
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px 16px;
+    background: var(--paper);
+    border-bottom: 1px solid var(--rule);
+  }
+  .ph-topbar .logo{
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--sans); font-weight: 600; font-size: 14px;
+    letter-spacing: -0.01em; color: var(--maroon-ink);
+  }
+  .ph-topbar .logo .dot{
+    width: 18px; height: 18px; border-radius: 5px;
+    background: var(--coral);
+  }
+  .ph-topbar .spacer{ flex: 1; }
+
+  /* ════ GitHub stars pill ════
+     Quieted-down cousin of the homepage .stars pill. On phones the
+     topbar is one of three things competing in 56px of vertical space
+     (logo, stars, burger) — the homepage pill's hairline border and
+     cream fill turn into visual noise here. So at rest it's a
+     borderless, transparent glyph + count in muted maroon-ink; the
+     pill shape only materializes on hover/focus, where the user has
+     already declared intent. Same shape *language* as the homepage,
+     dialed down two notches. */
+  .ph-stars{
+    display: inline-flex; align-items: center; gap: 5px;
+    height: 28px; padding: 0 6px;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    background: transparent;
+    font-family: var(--mono); font-weight: 500;
+    font-size: 11px; letter-spacing: 0.02em;
+    color: var(--muted);
+    text-decoration: none;
+    transition: border-color .16s ease, background .16s ease, color .16s ease;
+  }
+  .ph-stars:hover{
+    border-color: var(--rule);
+    background: color-mix(in oklab, var(--peach) 10%, transparent);
+    color: var(--coral);
+  }
+  .ph-stars:focus-visible{ outline: 2px solid var(--coral); outline-offset: 2px; }
+  .ph-stars svg{ flex: none; opacity: .85; }
+  .ph-stars:hover svg{ opacity: 1; }
+  .ph-stars .count{
+    min-width: 3ch;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .ph-doc{
+    padding: 18px 18px 24px;
+    overflow-y: auto;
+    height: calc(100% - 49px);
+  }
+  .ph-doc .crumb{
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .ph-doc h2.t{
+    font-family: var(--serif); font-style: italic;
+    font-weight: 400; font-size: 28px; line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin: 0 0 12px; color: var(--coral);
+  }
+  .ph-doc h2.t .ink{ color: var(--maroon-ink); font-style: normal; }
+  .ph-doc p{
+    margin: 0 0 12px; font-size: 13px; line-height: 1.6; color: var(--maroon-ink);
+  }
+  .ph-doc h3{
+    margin: 18px 0 8px;
+    font-family: var(--sans); font-weight: 600;
+    font-size: 15px; letter-spacing: -0.01em;
+    color: var(--maroon-ink);
+  }
+  .ph-doc .stub{
+    height: 8px; border-radius: 4px;
+    background: color-mix(in oklab, var(--maroon-ink) 8%, var(--cream));
+    margin-bottom: 8px;
+  }
+  .ph-doc .stub.s60{ width: 60%; }
+  .ph-doc .stub.s80{ width: 80%; }
+  .ph-doc .stub.s40{ width: 40%; }
+
+  /* ════ Hamburger button ════
+     Borderless at rest — the bars are the affordance, not the chrome.
+     A boxed icon button next to a logo and a star pill reads as a
+     third "control" with equal weight, which is exactly the noise the
+     phone topbar can't afford. The square only appears on hover/open
+     to confirm the touch target. Bars sit at 1.4px (down from 1.6) so
+     the glyph reads as content, not as UI furniture. */
+  .ph-burger{
+    width: 32px; height: 32px; flex: none;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--muted);
+    display: grid; place-items: center;
+    cursor: pointer;
+    position: relative;
+    transition: background .16s ease, border-color .16s ease, color .16s ease;
+  }
+  .ph-burger:hover{
+    border-color: var(--rule);
+    background: color-mix(in oklab, var(--peach) 10%, transparent);
+    color: var(--maroon-ink);
+  }
+  .ph-burger:focus-visible{ outline: 2px solid var(--coral); outline-offset: 2px; }
+  .ph-burger .bar,
+  .ph-burger::before,
+  .ph-burger::after{
+    content: "";
+    position: absolute; left: 8px; right: 8px;
+    height: 1.4px; border-radius: 1px;
+    background: currentColor;
+    transition: transform .22s cubic-bezier(.2,.8,.2,1), opacity .14s ease, top .22s cubic-bezier(.2,.8,.2,1);
+  }
+  .ph-burger::before{ top: 10px; }
+  .ph-burger .bar{ top: 15px; }
+  .ph-burger::after{  top: 20px; }
+  .ph-burger.open{ color: var(--coral); border-color: var(--rule); background: color-mix(in oklab, var(--peach) 10%, transparent); }
+  .ph-burger.open::before{ top: 15px; transform: rotate(45deg); }
+  .ph-burger.open::after { top: 15px; transform: rotate(-45deg); }
+  .ph-burger.open .bar{ opacity: 0; }
+
+  /* ════ Sheet + scrim ════ */
+  .ph-scrim{
+    position: absolute; inset: 0;
+    background: color-mix(in oklab, var(--maroon-ink) 38%, transparent);
+    opacity: 0; pointer-events: none;
+    transition: opacity .22s ease;
+    z-index: 6;
+  }
+  .ph-scrim.open{ opacity: 1; pointer-events: auto; }
+
+  .ph-sheet{
+    position: absolute; top: 44px; right: 0; bottom: 0;
+    width: min(86%, 320px);
+    background: var(--cream);
+    border-left: 1px solid var(--rule-strong);
+    transform: translateX(100%);
+    transition: transform .22s cubic-bezier(.2,.8,.2,1);
+    display: flex; flex-direction: column;
+    z-index: 7;
+  }
+  .ph-sheet.open{ transform: translateX(0); }
+
+  .ph-sheet-head{
+    display: flex; align-items: center; gap: 10px;
+    padding: 14px 14px 10px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .ph-sheet-head .ttl{
+    font-family: var(--mono); font-weight: 500;
+    font-size: 11px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--muted);
+    flex: 1;
+  }
+  .ph-close{
+    width: 32px; height: 32px; border-radius: 8px;
+    border: 1px solid var(--rule-strong);
+    background: var(--cream);
+    color: var(--maroon-ink);
+    display: grid; place-items: center;
+    cursor: pointer;
+    transition: color .16s ease, border-color .16s ease, background .16s ease;
+  }
+  .ph-close:hover{ color: var(--coral); border-color: var(--coral); }
+
+  /* segmented tabs */
+  .ph-tabs{
+    display: grid; grid-template-columns: 1fr 1fr;
+    margin: 12px 14px 0;
+    padding: 3px;
+    background: color-mix(in oklab, var(--maroon-ink) 6%, var(--cream));
+    border-radius: 10px;
+    position: relative;
+  }
+  .ph-tabs button{
+    appearance: none;
+    border: none; background: transparent; cursor: pointer;
+    padding: 8px 10px;
+    font-family: var(--sans); font-weight: 500;
+    font-size: 13px; letter-spacing: -0.005em;
+    color: var(--maroon-ink); opacity: .7;
+    border-radius: 7px;
+    transition: opacity .16s ease, color .16s ease;
+    position: relative; z-index: 1;
+  }
+  .ph-tabs button[aria-selected="true"]{
+    opacity: 1; color: var(--maroon-ink);
+    background: var(--cream);
+    box-shadow: inset 0 0 0 1px var(--rule);
+  }
+  .ph-tabs button:focus-visible{ outline: 2px solid var(--coral); outline-offset: 2px; }
+
+  /* list panes */
+  .ph-pane{
+    flex: 1;
+    overflow-y: auto;
+    padding: 14px 6px 18px;
+  }
+  .ph-pane[hidden]{ display: none; }
+
+  .ph-group{
+    margin: 0 8px 14px;
+  }
+  .ph-group h6{
+    margin: 12px 8px 6px;
+    font-family: var(--mono); font-weight: 500;
+    font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--muted);
+  }
+  .ph-list{ display: flex; flex-direction: column; }
+  .ph-list a{
+    display: flex; align-items: center; gap: 10px;
+    min-height: 44px;
+    padding: 10px 10px;
+    border-radius: 8px;
+    font-family: var(--sans); font-weight: 500;
+    font-size: 14px; letter-spacing: -0.005em;
+    color: var(--maroon-ink); text-decoration: none;
+    transition: background .14s ease, color .14s ease;
+  }
+  .ph-list a:hover{ background: color-mix(in oklab, var(--coral) 8%, transparent); }
+  .ph-list a[aria-current="true"]{
+    background: color-mix(in oklab, var(--coral) 14%, transparent);
+    color: var(--coral);
+  }
+  .ph-list a .num{
+    width: 20px; height: 20px; border-radius: 5px;
+    flex: none; display: grid; place-items: center;
+    font-family: var(--mono); font-size: 10px; font-weight: 500;
+    background: color-mix(in oklab, var(--maroon-ink) 6%, transparent);
+    color: var(--maroon-ink);
+    font-variant-numeric: tabular-nums;
+  }
+  .ph-list a[aria-current="true"] .num{
+    background: var(--coral); color: var(--cream);
+  }
+  .ph-list a.sub{
+    padding-left: 36px; min-height: 38px;
+    font-size: 13px; opacity: .8;
+  }
+
+  .ph-foot{
+    padding: 12px 18px 16px;
+    border-top: 1px solid var(--rule);
+    display: flex; align-items: center; gap: 10px;
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--muted);
+  }
+  .ph-foot a{
+    color: var(--maroon-ink); text-decoration: none;
+  }
+  .ph-foot a:hover{ color: var(--coral); }
+  .ph-foot .check{ flex: none; }
+
+  /* ════ Reduced motion ════ */
+  @media (prefers-reduced-motion: reduce){
+    .ph-burger::before, .ph-burger::after, .ph-burger .bar,
+    .ph-sheet, .ph-scrim{
+      transition: none !important;
+    }
+  }
+
+  /* ════ Demo scaffolding ════ */
+  .ph-stage{
+    padding: clamp(24px, 4vw, 48px);
+    background: linear-gradient(180deg,
+      color-mix(in oklab, var(--peach) 12%, var(--cream)),
+      var(--paper));
+    border: 1px solid var(--rule);
+    border-radius: 20px;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: clamp(24px, 4vw, 48px);
+    align-items: center;
+  }
+  @media (max-width: 880px){ .ph-stage{ grid-template-columns: 1fr; } }
+  .ph-stage .copy h3{
+    font-family: var(--sans); font-weight: 600;
+    font-size: clamp(20px, 2vw, 28px); line-height: 1.2;
+    letter-spacing: -0.02em; color: var(--maroon-ink);
+    margin: 0 0 12px;
+  }
+  .ph-stage .copy h3 em{ color: var(--coral); font-style: italic; }
+  .ph-stage .copy p{
+    font-size: 14px; line-height: 1.6; color: var(--maroon-ink);
+    margin: 0 0 14px; max-width: 46ch;
+  }
+  .ph-stage .copy .controls{
+    display: flex; gap: 10px; flex-wrap: wrap; margin-top: 6px;
+  }
+
+  /* anatomy schema */
+  .anatomy{
+    display: grid; grid-template-columns: 360px 1fr; gap: 40px;
+    align-items: start;
+  }
+  @media (max-width: 900px){ .anatomy{ grid-template-columns: 1fr; gap: 24px; } }
+  .anatomy .schema{
+    position: relative;
+    width: 360px; max-width: 100%;
+    aspect-ratio: 360 / 600;
+    background: var(--cream);
+    border: 1px solid var(--rule-strong);
+    border-radius: 24px;
+    overflow: hidden;
+  }
+  .anatomy .zone{
+    position: absolute;
+    border: 1px dashed var(--rule-strong);
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-family: var(--mono); font-weight: 500;
+    font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--muted);
+    display: flex; align-items: center; gap: 8px;
+    background: color-mix(in oklab, var(--peach) 6%, var(--cream));
+  }
+  .anatomy .zone .n{
+    width: 20px; height: 20px; border-radius: 5px;
+    display: grid; place-items: center; flex: none;
+    background: var(--coral); color: var(--cream);
+    font-size: 10px; letter-spacing: 0.04em;
+  }
+  .anatomy .z1{ top: 16px; left: 12px; right: 12px; }            /* topbar/burger */
+  .anatomy .z2{ top: 64px; right: 12px; bottom: 16px; width: 60%; }/* sheet */
+  .anatomy .z3{ top: 78px; right: 22px; left: 50%; height: 36px; }/* tabs (within sheet) */
+  .anatomy .z4{ top: 124px; right: 22px; left: 50%; bottom: 60px;}/* list */
+  .anatomy .z5{ left: 12px; right: 50%; top: 64px; bottom: 16px; opacity: .55; }
+  .anatomy-notes{ display: flex; flex-direction: column; gap: 0; }
+  .anatomy-notes .note{
+    display: grid; grid-template-columns: 30px 1fr; gap: 14px;
+    padding: 16px 0;
+    border-top: 1px solid var(--rule);
+    font-size: 14px; line-height: 1.55; color: var(--maroon-ink);
+  }
+  .anatomy-notes .note:first-child{ border-top: none; padding-top: 0; }
+  .anatomy-notes .note b{
+    font-family: var(--mono); font-weight: 500;
+    font-size: 10px; letter-spacing: 0.08em;
+    color: var(--cream); background: var(--coral);
+    border-radius: 4px;
+    display: grid; place-items: center;
+    height: 22px; width: 22px; margin-top: 1px;
+  }
+  .anatomy-notes .note em{ color: var(--coral); font-style: italic; }
+
+  /* variants grid */
+  .variant-grid{
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+    border-top: 1px solid var(--rule-strong);
+    border-left: 1px solid var(--rule-strong);
+  }
+  @media (max-width: 880px){ .variant-grid{ grid-template-columns: 1fr; } }
+  .variant-cell{
+    border-right: 1px solid var(--rule-strong);
+    border-bottom: 1px solid var(--rule-strong);
+    padding: 28px;
+    background: var(--cream-soft);
+    display: flex; flex-direction: column; gap: 16px;
+  }
+  .variant-cell .role{
+    font-family: var(--mono); font-weight: 500;
+    font-size: 11px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--coral);
+  }
+  .variant-cell .desc{
+    font-family: var(--sans); font-size: 13px; color: var(--muted);
+    line-height: 1.5; margin: 0;
+  }
+  .variant-cell .ph-frame{
+    transform: scale(.82); transform-origin: top center;
+    margin-bottom: -90px; /* reclaim scaled space */
+  }
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <aside class="aside">
+    <div class="brand">
+      <a class="logo logo-md" href="../index.html"><img src="../assets/cocoindex.svg" alt="" width="26" height="28" decoding="async" /><span class="logo-word">CocoIndex</span></a>
+      <span class="kicker">Design system · Internal</span>
+    </div>
+    <nav class="side-nav" aria-label="Design system sections">
+      <a href="../index.html">Overview</a>
+      <a href="./buttons.html">Buttons</a>
+      <a href="./tags.html">Tags</a>
+      <a href="./admonitions.html">Admonitions</a>
+      <a href="./docs-link-card.html">Docs link card</a>
+      <a href="./example-repo-card.html">Example repo card</a>
+      <a href="./hamburger-toc.html" aria-current="page">Hamburger / TOC</a>
+      <a href="./typography.html">Typography</a>
+      <a href="./color.html">Color</a>
+      <a href="./cover-image.html">Blog cover image</a>
+    </nav>
+    <div class="foot">v1 · local only</div>
+  </aside>
+
+  <main class="main">
+    <header class="cover">
+      <div class="wrap">
+        <div class="eyebrow">Page guideline · Hamburger / TOC</div>
+        <h1 class="cover-h">One sheet, two <em>jobs</em>.</h1>
+        <p class="lead">Phones don't have rails. The hamburger inherits both navigation jobs the desktop docs split across two columns — site-wide pages on one tab, the current page's headings on the other. The GitHub <em>star pill</em> stays parked next to the burger, because the social-proof signal shouldn't disappear with the rails. One trigger, one drawer, one accent at a time — tap to open, scrim-tap to dismiss, ⌘K still works for power users.</p>
+      </div>
+    </header>
+
+    <!-- ─────────── 01 — The experience ─────────── -->
+    <section id="demo">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="idx">01 — The experience</span>
+          <div>
+            <h2>Tap the <em>burger</em>.</h2>
+            <p class="lead">A right-anchored sheet slides in over a maroon scrim. The default tab is <em>On this page</em> because phone readers are usually mid-page; one tap to scrub headings. Switch tabs to browse the full sidebar tree without leaving the sheet.</p>
+          </div>
+        </div>
+
+        <div class="ph-stage">
+          <div class="copy">
+            <h3>Live <em>preview</em>.</h3>
+            <p>The phone frame below is real markup — the burger toggles the sheet, the scrim closes it, and arrow keys move focus through the active list. Resize this window to see why phones need this: the desktop rails simply don't fit.</p>
+            <div class="controls">
+              <button class="btn btn-coral btn-sm" id="demoOpen">Open sheet</button>
+              <button class="btn btn-outline btn-sm" id="demoToc">Switch to On this page</button>
+              <button class="btn btn-outline btn-sm" id="demoPages">Switch to Pages</button>
+            </div>
+          </div>
+
+          <div class="ph-frame" id="demoPhone" aria-label="Phone preview">
+            <!-- status bar -->
+            <div class="ph-status">
+              <span class="time">9:41</span>
+              <span class="ind"><i></i><i></i><i></i></span>
+            </div>
+
+            <!-- doc page underneath -->
+            <div class="ph-page">
+              <div class="ph-topbar">
+                <span class="logo"><span class="dot"></span>CocoIndex</span>
+                <span class="spacer"></span>
+                <a class="ph-stars" data-live href="https://github.com/cocoindex-io/cocoindex" aria-label="CocoIndex on GitHub">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none"
+                       stroke="currentColor" stroke-width="1.8"
+                       stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                  </svg>
+                  <span class="count">—</span>
+                </a>
+                <button class="ph-burger" id="phBurger" aria-label="Open menu" aria-expanded="false" aria-controls="phSheet">
+                  <span class="bar"></span>
+                </button>
+              </div>
+              <div class="ph-doc">
+                <div class="crumb">Docs / Getting started / Quickstart</div>
+                <h2 class="t"><span class="ink">Build your first</span> pipeline</h2>
+                <p>CocoIndex is a declarative, incremental engine for keeping derived data in sync with your sources. You declare the target shape; the engine figures out the diff.</p>
+                <h3>Install</h3>
+                <div class="stub s80"></div>
+                <div class="stub s60"></div>
+                <h3>Define a flow</h3>
+                <div class="stub s80"></div>
+                <div class="stub s40"></div>
+                <h3>Run it</h3>
+                <div class="stub s60"></div>
+              </div>
+            </div>
+
+            <!-- scrim + sheet -->
+            <div class="ph-scrim" id="phScrim" aria-hidden="true"></div>
+            <aside class="ph-sheet" id="phSheet" role="dialog" aria-modal="true" aria-labelledby="phSheetTtl">
+              <header class="ph-sheet-head">
+                <span class="ttl" id="phSheetTtl">Menu</span>
+                <button class="ph-close" id="phClose" aria-label="Close menu">
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 3l10 10M13 3L3 13"/></svg>
+                </button>
+              </header>
+
+              <div class="ph-tabs" role="tablist" aria-label="Menu sections">
+                <button id="tab-toc" role="tab" aria-selected="true" aria-controls="pane-toc">On this page</button>
+                <button id="tab-pages" role="tab" aria-selected="false" aria-controls="pane-pages">Pages</button>
+              </div>
+
+              <!-- TOC pane (default) -->
+              <div class="ph-pane" id="pane-toc" role="tabpanel" aria-labelledby="tab-toc">
+                <nav class="ph-list" aria-label="On this page">
+                  <a href="#install" aria-current="true"><span class="num">1</span>Install</a>
+                  <a href="#define" ><span class="num">2</span>Define a flow</a>
+                  <a href="#run"   ><span class="num">3</span>Run it</a>
+                  <a class="sub" href="#run-cli">From the CLI</a>
+                  <a class="sub" href="#run-py">From Python</a>
+                  <a href="#sync" ><span class="num">4</span>How syncing works</a>
+                  <a href="#next" ><span class="num">5</span>Next steps</a>
+                </nav>
+                <div class="ph-foot">
+                  <svg class="check" width="13" height="13" viewBox="0 0 16 16" aria-hidden>
+                    <circle cx="8" cy="8" r="7" fill="var(--palm)"/>
+                    <path d="M4.5 8.3l2.3 2.2L11.5 5.8" fill="none" stroke="var(--maroon-ink)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  Last reviewed · 3d ago
+                </div>
+              </div>
+
+              <!-- Pages pane -->
+              <div class="ph-pane" id="pane-pages" role="tabpanel" aria-labelledby="tab-pages" hidden>
+                <div class="ph-group">
+                  <h6>Getting started</h6>
+                  <nav class="ph-list">
+                    <a href="#" aria-current="true">Quickstart</a>
+                    <a href="#">Install</a>
+                    <a href="#">Core concepts</a>
+                  </nav>
+                </div>
+                <div class="ph-group">
+                  <h6>Build flows</h6>
+                  <nav class="ph-list">
+                    <a href="#">Sources</a>
+                    <a href="#">Functions</a>
+                    <a href="#">Targets</a>
+                    <a href="#">Components</a>
+                  </nav>
+                </div>
+                <div class="ph-group">
+                  <h6>Deploy</h6>
+                  <nav class="ph-list">
+                    <a href="#">Self-host</a>
+                    <a href="#">Managed</a>
+                  </nav>
+                </div>
+                <div class="ph-foot">
+                  <a href="#">View on GitHub</a>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────── 02 — Anatomy ─────────── -->
+    <section id="anatomy">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="idx">02 — Anatomy</span>
+          <div>
+            <h2>Trigger, scrim, sheet, <em>tabs</em>.</h2>
+            <p class="lead">Five regions, only one of which is visible at rest. The trigger morphs into a close-X on open, so the user always sees a single "switch state" affordance — never two competing controls.</p>
+          </div>
+        </div>
+
+        <div class="anatomy">
+          <div class="schema" aria-hidden="true">
+            <div class="zone z1"><span class="n">1</span>Topbar · burger</div>
+            <div class="zone z5"><span class="n">5</span>Doc (under scrim)</div>
+            <div class="zone z2"><span class="n">2</span>Sheet</div>
+            <div class="zone z3"><span class="n">3</span>Tabs</div>
+            <div class="zone z4"><span class="n">4</span>List</div>
+          </div>
+
+          <div class="anatomy-notes">
+            <div class="note"><b>1</b><span><em>Burger</em> — 32×32 ghost glyph. Three 1.4px bars in <code>--muted</code>, no border, no fill. The square only materializes on hover or <code>.open</code>; on open, the top + bottom bars rotate into a coral X and the middle fades. The bars *are* the affordance — boxing them at rest would force a third equal-weight control into a 56px-tall topbar.</span></div>
+            <div class="note"><b>★</b><span><em>Star pill</em> — borderless at rest. Just a star glyph + count in <code>--muted</code>; the pill chrome only fades in on hover/focus. Same fetch as the homepage <code>.stars</code> (cached in <code>sessionStorage</code> for an hour, falls back to <code>—</code> while loading and on offline) so the number agrees across surfaces — but visually it sits below the burger, not beside it as a peer.</span></div>
+            <div class="note"><b>2</b><span><em>Sheet</em> — right-anchored, <code>min(86%, 320px)</code> wide, full-height below the system status bar. Slides in over 220ms with a <code>cubic-bezier(.2,.8,.2,1)</code> ease. Hairline left border, no shadow.</span></div>
+            <div class="note"><b>3</b><span><em>Tabs</em> — segmented control, two slots: <em>On this page</em> (default) and <em>Pages</em>. Inset cream on cream-mix track; the selected slot wears a 1px <code>--rule</code> stroke instead of a fill swap, so the difference reads quietly.</span></div>
+            <div class="note"><b>4</b><span><em>List</em> — 44px-min rows. H2s carry a numbered glyph identical to the desktop Toc; H3s indent and drop the glyph. Active row is the only coral surface in the sheet.</span></div>
+            <div class="note"><b>5</b><span><em>Scrim</em> — 38% maroon-ink wash, fades in alongside the sheet. Tapping it dismisses. Doc behind keeps its scroll position so the user re-enters where they left.</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────── 03 — Variants ─────────── -->
+    <section id="variants">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="idx">03 — Variants</span>
+          <div>
+            <h2>Two presets, <em>one</em> sheet.</h2>
+            <p class="lead">The preset only controls which tab opens first. Sheet markup is identical — same regions, same controls, same scrim — so the engineering surface stays one component.</p>
+          </div>
+        </div>
+
+        <div class="variant-grid">
+          <div class="variant-cell">
+            <span class="role">default · open to On this page</span>
+            <div class="ph-frame">
+              <div class="ph-status">
+                <span class="time">9:41</span>
+                <span class="ind"><i></i><i></i><i></i></span>
+              </div>
+              <div class="ph-page">
+                <div class="ph-topbar">
+                  <span class="logo"><span class="dot"></span>CocoIndex</span>
+                  <span class="spacer"></span>
+                  <a class="ph-stars" href="#" aria-label="GitHub stars">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="1.8"
+                         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                    <span class="count">2.4k</span>
+                  </a>
+                  <button class="ph-burger open" aria-label="Close menu"><span class="bar"></span></button>
+                </div>
+                <div class="ph-doc"><div class="crumb">Docs / Getting started</div></div>
+              </div>
+              <div class="ph-scrim open" aria-hidden="true"></div>
+              <aside class="ph-sheet open" role="dialog" aria-modal="true">
+                <header class="ph-sheet-head">
+                  <span class="ttl">Menu</span>
+                  <button class="ph-close" aria-label="Close">
+                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 3l10 10M13 3L3 13"/></svg>
+                  </button>
+                </header>
+                <div class="ph-tabs" role="tablist">
+                  <button role="tab" aria-selected="true">On this page</button>
+                  <button role="tab" aria-selected="false">Pages</button>
+                </div>
+                <div class="ph-pane">
+                  <nav class="ph-list">
+                    <a href="#" aria-current="true"><span class="num">1</span>Install</a>
+                    <a href="#"><span class="num">2</span>Define a flow</a>
+                    <a href="#"><span class="num">3</span>Run it</a>
+                    <a class="sub" href="#">From the CLI</a>
+                    <a class="sub" href="#">From Python</a>
+                  </nav>
+                </div>
+              </aside>
+            </div>
+            <p class="desc">Default for in-page navigation. Use when the user arrived on a long doc and you expect them to scrub headings before browsing the tree.</p>
+          </div>
+
+          <div class="variant-cell">
+            <span class="role">deep-link · open to Pages</span>
+            <div class="ph-frame">
+              <div class="ph-status">
+                <span class="time">9:41</span>
+                <span class="ind"><i></i><i></i><i></i></span>
+              </div>
+              <div class="ph-page">
+                <div class="ph-topbar">
+                  <span class="logo"><span class="dot"></span>CocoIndex</span>
+                  <span class="spacer"></span>
+                  <a class="ph-stars" href="#" aria-label="GitHub stars">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="1.8"
+                         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                    <span class="count">2.4k</span>
+                  </a>
+                  <button class="ph-burger open" aria-label="Close menu"><span class="bar"></span></button>
+                </div>
+                <div class="ph-doc"><div class="crumb">Docs / Build flows</div></div>
+              </div>
+              <div class="ph-scrim open" aria-hidden="true"></div>
+              <aside class="ph-sheet open" role="dialog" aria-modal="true">
+                <header class="ph-sheet-head">
+                  <span class="ttl">Menu</span>
+                  <button class="ph-close" aria-label="Close">
+                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 3l10 10M13 3L3 13"/></svg>
+                  </button>
+                </header>
+                <div class="ph-tabs" role="tablist">
+                  <button role="tab" aria-selected="false">On this page</button>
+                  <button role="tab" aria-selected="true">Pages</button>
+                </div>
+                <div class="ph-pane">
+                  <div class="ph-group">
+                    <h6>Build flows</h6>
+                    <nav class="ph-list">
+                      <a href="#" aria-current="true">Sources</a>
+                      <a href="#">Functions</a>
+                      <a href="#">Targets</a>
+                    </nav>
+                  </div>
+                  <div class="ph-group">
+                    <h6>Deploy</h6>
+                    <nav class="ph-list">
+                      <a href="#">Self-host</a>
+                    </nav>
+                  </div>
+                </div>
+              </aside>
+            </div>
+            <p class="desc">When the burger is opened from a section landing page (no headings worth scrubbing). Add <code>data-default-tab="pages"</code> to flip the initial tab.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────── 04 — Rules ─────────── -->
+    <section id="rules">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="idx">04 — Rules</span>
+          <div>
+            <h2>One trigger, one accent, <em>one</em> path back.</h2>
+            <p class="lead">The hamburger is the only off-canvas surface in the docs. Keep it predictable — the same gesture opens and closes; the same scrim always dismisses; the same arrow keys always step through rows.</p>
+          </div>
+        </div>
+
+        <div class="rules-grid">
+          <div class="rule">
+            <span class="tag do">Do</span>
+            <h4>Default to <em>On this page</em>.</h4>
+            <p>Most phone visits arrive mid-doc from search or a shared link. Showing the heading list first cuts the scroll-back to nothing — the user lands, taps, jumps.</p>
+          </div>
+          <div class="rule">
+            <span class="tag dont">Don't</span>
+            <h4>Don't add a <em>third</em> tab.</h4>
+            <p>Search belongs in the topbar (⌘K), not in the sheet. A tab for "Search", "Settings", or "Account" turns the sheet into an app drawer — readers lose the model.</p>
+          </div>
+          <div class="rule">
+            <span class="tag do">Do</span>
+            <h4>Hide it on <em>desktop</em>.</h4>
+            <p>The sheet is a phone-only fallback. <code>@media (min-width: 880px)</code> brings the rails back; the burger and sheet drop to <code>display: none</code>. No "menu button" on desktop.</p>
+          </div>
+          <div class="rule">
+            <span class="tag dont">Don't</span>
+            <h4>Don't <em>shadow</em> the sheet.</h4>
+            <p>Elevation reads from the maroon scrim, not from blur. A drop shadow on cream over cream looks dirty and fights the rest of the design system. Hairline + scrim is the answer.</p>
+          </div>
+          <div class="rule">
+            <span class="tag do">Do</span>
+            <h4>Persist the active <em>row</em>.</h4>
+            <p>Scroll-spy still runs while the sheet is open. When the user closes and reopens, the highlight reflects where they actually are on the page — not where they last tapped.</p>
+          </div>
+          <div class="rule">
+            <span class="tag dont">Don't</span>
+            <h4>Don't trap <em>scroll</em>.</h4>
+            <p>The doc behind the scrim should not scroll while the sheet is open (toggle <code>overflow: hidden</code> on body). When the sheet closes, restore the user's prior scroll position — never reset to top.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────── 05 — Cheat sheet ─────────── -->
+    <section id="tokens" class="dark">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="idx">05 — Cheat sheet</span>
+          <div>
+            <h2>Drop-in <em>markup</em>.</h2>
+            <p class="lead">CSS owns morphing the burger and sliding the sheet. JS owns three things: open/close, tab switching, and Esc-to-dismiss. Everything else is declarative.</p>
+          </div>
+        </div>
+
+<pre class="tokens"><span class="c">&lt;!-- Topbar — star pill stays put on phones, burger trumps everything else --&gt;</span>
+&lt;a class=<span class="v">"ph-stars"</span> data-live href=<span class="v">"https://github.com/cocoindex-io/cocoindex"</span>&gt;
+  &lt;svg width=<span class="v">"11"</span> height=<span class="v">"11"</span> viewBox=<span class="v">"0 0 24 24"</span>&gt;…&lt;/svg&gt;
+  &lt;span class=<span class="v">"count"</span>&gt;—&lt;/span&gt;
+&lt;/a&gt;
+&lt;button class=<span class="v">"ph-burger"</span> aria-label=<span class="v">"Open menu"</span>
+        aria-expanded=<span class="v">"false"</span> aria-controls=<span class="v">"phSheet"</span>&gt;
+  &lt;span class=<span class="v">"bar"</span>&gt;&lt;/span&gt;
+&lt;/button&gt;
+
+<span class="c">&lt;!-- Scrim + sheet (siblings, both inside the page root) --&gt;</span>
+&lt;div class=<span class="v">"ph-scrim"</span> id=<span class="v">"phScrim"</span> aria-hidden=<span class="v">"true"</span>&gt;&lt;/div&gt;
+&lt;aside class=<span class="v">"ph-sheet"</span> id=<span class="v">"phSheet"</span>
+       role=<span class="v">"dialog"</span> aria-modal=<span class="v">"true"</span>&gt;
+  &lt;header class=<span class="v">"ph-sheet-head"</span>&gt;…&lt;/header&gt;
+  &lt;div class=<span class="v">"ph-tabs"</span> role=<span class="v">"tablist"</span>&gt;
+    &lt;button role=<span class="v">"tab"</span> aria-selected=<span class="v">"true"</span>&gt;On this page&lt;/button&gt;
+    &lt;button role=<span class="v">"tab"</span> aria-selected=<span class="v">"false"</span>&gt;Pages&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class=<span class="v">"ph-pane"</span> role=<span class="v">"tabpanel"</span>&gt;
+    &lt;nav class=<span class="v">"ph-list"</span>&gt;
+      &lt;a href=<span class="v">"#install"</span> aria-current=<span class="v">"true"</span>&gt;
+        &lt;span class=<span class="v">"num"</span>&gt;1&lt;/span&gt;Install
+      &lt;/a&gt;
+      &lt;a class=<span class="v">"sub"</span> href=<span class="v">"#run-py"</span>&gt;From Python&lt;/a&gt;
+    &lt;/nav&gt;
+  &lt;/div&gt;
+&lt;/aside&gt;
+
+<span class="c">// Controller — open/close, tabs, Esc, scroll-lock</span>
+<span class="k">const</span> burger = document.getElementById(<span class="v">'phBurger'</span>);
+<span class="k">const</span> sheet  = document.getElementById(<span class="v">'phSheet'</span>);
+<span class="k">const</span> scrim  = document.getElementById(<span class="v">'phScrim'</span>);
+
+<span class="k">function</span> <span class="fn">setOpen</span>(open){
+  burger.classList.toggle(<span class="v">'open'</span>, open);
+  sheet.classList.toggle(<span class="v">'open'</span>, open);
+  scrim.classList.toggle(<span class="v">'open'</span>, open);
+  burger.setAttribute(<span class="v">'aria-expanded'</span>, open);
+  document.body.style.overflow = open ? <span class="v">'hidden'</span> : <span class="v">''</span>;
+  <span class="k">if</span>(open) sheet.querySelector(<span class="v">'[role="tab"][aria-selected="true"]'</span>).focus();
+}
+burger.addEventListener(<span class="v">'click'</span>, () =&gt; <span class="fn">setOpen</span>(!sheet.classList.contains(<span class="v">'open'</span>)));
+scrim .addEventListener(<span class="v">'click'</span>, () =&gt; <span class="fn">setOpen</span>(<span class="k">false</span>));
+document.addEventListener(<span class="v">'keydown'</span>, e =&gt; { <span class="k">if</span>(e.key === <span class="v">'Escape'</span>) <span class="fn">setOpen</span>(<span class="k">false</span>); });</pre>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+  /* Demo controller — same logic as the cheat sheet, scoped to #demoPhone. */
+  (function(){
+    const phone   = document.getElementById('demoPhone');
+    if(!phone) return;
+
+    const burger  = phone.querySelector('#phBurger');
+    const sheet   = phone.querySelector('#phSheet');
+    const scrim   = phone.querySelector('#phScrim');
+    const close   = phone.querySelector('#phClose');
+    const tabToc  = phone.querySelector('#tab-toc');
+    const tabPgs  = phone.querySelector('#tab-pages');
+    const paneToc = phone.querySelector('#pane-toc');
+    const panePgs = phone.querySelector('#pane-pages');
+
+    const demoOpen  = document.getElementById('demoOpen');
+    const demoToc   = document.getElementById('demoToc');
+    const demoPages = document.getElementById('demoPages');
+
+    function setOpen(open){
+      burger.classList.toggle('open', open);
+      sheet.classList.toggle('open', open);
+      scrim.classList.toggle('open', open);
+      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      if(open){
+        const active = sheet.querySelector('[role="tab"][aria-selected="true"]');
+        if(active) active.focus();
+      }
+    }
+
+    function setTab(which){
+      const onToc = which === 'toc';
+      tabToc.setAttribute('aria-selected', onToc ? 'true' : 'false');
+      tabPgs.setAttribute('aria-selected', onToc ? 'false' : 'true');
+      paneToc.hidden = !onToc;
+      panePgs.hidden = onToc;
+    }
+
+    burger.addEventListener('click', () => setOpen(!sheet.classList.contains('open')));
+    close .addEventListener('click', () => setOpen(false));
+    scrim .addEventListener('click', () => setOpen(false));
+
+    tabToc.addEventListener('click', () => setTab('toc'));
+    tabPgs.addEventListener('click', () => setTab('pages'));
+
+    /* Arrow-key navigation between tabs */
+    [tabToc, tabPgs].forEach((t, i, arr) => {
+      t.addEventListener('keydown', (e) => {
+        if(e.key === 'ArrowRight' || e.key === 'ArrowLeft'){
+          e.preventDefault();
+          const target = arr[(i + (e.key === 'ArrowRight' ? 1 : -1) + arr.length) % arr.length];
+          target.focus();
+          setTab(target === tabToc ? 'toc' : 'pages');
+        }
+      });
+    });
+
+    /* Esc to close — scoped to phone for the demo */
+    phone.addEventListener('keydown', (e) => {
+      if(e.key === 'Escape') setOpen(false);
+    });
+
+    /* External demo controls */
+    demoOpen ?.addEventListener('click', () => setOpen(true));
+    demoToc  ?.addEventListener('click', () => { setOpen(true); setTab('toc'); });
+    demoPages?.addEventListener('click', () => { setOpen(true); setTab('pages'); });
+  })();
+
+  /* GitHub stars hydrator — mirrors src/components/IconThemeStars.tsx
+     so the count agrees with the homepage nav. Only pills marked
+     [data-live] hydrate; the static variant snapshots stay frozen. */
+  (function(){
+    const targets = document.querySelectorAll('.ph-stars[data-live] .count');
+    if(!targets.length) return;
+
+    const REPO = 'cocoindex-io/cocoindex';
+    const KEY  = 'gh-stars:' + REPO;
+    const TTL  = 60 * 60 * 1000;
+
+    const fmt = (n) => n < 1000 ? n.toLocaleString()
+                    : n < 10000 ? (Math.round(n / 100) / 10).toFixed(1) + 'k'
+                    : Math.round(n / 1000) + 'k';
+
+    const paint = (n) => targets.forEach(el => { el.textContent = fmt(n); });
+
+    let cached = null;
+    try{
+      const raw = sessionStorage.getItem(KEY);
+      if(raw){
+        const v = JSON.parse(raw);
+        if(Date.now() - v.ts <= TTL) cached = v.count;
+      }
+    }catch{ /* private mode — skip cache */ }
+    if(cached !== null) paint(cached);
+
+    fetch('https://api.github.com/repos/' + REPO)
+      .then(r => r.json())
+      .then(d => {
+        if(typeof d.stargazers_count !== 'number') return;
+        paint(d.stargazers_count);
+        try{ sessionStorage.setItem(KEY, JSON.stringify({ count: d.stargazers_count, ts: Date.now() })); }
+        catch{ /* ignore quota */ }
+      })
+      .catch(() => { /* leave cached / em-dash */ });
+  })();
+</script>
+
+</body>
+</html>

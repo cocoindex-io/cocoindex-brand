@@ -62,6 +62,7 @@
   --dot-reveal: radial-gradient(circle, color-mix(in oklab, var(--coral) 45%, transparent) 1.3px, transparent 1.7px);
   --dot-reveal-size: 11px;
   /* motion */
+  --dur-press: 120ms;
   --dur-fast: 160ms;
   --dur-slow: 280ms;
   --ease: cubic-bezier(.2,.8,.2,1);
