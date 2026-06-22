@@ -9,14 +9,22 @@
   display: inline-flex; gap: 6px; align-items: center;
   min-width: 74px; justify-content: center;
   text-decoration: none; color: var(--maroon);
-  transition: border-color .2s var(--ease), background .2s var(--ease), color .2s var(--ease);
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+  transition: border-color .2s var(--ease), background .2s var(--ease), color .2s var(--ease), transform .12s var(--ease);
 }
 .stars:hover {
   border-color: color-mix(in oklab, var(--coral) 45%, transparent);
   background: color-mix(in oklab, var(--peach) 14%, var(--cream));
   color: var(--coral);
 }
+/* Shared interaction contract — same focus ring + press as .btn (buttons.css). */
+.stars:active { transform: translateY(1px); }
+.stars:focus-visible { outline: var(--focus); outline-offset: var(--focus-offset); }
 .stars .count {
   width: 4ch; min-width: 4ch; display: inline-block;
   text-align: center; font-variant-numeric: tabular-nums;
+}
+@media (prefers-reduced-motion: reduce) {
+  .stars { transition: border-color .2s var(--ease), background .2s var(--ease), color .2s var(--ease); }
+  .stars:active { transform: none; }
 }

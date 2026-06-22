@@ -145,14 +145,15 @@ nav.top {
   color: var(--muted);
   display: grid; place-items: center;
   cursor: pointer; padding: 0;
-  transition: color .16s ease, border-color .16s ease, background .16s ease;
+  transition: color .16s ease, border-color .16s ease, background .16s ease, transform .12s var(--ease);
 }
 .mobile-close:hover {
   color: var(--coral);
   border-color: var(--rule);
   background: color-mix(in oklab, var(--peach) 10%, transparent);
 }
-.mobile-close:focus-visible { outline: 2px solid var(--coral); outline-offset: 2px; }
+.mobile-close:active { transform: translateY(1px); }
+.mobile-close:focus-visible { outline: var(--focus); outline-offset: var(--focus-offset); }
 
 /* Scroll body — fills the sheet below the header; tab panels also use it. */
 .mobile-pane {
@@ -205,4 +206,5 @@ nav.top {
 @media (prefers-reduced-motion: reduce) {
   .menu-btn .bar, .menu-btn::before, .menu-btn::after,
   .mobile-sheet, .mobile-scrim { transition: none !important; }
+  .mobile-close:active { transform: none; }
 }

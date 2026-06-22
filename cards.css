@@ -2,13 +2,17 @@
    components from design_guidelines/ui/{example-repo-card,docs-link-card}.html:
      .example-repo-card  — runnable example folder on GitHub + a star CTA
      .docs-link-card     — link to docs / external resource from inside prose
-   Both: cream surface, hairline that warms to maroon on hover, a dotted peach
-   overlay fading in from the right. Surface-agnostic (no prose wrapper) and
-   token-only; import after tokens.css. Markup: the BEM classes below are
-   emitted by src/components/{ExampleRepoCard,DocsLinkCard}.astro. */
+   Both share one frame: cream surface, hairline that warms to maroon on hover, a
+   dotted coral overlay fading in from the right, and the shared :focus-visible
+   ring. The frame, ::before reveal, and hover/focus contract live on the grouped
+   selector below so the two cards can never drift; only the inner pieces (icon
+   size, title, star/arrow) differ. Surface-agnostic and token-only; import after
+   tokens.css. Markup: the BEM classes are emitted by
+   src/components/{ExampleRepoCard,DocsLinkCard}.astro. */
 
-/* ── Example repo card ── */
-.example-repo-card {
+/* ── Shared card frame ── */
+.example-repo-card,
+.docs-link-card {
   display: flex; gap: 16px; align-items: center;
   padding: 18px 22px; margin: 28px 0;
   background: var(--cream);
@@ -19,7 +23,8 @@
   position: relative; isolation: isolate;
   transition: border-color .18s ease-out;
 }
-.example-repo-card::before {
+.example-repo-card::before,
+.docs-link-card::before {
   content: ""; position: absolute; inset: 0;
   border-radius: inherit;
   background-image: var(--dot-reveal);
@@ -30,9 +35,14 @@
   transition: opacity .25s ease-out;
   z-index: -1;
 }
-.example-repo-card:hover, .example-repo-card.is-hover { border-color: var(--maroon); }
-.example-repo-card:hover::before, .example-repo-card.is-hover::before { opacity: 1; }
+.example-repo-card:hover, .example-repo-card.is-hover,
+.docs-link-card:hover, .docs-link-card.is-hover { border-color: var(--maroon); }
+.example-repo-card:hover::before, .example-repo-card.is-hover::before,
+.docs-link-card:hover::before, .docs-link-card.is-hover::before { opacity: 1; }
+.example-repo-card:focus-visible,
+.docs-link-card:focus-visible { outline: var(--focus); outline-offset: var(--focus-offset); }
 
+/* ── Example repo card ── */
 .example-repo-card__ico {
   width: 44px; height: 44px; flex: none;
   border-radius: var(--r-lg);
@@ -89,31 +99,6 @@
 .example-repo-card.is-hover .example-repo-card__star svg { transform: rotate(-12deg) scale(1.2); }
 
 /* ── Docs link card ── */
-.docs-link-card {
-  display: flex; gap: 16px; align-items: center;
-  padding: 18px 22px; margin: 28px 0;
-  background: var(--cream);
-  border: 1px solid var(--rule-strong);
-  border-radius: var(--r-lg);
-  color: var(--maroon-ink);
-  text-decoration: none;
-  position: relative; isolation: isolate;
-  transition: border-color .18s ease-out;
-}
-.docs-link-card::before {
-  content: ""; position: absolute; inset: 0;
-  border-radius: inherit;
-  background-image: var(--dot-reveal);
-  background-size: var(--dot-reveal-size) var(--dot-reveal-size);
-  -webkit-mask-image: linear-gradient(to left, #000 0%, #000 28%, transparent 72%);
-          mask-image: linear-gradient(to left, #000 0%, #000 28%, transparent 72%);
-  opacity: 0; pointer-events: none;
-  transition: opacity .25s ease-out;
-  z-index: -1;
-}
-.docs-link-card:hover, .docs-link-card.is-hover { border-color: var(--maroon); }
-.docs-link-card:hover::before, .docs-link-card.is-hover::before { opacity: 1; }
-
 .docs-link-card__ico {
   width: 36px; height: 36px; flex: none;
   border-radius: var(--r-md);

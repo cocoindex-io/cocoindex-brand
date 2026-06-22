@@ -1,9 +1,13 @@
-/* Tags — the canonical CocoIndex tag set, shared across home, blog, and docs.
-   Pick by role, not by look (GUIDELINE §3, design_guidelines/ui/tags.html):
-     .t-pill      taxonomy / filter (clickable)     — blog list, tag archive
-     .t-category  one filled coral kicker per post  — post / example hero
-     .t-overlay   label on dark media               — example thumbnails
-     .t-status    state / flag (pulse dot = live)   — "LIVE", "Enterprise"
+/* Tags — the canonical CocoIndex tag/chip/label set, shared across home, blog,
+   and docs. Pick by ROLE, not by look (GUIDELINE §3, design_guidelines/ui/tags.html):
+     .t-pill      taxonomy / feature tag          — blog list, example tags, feature
+                  + `.dt` leading dot (colour via --dt); `.t-pill-lg` for big feature chips
+     .t-category  one filled coral kicker per hero — post / example category ("TUTORIAL")
+     .t-overlay   label on dark media             — example thumbnails
+     .t-status    state / flag (pulse dot = live) — "LIVE", "PRODUCTION READY", "Enterprise"
+                  + `.t-status-lg`, `.t-status-dark` (on maroon), `.t-status-ghost` (on media)
+     .t-eyebrow   bare kicker above a hero        — mono caps + dot, no fill (`.live` pulses)
+     .t-filter    on/off toggle pill              — faceted nav / examples filters
    Token-only and surface-agnostic. Import after tokens.css. */
 
 /* Pill — clickable taxonomy. */
@@ -93,8 +97,51 @@ a.t-pill:hover, .t-pill.is-hover { border-color: var(--coral); color: var(--cora
   padding: 8px 14px; border-radius: var(--r-pill);
   background: var(--cream); color: var(--maroon-ink);
   border: 1px solid var(--rule); cursor: pointer; white-space: nowrap;
-  transition: background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
+  transition: background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease), transform .12s var(--ease);
 }
 .t-filter:hover { border-color: var(--coral); color: var(--coral); }
 .t-filter.on { background: var(--maroon); color: var(--cream); border-color: var(--maroon); }
+/* Shared interaction contract — press + focus ring, same as .btn (buttons.css). */
+.t-filter:active { transform: translateY(1px); }
+.t-filter:focus-visible { outline: var(--focus); outline-offset: var(--focus-offset); }
 .t-filter .cnt { opacity: 0.6; font-variant-numeric: tabular-nums; }
+@media (prefers-reduced-motion: reduce) { .t-filter:active { transform: none; } }
+
+/* ── Variants ──────────────────────────────────────────────────────────── */
+
+/* Pill, large — feature / capability tags (e.g. the homepage strip
+   "GOOGLE DRIVE · ANY LLM"). Same role as .t-pill, bigger type + a 6px dot. */
+.t-pill.t-pill-lg { font-size: 12px; padding: 6px 13px; gap: 8px; letter-spacing: 0.12em; }
+.t-pill.t-pill-lg .dt { width: 6px; height: 6px; }
+
+/* Status, on dark — the same state flag on a maroon surface (e.g. a
+   "PRODUCTION READY" stamp inside a dark hero/card). Dot stays --palm. */
+.t-status.t-status-dark {
+  background: var(--maroon-ink); border-color: var(--maroon-ink); color: var(--cream);
+}
+/* Status, on dark media (rgba so it reads on any thumbnail). */
+.t-status.t-status-ghost {
+  background: color-mix(in oklab, var(--cream) 10%, transparent);
+  border-color: color-mix(in oklab, var(--cream) 22%, transparent);
+  color: var(--cream);
+}
+
+/* Eyebrow — a kicker label above a hero: mono caps + a leading dot, no fill.
+   Dot colour via `--dt` (defaults coral); add `.live` to make it pulse. The
+   bordered-pill eyebrow is .t-status; this is the bare text+dot form. */
+.t-eyebrow {
+  display: inline-flex; align-items: center; gap: 9px;
+  font-family: var(--mono); font-size: 11px;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--coral); white-space: nowrap;
+}
+.t-eyebrow .dt { width: 7px; height: 7px; border-radius: 50%; background: var(--dt, var(--coral)); flex: none; }
+.t-eyebrow.live .dt {
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--dt, var(--coral)) 18%, transparent);
+  animation: t-eyebrow-pulse 2s ease-in-out infinite;
+}
+@keyframes t-eyebrow-pulse {
+  0%, 100% { box-shadow: 0 0 0 3px color-mix(in oklab, var(--dt, var(--coral)) 18%, transparent); }
+  50%      { box-shadow: 0 0 0 6px color-mix(in oklab, var(--dt, var(--coral)) 6%, transparent); }
+}
+@media (prefers-reduced-motion: reduce) { .t-eyebrow.live .dt { animation: none !important; } }

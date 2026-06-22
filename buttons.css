@@ -12,6 +12,17 @@
    GUIDELINE §3: one coral CTA per view; pair with `.btn-outline` for the
    secondary action — never two solid fills side by side.
 
+   Interaction contract (shared by every clickable affordance, not just .btn —
+   the nav stars pill, hamburger, mobile-close, search-btn, copy, pager, etc.
+   all follow it so interactions feel identical everywhere):
+     · hover        — re-point bg/fg/border (fill for actions, coral tint for
+                      icon/utility affordances)
+     · :active      — transform: translateY(1px)  (press feedback; pressable
+                      affordances opt in, reduced-motion disables it)
+     · :focus-visible — outline: var(--focus); outline-offset: var(--focus-offset)
+                      ALWAYS this token — never a bespoke `2px solid coral`.
+     · [disabled]   — opacity .45; pointer-events: none
+
    Token-only and surface-agnostic. Import after tokens.css. */
 .btn {
   --btn-bg: transparent;
@@ -83,6 +94,13 @@
   --btn-bg: transparent; --btn-fg: var(--maroon); --btn-border: transparent;
   --btn-bg-hover: color-mix(in oklab, var(--maroon) 8%, transparent);
   --btn-fg-hover: var(--coral); --btn-border-hover: transparent;
+}
+/* On a dark/maroon section: light hairline outline that fills cream on hover.
+   Compose with the base `.btn` (e.g. `.btn .btn-on-dark`). */
+.btn-on-dark {
+  --btn-bg: transparent; --btn-fg: var(--cream);
+  --btn-border: color-mix(in oklab, var(--cream) 55%, transparent);
+  --btn-bg-hover: var(--cream); --btn-fg-hover: var(--maroon-ink); --btn-border-hover: var(--cream);
 }
 .btn-mono {
   --btn-bg: transparent; --btn-fg: var(--maroon); --btn-border: var(--rule-strong);

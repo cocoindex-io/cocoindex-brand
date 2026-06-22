@@ -10,7 +10,7 @@
 .callout {
   display: flex; gap: 14px;
   padding: 14px 16px;
-  border: 1px solid var(--rule-strong); border-radius: 8px;
+  border: 1px solid var(--rule-strong); border-radius: var(--r-md);
   background: var(--cream);
   margin: 18px 0;
   font-size: 13.5px;

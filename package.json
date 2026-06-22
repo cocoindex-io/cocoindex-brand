@@ -1,6 +1,6 @@
 {
   "name": "@cocoindex/brand",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "CocoIndex shared design tokens, code theme, and brand assets. Single source of truth for home, blog, and docs.",
   "private": true,
   "license": "UNLICENSED",
