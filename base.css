@@ -2,6 +2,14 @@
    tokens from tokens.css. Import after tokens.css. Portable across home,
    blog, and docs (no surface wrapper in the selectors). */
 
+/* Hum letterform identity — Plus Jakarta Sans stylistic set (ss01) + character
+   variant (cv11) + tabular figures, set once on the root so every brand surface
+   renders type identically to the Hum reference. Inherited everywhere. */
+html {
+  font-feature-settings: "ss01" on, "cv11" on;
+  font-variant-numeric: tabular-nums;
+}
+
 /* ── Admonitions / callouts ──
    The canonical four — note (berry), info (coral), tip (palm ✓), warn (pink !).
    `caution`/`danger` are aliases of warn, not new variants (GUIDELINE §3).
