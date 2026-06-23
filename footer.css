@@ -10,7 +10,7 @@
   position: relative;
   max-width: var(--chrome-maxw, var(--maxw));
   margin: 0 auto;
-  padding: 72px var(--gutter) 36px;
+  padding: clamp(72px, 8vh, 100px) var(--gutter) clamp(40px, 5vh, 56px);
 }
 /* hum-07 footer: a full-bleed deeper-cream band (its --color-paper-2) sitting
    behind the centered footer content. Painted as a 100vw pseudo-element so the
@@ -43,6 +43,12 @@
    cell spans the row height (grid stretches it) instead of leaving the logo
    floating alone next to the taller link columns. */
 .foot-brand { display: flex; flex-direction: column; }
+/* Footer brand lockup — STACKED (mark over wordmark), unlike the inline nav
+   lockup: a stronger, cuter anchor that gives the coconut mascot a moment and
+   fills the tall brand cell. */
+.foot-brand .logo { flex-direction: column; align-items: flex-start; gap: 14px; }
+.foot-brand .logo img { height: 50px; }
+.foot-brand .logo .logo-word { font-size: 1.5rem; }
 .foot-colo {
   margin-top: auto; padding-top: 28px;
   display: flex; flex-direction: column; gap: 5px;
