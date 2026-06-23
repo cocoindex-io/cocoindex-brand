@@ -75,8 +75,8 @@ pre.astro-code code { background: none; color: inherit; padding: 0; font-size: i
   border-radius: var(--r-pill);
   cursor: pointer;
   opacity: 0; transform: translateY(-1px);
-  transition: opacity .18s var(--ease), transform .18s var(--ease), color .15s var(--ease),
-              border-color .15s var(--ease), background .15s var(--ease);
+  transition: opacity var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease),
+              border-color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease);
 }
 .code-figure:hover .bar .copy,
 .code-figure:focus-within .bar .copy,
@@ -98,7 +98,7 @@ pre.astro-code code { background: none; color: inherit; padding: 0; font-size: i
 .code-figure .bar .copy.copied .copy-ok { display: inline-block; }
 .code-figure .bar .copy .copy-lbl { line-height: 1; }
 @media (prefers-reduced-motion: reduce) {
-  .code-figure .bar .copy { transition: opacity .12s var(--ease); transform: none; }
+  .code-figure .bar .copy { transition: opacity var(--dur-press) var(--ease); transform: none; }
 }
 /* Inner <pre> gives up its own frame — the figure is the single card. */
 .code-figure pre, .code-figure pre.astro-code {

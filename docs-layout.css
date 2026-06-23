@@ -63,7 +63,7 @@ a:hover { text-decoration: underline; }
   font-size: 13px; letter-spacing: -0.005em;
   color: var(--maroon-ink); opacity: .7;
   border-radius: 7px;
-  transition: opacity .16s ease, color .16s ease, background .16s ease;
+  transition: opacity var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease);
 }
 .mobile-tabs button[aria-selected="true"] {
   opacity: 1; color: var(--maroon-ink);

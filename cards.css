@@ -21,7 +21,7 @@
   color: var(--maroon-ink);
   text-decoration: none;
   position: relative; isolation: isolate;
-  transition: border-color .18s ease-out;
+  transition: border-color var(--dur-fast) var(--ease);
 }
 .example-repo-card::before,
 .docs-link-card::before {
@@ -32,7 +32,7 @@
   -webkit-mask-image: linear-gradient(to left, #000 0%, #000 28%, transparent 72%);
           mask-image: linear-gradient(to left, #000 0%, #000 28%, transparent 72%);
   opacity: 0; pointer-events: none;
-  transition: opacity .25s ease-out;
+  transition: opacity var(--dur-slow) var(--ease);
   z-index: -1;
 }
 .example-repo-card:hover, .example-repo-card.is-hover,
@@ -59,12 +59,12 @@
 .example-repo-card__path code {
   font-family: var(--mono); font-size: 16px; font-weight: 600;
   background: transparent; color: var(--maroon-ink); padding: 0;
-  transition: color .18s ease;
+  transition: color var(--dur-fast) var(--ease);
 }
 .example-repo-card__path-arrow {
   font-family: var(--mono); font-size: 16px; font-weight: 500; line-height: 1;
   color: var(--maroon);
-  transition: color .18s ease, transform .18s ease;
+  transition: color var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
 }
 .example-repo-card:hover .example-repo-card__path code,
 .example-repo-card.is-hover .example-repo-card__path code { color: var(--coral); }
@@ -88,9 +88,9 @@
   border: 1px solid var(--rule-strong);
   border-radius: var(--r-pill);
   white-space: nowrap;
-  transition: background .16s ease, color .16s ease, border-color .16s ease;
+  transition: background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
 }
-.example-repo-card__star svg { color: var(--peach); transition: transform .25s cubic-bezier(.4,1.6,.5,1); }
+.example-repo-card__star svg { color: var(--peach); transition: transform var(--dur-slow) var(--ease); }
 .example-repo-card:hover .example-repo-card__star,
 .example-repo-card.is-hover .example-repo-card__star {
   background: var(--maroon-ink); color: var(--cream); border-color: var(--maroon-ink);
@@ -131,7 +131,7 @@
   flex: none;
   font-family: var(--mono); font-size: 20px; font-weight: 500; line-height: 1;
   color: var(--maroon);
-  transition: color .18s ease, transform .18s ease;
+  transition: color var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
 }
 .docs-link-card:hover .docs-link-card__arrow,
 .docs-link-card.is-hover .docs-link-card__arrow { color: var(--palm-ink); transform: translateX(3px); }

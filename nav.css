@@ -41,7 +41,7 @@ nav.top {
 .menu-btn .bar, .menu-btn::before, .menu-btn::after {
   content: ""; position: absolute; left: 8px; right: 8px;
   height: 1.4px; border-radius: 1px; background: currentColor;
-  transition: transform .22s var(--ease), opacity .14s ease, top .22s var(--ease);
+  transition: transform var(--dur-fast) var(--ease), opacity var(--dur-fast) var(--ease), top var(--dur-fast) var(--ease);
 }
 .menu-btn::before { top: 10px; }
 .menu-btn .bar    { top: 15px; }
@@ -55,7 +55,7 @@ nav.top {
    Rendered by <Nav> when a link has `versions`. */
 .nav-dd { position: relative; }
 .nav-dd-trigger { display: inline-flex !important; align-items: center; gap: 6px; }
-.nav-dd-trigger svg { color: var(--muted); transition: transform .15s var(--ease); }
+.nav-dd-trigger svg { color: var(--muted); transition: transform var(--dur-fast) var(--ease); }
 .nav-dd:hover .nav-dd-trigger svg,
 .nav-dd:focus-within .nav-dd-trigger svg { color: var(--coral); transform: rotate(180deg); }
 .nav-dd-menu {
@@ -63,7 +63,7 @@ nav.top {
   min-width: 180px; padding: 6px;
   background: var(--paper); border: 1px solid var(--rule-strong); border-radius: var(--r-lg);
   opacity: 0; visibility: hidden; transform: translateY(-4px);
-  transition: opacity .15s var(--ease), transform .15s var(--ease), visibility 0s linear .15s;
+  transition: opacity var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease), visibility 0s linear .15s;
   display: flex; flex-direction: column; gap: 2px;
   z-index: var(--z-drawer);
 }
@@ -102,7 +102,7 @@ nav.top {
   position: fixed; inset: 0;
   background: color-mix(in oklab, var(--maroon-ink) 38%, transparent);
   opacity: 0; pointer-events: none;
-  transition: opacity .22s ease;
+  transition: opacity var(--dur-fast) var(--ease);
   z-index: 60;
 }
 .mobile-scrim.open { opacity: 1; pointer-events: auto; }
@@ -113,7 +113,7 @@ nav.top {
   background: var(--paper);
   border-left: 1px solid var(--rule-strong);
   transform: translateX(100%);
-  transition: transform .22s cubic-bezier(.2,.8,.2,1);
+  transition: transform var(--dur-fast) var(--ease);
   flex-direction: column;
   z-index: 70;
   overflow: hidden;
@@ -171,7 +171,7 @@ nav.top {
   font-family: var(--sans); font-weight: 500;
   font-size: 14px; letter-spacing: -0.005em;
   color: var(--maroon-ink); text-decoration: none;
-  transition: background .14s ease, color .14s ease;
+  transition: background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
 }
 .mobile-list a:hover { background: color-mix(in oklab, var(--coral) 8%, transparent); color: var(--maroon-ink); }
 .mobile-list a[aria-current], .mobile-list a.on {

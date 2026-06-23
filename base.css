@@ -57,3 +57,15 @@ h1, h2, h3, h4, h5, h6 { overflow-wrap: anywhere; }
 .callout .body > :is(p, ul, ol):first-child { margin-top: 0; }
 .callout .body > :last-child { margin-bottom: 0; }
 .callout b { display: block; font-family: var(--sans); font-weight: 600; font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 2px; }
+
+/* ── Focus floor ── one visible keyboard ring for every interactive element on
+   every surface. Surfaces with a bespoke focus style (own offset/colour) are
+   more specific and still win; this is the floor so docs/examples links never
+   ship a hover with no matching :focus-visible. */
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible,
+[tabindex]:focus-visible {
+  outline: var(--focus);
+  outline-offset: var(--focus-offset);
+}

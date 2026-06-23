@@ -86,7 +86,7 @@
         padding: 9px 12px; border-radius: 6px;
         border-left: 2px solid transparent;
         margin-left: -14px; padding-left: 12px;
-        transition: color .15s, background .15s, border-color .15s;
+        transition: color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
       }
       body.ex-listing .side-nav ol li a .cat-dot { width: 10px; height: 10px; border-radius: 3px; flex: none; background: var(--maroon); }
       body.ex-listing .side-nav ol li a[data-cat="search"]  .cat-dot { background: var(--maroon); }
@@ -153,7 +153,7 @@
         background: var(--maroon); color: var(--cream);
         min-height: 440px; position: relative;
         text-decoration: none;
-        transition: transform .2s;
+        transition: transform var(--dur-fast) var(--ease);
       }
       body.ex-listing .feat-eyebrow {
         font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
@@ -183,7 +183,7 @@
         color: var(--cream); text-transform: none;
         display: inline-flex; gap: 8px; align-items: center;
         padding: 10px 18px; border-radius: 999px; background: var(--coral); border: 1px solid var(--coral);
-        transition: background .15s;
+        transition: background var(--dur-fast) var(--ease);
       }
       body.ex-listing .feat-card:hover .feat-body .foot .go { background: var(--peach); border-color: var(--peach); color: var(--maroon-ink); }
 
@@ -228,7 +228,7 @@
         text-decoration: none; color: inherit;
         overflow: hidden;
         position: relative; isolation: isolate;
-        transition: border-color .18s ease;
+        transition: border-color var(--dur-fast) var(--ease);
       }
       /* Hover dot-reveal: a behind-content accent that fades in from the right
          edge only (like the homepage cards). Light dots — a soft coral tint, not
@@ -241,7 +241,7 @@
         -webkit-mask-image: linear-gradient(to left, #000 0%, #000 12%, transparent 48%);
                 mask-image: linear-gradient(to left, #000 0%, #000 12%, transparent 48%);
         opacity: 0; pointer-events: none;
-        transition: opacity .25s ease-out;
+        transition: opacity var(--dur-slow) var(--ease);
         z-index: -1;
       }
       body.ex-listing .ex-card:hover::before { opacity: 1; }

@@ -143,7 +143,7 @@
   border-radius: 8px;
   border: 1px solid var(--rule);
   background: transparent !important;
-  transition: background-image .18s ease, border-color .18s ease;
+  transition: background-image var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
 }
 /* Active (keyboard-selected) row — soft coral wash so the row still
    stands out from a plain hover, even with no fill at rest. */

@@ -47,7 +47,7 @@
   position: absolute; left: -1.4em; top: 0; bottom: 0;
   display: inline-flex; align-items: center; justify-content: center; width: 1.4em;
   color: var(--coral); opacity: 0; text-decoration: none;
-  transition: opacity 0.15s ease, color 0.15s ease;
+  transition: opacity var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
 }
 .prose .head-anchor svg { width: 0.66em; height: 0.66em; }
 .prose :is(h2, h3, h4, h5, h6):hover .head-anchor { opacity: 0.5; }

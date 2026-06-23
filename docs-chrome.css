@@ -21,7 +21,7 @@
   border: 1px solid var(--rule-strong); background: var(--cream); color: var(--maroon-ink);
   font-family: var(--sans); font-size: 13px; font-weight: 500;
   cursor: pointer;
-  transition: border-color .15s var(--ease), background .15s var(--ease), color .15s var(--ease);
+  transition: border-color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
 }
 .search-btn:hover { border-color: var(--coral); color: var(--coral); background: color-mix(in oklab, var(--peach) 10%, var(--cream)); }
 .search-btn:focus-visible { outline: var(--focus); outline-offset: var(--focus-offset); }
@@ -82,7 +82,7 @@ aside.toc .meta a, aside.toc .meta .edited {
   font-size: 12.5px; color: var(--maroon-ink); padding: 6px 10px;
   display: flex; gap: 10px; align-items: center; text-decoration: none;
   border: 1px solid transparent; border-radius: var(--r-sm);
-  transition: border-color .2s var(--ease), background .2s var(--ease), color .2s var(--ease);
+  transition: border-color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
 }
 aside.toc .meta svg { flex: none; }
 aside.toc .meta a:hover { color: var(--coral); }
@@ -104,13 +104,13 @@ aside.toc .meta .edited { color: var(--muted); cursor: default; }
   position: relative; overflow: hidden;
   display: flex; flex-direction: column; gap: 4px;
   padding: 20px 22px; border: 1px solid var(--rule-strong); border-radius: var(--r-md);
-  text-decoration: none; color: var(--maroon-ink); transition: border-color .2s var(--ease);
+  text-decoration: none; color: var(--maroon-ink); transition: border-color var(--dur-fast) var(--ease);
 }
 .pager a > * { position: relative; z-index: 1; }
 .pager a::before {
   content: ""; position: absolute; inset: 0 0 0 auto; width: 80px;
   background-image: var(--dot-reveal);
-  background-size: var(--dot-reveal-size) var(--dot-reveal-size); opacity: 0; transition: opacity .25s var(--ease); pointer-events: none;
+  background-size: var(--dot-reveal-size) var(--dot-reveal-size); opacity: 0; transition: opacity var(--dur-slow) var(--ease); pointer-events: none;
   -webkit-mask-image: linear-gradient(to right, transparent, #000 55%);
           mask-image: linear-gradient(to right, transparent, #000 55%);
 }
