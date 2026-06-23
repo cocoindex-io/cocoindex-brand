@@ -85,7 +85,7 @@
          .t-status .t-status-dark "Production ready" flag (@cocoindex/brand/tags.css). */
       body.ex-detail h1.hero-h { font-family: var(--serif); font-weight: 600; font-size: var(--text-display); line-height: 1; letter-spacing: -0.025em; margin: 0 0 18px; overflow-wrap: anywhere; min-width: 0; }
       body.ex-detail h1.hero-h em { font-style: normal; font-weight: 600; color: var(--coral); }
-      body.ex-detail .hero .lede { font-family: var(--sans); font-size: clamp(var(--text-base), 1.4vw, var(--text-md)); font-weight: 400; line-height: 1.55; letter-spacing: -0.005em; color: var(--maroon-ink); max-width: 62ch; margin: 0 0 14px; }
+      body.ex-detail .hero .lede { font-family: var(--sans); font-size: var(--text-md); font-weight: 400; line-height: 1.55; letter-spacing: -0.005em; color: var(--maroon-ink); max-width: 62ch; margin: 0 0 14px; }
       body.ex-detail .hero .intro-meta {
         display: flex; flex-wrap: wrap; gap: 22px;
         margin: 20px 0 28px; padding: 14px 0 18px;
@@ -105,7 +105,7 @@
       body.ex-detail .sec-head { display: grid; grid-template-columns: 1fr; gap: 14px; margin-bottom: 40px; }
       body.ex-detail .sec-idx { display: inline-flex; gap: 10px; align-items: baseline; font-family: var(--mono); font-size: var(--text-xs); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
       body.ex-detail .sec-idx .n { color: var(--coral); font-weight: 500; }
-      body.ex-detail .sec-head h2 { font-family: var(--sans); font-weight: 600; font-size: clamp(var(--text-lg), 3.2vw, var(--text-3xl)); line-height: 1; letter-spacing: -0.025em; margin: 0; max-width: 22ch; }
+      body.ex-detail .sec-head h2 { font-family: var(--sans); font-weight: 600; font-size: var(--text-3xl); line-height: 1; letter-spacing: -0.025em; margin: 0; max-width: 22ch; }
       body.ex-detail .sec-head h2 em { font-style: normal; color: var(--coral); }
       body.ex-detail .sec-lead { font-family: var(--sans); font-size: var(--text-base); font-weight: 400; line-height: 1.55; color: var(--maroon-ink); max-width: 64ch; margin: 8px 0 0; }
       body.ex-detail .sec-lead a { color: var(--coral-text); }
@@ -244,7 +244,7 @@
       body.ex-detail .tryit { background: var(--maroon); color: var(--cream); border-radius: var(--r-2xl); padding: 40px; display: grid; grid-template-columns: 1fr 1.4fr; gap: 40px; align-items: stretch; position: relative; overflow: hidden; }
       body.ex-detail .tryit::before { content: ""; position: absolute; inset: 0; background-image: radial-gradient(circle, color-mix(in oklab, var(--cream) 7%, transparent) 1.4px, transparent 1.8px); background-size: 20px 20px; }
       body.ex-detail .tryit > * { position: relative; z-index: 2; }
-      body.ex-detail .tryit h3 { font-family: var(--sans); font-weight: 600; font-size: clamp(var(--text-lg), 2.8vw, var(--text-2xl)); line-height: 1.05; letter-spacing: -0.025em; margin: 0 0 16px; max-width: 14ch; color: var(--cream); }
+      body.ex-detail .tryit h3 { font-family: var(--sans); font-weight: 600; font-size: var(--text-2xl); line-height: 1.05; letter-spacing: -0.025em; margin: 0 0 16px; max-width: 14ch; color: var(--cream); }
       body.ex-detail .tryit h3 em { color: var(--peach); font-style: normal; }
       body.ex-detail .tryit p { color: color-mix(in oklab, var(--cream) 85%, transparent); max-width: 38ch; margin: 0 0 22px; }
       body.ex-detail .tryit .tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
@@ -262,7 +262,7 @@
 
       /* CTA end */
       body.ex-detail .cta-end { border-radius: var(--r-2xl); background: var(--cream); border: 1px solid var(--rule); padding: 60px 44px; text-align: center; position: relative; overflow: hidden; }
-      body.ex-detail .cta-end h3 { font-family: var(--sans); font-weight: 600; font-size: clamp(var(--text-lg), 3vw, var(--text-2xl)); line-height: 1.05; letter-spacing: -0.025em; margin: 0 auto 18px; max-width: 20ch; }
+      body.ex-detail .cta-end h3 { font-family: var(--sans); font-weight: 600; font-size: var(--text-2xl); line-height: 1.05; letter-spacing: -0.025em; margin: 0 auto 18px; max-width: 20ch; }
       body.ex-detail .cta-end h3 em { color: var(--coral); font-style: normal; }
       body.ex-detail .cta-end p { color: var(--muted); max-width: 46ch; margin: 0 auto 26px; font-size: var(--text-base); }
       body.ex-detail .cta-end .btns { display: inline-flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
@@ -301,7 +301,7 @@
       body.ex-detail .ex-prose { padding-top: 8px; max-width: 72ch; min-width: 0; font-size: var(--text-base); line-height: 1.6; color: var(--maroon-ink); }
       body.ex-detail .ex-prose > :first-child { margin-top: 0; }
       body.ex-detail .ex-prose > p:first-child img { margin-top: 0; }
-      body.ex-detail .ex-prose h2 { font-family: var(--sans); font-weight: 600; font-size: clamp(var(--text-lg), 2.6vw, var(--text-xl)); line-height: 1.2; letter-spacing: -0.025em; margin: 56px 0 18px; scroll-margin-top: 84px; }
+      body.ex-detail .ex-prose h2 { font-family: var(--sans); font-weight: 600; font-size: var(--text-xl); line-height: 1.2; letter-spacing: -0.025em; margin: 56px 0 18px; scroll-margin-top: 84px; }
       body.ex-detail .ex-prose > h2:first-of-type { border-top: none; padding-top: 0; margin-top: 24px; }
       body.ex-detail .ex-prose h3 { font-family: var(--sans); font-weight: 600; font-size: var(--text-md); line-height: 1.2; letter-spacing: -0.015em; margin: 36px 0 12px; scroll-margin-top: 84px; }
       body.ex-detail .ex-prose h4 { font-family: var(--sans); font-weight: 600; font-size: var(--text-base); letter-spacing: -0.01em; margin: 28px 0 10px; }

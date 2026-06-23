@@ -28,7 +28,7 @@
       }
       body.ex-listing h1.hero-h em { font-style: normal; font-weight: 600; color: var(--coral); }
       body.ex-listing .hero-sub {
-        font-family: var(--sans); font-size: clamp(var(--text-base), 1.6vw, var(--text-lg));
+        font-family: var(--sans); font-size: var(--text-lg);
         font-weight: 400; line-height: 1.45; letter-spacing: -0.01em;
         color: var(--maroon-ink); max-width: 48ch; margin: 0 0 24px;
       }
@@ -133,7 +133,7 @@
       }
       body.ex-listing .sec-head h2 {
         font-family: var(--sans); font-weight: 600;
-        font-size: clamp(var(--text-lg), 3.2vw, var(--text-3xl)); letter-spacing: -0.025em; line-height: 1;
+        font-size: var(--text-3xl); letter-spacing: -0.025em; line-height: 1;
         margin: 0;
       }
       body.ex-listing .sec-head h2 em { font-style: normal; color: var(--coral); }
@@ -170,7 +170,7 @@
       body.ex-listing .feat-body .ribbon .idx { color: color-mix(in oklab, var(--cream) 60%, transparent); }
       body.ex-listing .feat-body h3 {
         font-family: var(--sans); font-weight: 600;
-        font-size: clamp(var(--text-xl), 3.6vw, var(--text-3xl)); line-height: 1; letter-spacing: -0.025em;
+        font-size: var(--text-3xl); line-height: 1; letter-spacing: -0.025em;
         margin: 0; max-width: 16ch; color: var(--cream);
       }
       body.ex-listing .feat-body h3 em { color: var(--peach); font-style: normal; font-weight: 600; }
@@ -340,7 +340,7 @@
       }
       body.ex-listing .cta-end h3 {
         font-family: var(--sans); font-weight: 600;
-        font-size: clamp(var(--text-lg), 3.4vw, var(--text-3xl)); line-height: 1; letter-spacing: -0.025em;
+        font-size: var(--text-3xl); line-height: 1; letter-spacing: -0.025em;
         margin: 0 0 16px; max-width: 22ch;
       }
       body.ex-listing .cta-end h3 em { color: var(--coral); font-style: normal; }
