@@ -88,7 +88,7 @@
 
 /* Mermaid diagrams — rendered from ```mermaid fenced blocks. Themed to the
    brand in MermaidRenderer.astro (node/edge palette); the figure chrome and
-   SVG polish below give it the warm, tactile Hum-card feel. */
+   SVG polish below give it the warm, flat Hum-card feel. */
 .mermaid-figure {
   margin: 28px 0; padding: clamp(20px, 4vw, 34px);
   border: 1px solid var(--rule); border-radius: var(--r-2xl);
@@ -96,7 +96,6 @@
     radial-gradient(125% 150% at 100% -10%,
       color-mix(in oklab, var(--peach) 12%, transparent), transparent 58%),
     var(--cream-soft);
-  box-shadow: var(--shadow-card), inset 0 1px 0 rgba(255, 255, 255, 0.55);
   overflow-x: auto;
 }
 .mermaid-figure .mermaid {
@@ -105,13 +104,12 @@
   color: var(--maroon-ink); font-family: var(--sans);
 }
 .mermaid-figure svg { max-width: 100%; height: auto; }
-/* Tactile rounded nodes with a soft cast, coral edges, branded edge-label pills. */
+/* Rounded nodes, coral edges, branded edge-label pills. */
 .mermaid-figure .node rect,
 .mermaid-figure .node polygon,
 .mermaid-figure .node circle,
 .mermaid-figure .node path {
   rx: 13px; ry: 13px;
-  filter: drop-shadow(0 4px 10px rgba(42, 18, 27, 0.10));
 }
 .mermaid-figure .cluster rect { rx: 18px; ry: 18px; }
 .mermaid-figure .flowchart-link { stroke-width: 1.7px; }
