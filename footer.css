@@ -31,9 +31,8 @@
   line-height: 1.02; letter-spacing: -0.03em;
   color: var(--maroon-ink); margin: 0 0 clamp(3rem, 6vh, 4.5rem); max-width: 18ch;
 }
-/* hum-07's mint hue, deepened to ~58% L so the big statement word reads on the
-   cream band (the literal mint at 80% L is ~1.4:1 — fine for chips, not display). */
-.foot-statement .hl { color: oklch(58% 0.14 156); }
+/* bright green — vivid + saturated so it pops on the cream band. */
+.foot-statement .hl { color: oklch(66% 0.24 147); }
 
 .foot-grid {
   display: grid; grid-template-columns: auto 1fr 1fr 1fr; gap: 24px; /* hum-07 .footer__meta */
