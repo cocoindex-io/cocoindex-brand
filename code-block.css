@@ -83,6 +83,10 @@ pre.astro-code code { background: none; color: inherit; padding: 0; font-size: i
 .code-figure .bar .copy.copied {
   opacity: 1; transform: none;
 }
+/* Touch devices have no hover — keep the button visible so code stays copyable. */
+@media (hover: none) {
+  .code-figure .bar .copy { opacity: 1; transform: none; }
+}
 .code-figure .bar .copy:hover {
   color: var(--cream);
   border-color: color-mix(in oklab, var(--cream) 42%, transparent);
