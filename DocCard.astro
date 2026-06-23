@@ -1,0 +1,38 @@
+---
+// DocCard — the shared entry-point / navigation card (docs home, landing grids).
+// hum-07 "color-shift" card: a rounded surface that lifts + accent-tints on
+// hover, with an optional rounded icon tile that springs on hover. One per
+// accent keeps a grid lively without fighting (each card owns its own colour).
+// Styles: @cocoindex/brand/doc-card.css (`.coco-card`). Pass `icon` as the inner
+// markup of a 24×24 stroke <svg> (the path(s)); the component draws the frame.
+export interface Props {
+  href: string;
+  title: string;
+  body?: string;
+  meta?: string;
+  /** Inner SVG markup (paths) for a 0 0 24 24 stroke icon. Omit for a text-only card. */
+  icon?: string;
+  /** Accent owns the icon tile, the arrow, the meta label, and the hover tint. */
+  accent?: 'coral' | 'peach' | 'palm' | 'lavender' | 'gold';
+  track?: string;
+}
+const { href, title, body, meta, icon, accent = 'coral', track } = Astro.props;
+const external = /^https?:\/\//.test(href);
+---
+<a
+  class="coco-card"
+  href={href}
+  data-accent={accent}
+  {...(track ? { 'data-track': track, 'data-track-loc': title } : {})}
+  {...(external ? { target: '_blank', rel: 'noopener' } : {})}
+>
+  {icon && (
+    <span class="coco-card__ico" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round" set:html={icon} />
+    </span>
+  )}
+  <h3 class="coco-card__title">{title}<span class="coco-card__ar" aria-hidden="true">→</span></h3>
+  {body && <p class="coco-card__body">{body}</p>}
+  {meta && <span class="coco-card__meta">{meta}</span>}
+</a>
