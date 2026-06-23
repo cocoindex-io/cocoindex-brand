@@ -77,3 +77,22 @@ const {
     </div>
   </div>
 </nav>
+
+<script>
+  // N10 scroll-morph: toggle `.is-floating` on the bar past a 24px scroll
+  // threshold (rAF-throttled, passive listener). The glass de-materializes and
+  // `.nav-in` collapses into a centered floating pill — styling in nav.css.
+  (() => {
+    const nav = document.querySelector('nav.top');
+    if (!nav) return;
+    let ticking = false;
+    const onScroll = () => {
+      nav.classList.toggle('is-floating', window.scrollY > 24);
+      ticking = false;
+    };
+    window.addEventListener('scroll', () => {
+      if (!ticking) { requestAnimationFrame(onScroll); ticking = true; }
+    }, { passive: true });
+    onScroll();
+  })();
+</script>

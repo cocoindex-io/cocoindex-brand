@@ -8,22 +8,63 @@
 
    Width is parameterized like the footer so the bar aligns with each surface's
    content column: --chrome-maxw defaults to --maxw (1320); docs sets --maxw-docs (1480). */
+/* Bar height — one number, shared by the sticky bar and the docs sidebars'
+   sticky `top:` offset (docs-layout.css references var(--bar-h)). */
+:root { --bar-h: 66px; }
+
+/* N10 scroll-morph (the hum-07 nav move): at rest a full-bleed glass bar with a
+   hairline bottom rule; past 24px of scroll the bar de-materializes and the
+   inner row collapses into a centered floating pill. The toggle (`.is-floating`)
+   is driven by the small rAF/passive scroll listener in Nav.astro. The bar's
+   chrome lives on the OUTER `nav.top` at rest and migrates to the morphing
+   `.nav-in` when floating, so the pill carries its own glass + shadow. */
 nav.top {
   position: sticky; top: 0; z-index: var(--z-nav);
-  background: color-mix(in oklab, var(--paper) 92%, transparent);
-  backdrop-filter: blur(12px);
+  height: var(--bar-h);
+  background: color-mix(in oklab, var(--paper) 82%, transparent);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
   border-bottom: 1px solid var(--rule);
+  transition: background var(--dur-slow) var(--ease),
+              border-color var(--dur-slow) var(--ease),
+              backdrop-filter var(--dur-slow) var(--ease);
+}
+nav.top.is-floating {
+  background: transparent; border-bottom-color: transparent;
+  backdrop-filter: none; -webkit-backdrop-filter: none;
 }
 .nav-in {
-  max-width: var(--chrome-maxw, var(--maxw)); margin: 0 auto;
-  padding: 14px var(--gutter);
-  display: flex; align-items: center; gap: 28px;
+  max-width: var(--chrome-maxw, var(--maxw)); margin: 0 auto; height: 100%;
+  padding: 0 var(--gutter);
+  display: flex; align-items: center; gap: 1.25rem;
+  border: 1px solid transparent; border-radius: 0;
+  transition: max-width 420ms var(--ease), transform 420ms var(--ease),
+              border-radius 420ms var(--ease), box-shadow 420ms var(--ease),
+              border-color 420ms var(--ease), padding 420ms var(--ease),
+              background-color 420ms var(--ease);
+}
+nav.top.is-floating .nav-in {
+  max-width: min(64rem, calc(100% - 1.5rem));
+  transform: translateY(0.7rem);
+  padding: 0 1.1rem;
+  border-color: var(--rule); border-radius: var(--r-pill);
+  background: color-mix(in oklab, var(--paper) 90%, transparent);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  box-shadow: 0 24px 56px -20px rgba(42,18,27,0.18),
+              0 8px 20px -12px rgba(42,18,27,0.12);
 }
 /* The logo lockup itself is the shared `.logo` component (logo.css / Logo.astro). */
-.nav-links { display: flex; gap: 28px; margin-left: 24px; }
-.nav-links a { font-size: var(--text-sm); color: var(--maroon-ink); text-decoration: none; padding: 6px 0; position: relative; }
-.nav-links a:hover { color: var(--coral); }
-.nav-cta { margin-left: auto; display: flex; gap: 10px; align-items: center; }
+/* Links + CTA cluster sit together on the right (hum-07): margin-left:auto on the
+   links pushes the whole group over; the CTA tucks in beside it. */
+.nav-links { display: flex; align-items: center; gap: 0.3rem; margin-left: auto; }
+.nav-links a {
+  font-size: 0.9rem; font-weight: 500; color: var(--muted);
+  text-decoration: none; padding: 0.5rem 0.8rem; border-radius: var(--r-lg);
+  transition: color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease);
+}
+.nav-links a:hover { color: var(--maroon-ink); background: color-mix(in oklab, var(--maroon-ink) 5%, transparent); }
+.nav-cta { margin-left: 0.4rem; display: flex; gap: 10px; align-items: center; }
 
 /* Hamburger button — lives in the bar, opens the per-site mobile drawer. Hidden
    on desktop; each site flips it on at its own phone breakpoint via @media. */
@@ -123,10 +164,9 @@ nav.top {
 
 .mobile-sheet-head {
   display: flex; align-items: center; gap: 10px;
-  /* y-padding mirrors `.nav-in`'s phone-mode 10px so the sheet's border-bottom
-     lines up with the topbar's; with a 32px close button this is 53px total —
-     the topbar height at phone width. */
-  padding: 10px 14px;
+  /* y-padding is tuned so the sheet's border-bottom lines up with the topbar's:
+     17px + a 32px close button + 17px = 66px = var(--bar-h), the bar height. */
+  padding: 17px 14px;
   border-bottom: 1px solid var(--rule);
   flex: none;
 }
@@ -204,4 +244,6 @@ nav.top {
   .menu-btn .bar, .menu-btn::before, .menu-btn::after,
   .mobile-sheet, .mobile-scrim { transition: none !important; }
   .mobile-close:active { transform: none; }
+  /* The scroll-morph still toggles state, but snaps instead of sliding. */
+  nav.top, .nav-in { transition: none !important; }
 }
