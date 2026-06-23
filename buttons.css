@@ -103,13 +103,18 @@
   --btn-bg: transparent; --btn-fg: var(--coral-text);
   --btn-border: color-mix(in oklab, var(--coral) 42%, var(--rule-strong));
   --btn-bg-hover: transparent; --btn-fg-hover: var(--cream); --btn-border-hover: var(--coral);
-  --btn-fill: var(--coral); overflow: hidden;
+  --btn-fill: var(--coral); --btn-edge: var(--coral-deep);
+  --btn-cast: color-mix(in oklab, var(--coral) 42%, transparent); overflow: hidden;
 }
 .btn-outline::before {
   content: ""; position: absolute; inset: 0; z-index: -1; background: var(--btn-fill);
   transform: scaleY(0); transform-origin: bottom; transition: transform var(--dur-slow) var(--ease);
 }
 .btn-outline:hover::before { transform: scaleY(1); }
+/* On hover the outline RISES into a solid push: the fill wipes up, a 3D colour
+   edge appears, and it lifts — matching the hum-07 secondary button. */
+.btn-outline:hover { transform: translateY(-2px); box-shadow: 0 5px 0 0 var(--btn-edge), 0 10px 20px -6px var(--btn-cast); }
+.btn-outline:active { transform: translateY(2px); box-shadow: 0 1px 0 0 var(--btn-edge), 0 2px 6px -3px var(--btn-cast); }
 .btn-outline-muted {
   --btn-bg: transparent; --btn-fg: var(--maroon-ink); --btn-border: var(--rule-strong);
   --btn-bg-hover: var(--maroon); --btn-fg-hover: var(--cream); --btn-border-hover: var(--maroon);
@@ -144,6 +149,7 @@
   .btn { transition: none; }
   .btn:active { transform: none; }
   .btn-primary:hover, .btn-coral:hover,
-  .btn-primary:active, .btn-coral:active { transform: none; }
+  .btn-primary:active, .btn-coral:active,
+  .btn-outline:hover, .btn-outline:active { transform: none; }
   .btn-outline::before { transition: none; }
 }
