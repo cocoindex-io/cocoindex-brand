@@ -23,11 +23,21 @@
   background: color-mix(in oklab, var(--maroon-ink) 5%, var(--paper));
   border-top: 1px solid var(--rule);
 }
-.foot-grid {
-  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 24px;
-  padding-bottom: 48px;
+/* hum-07 closing statement — big display headline above the meta row. */
+.foot-statement {
+  font-family: var(--serif); font-weight: 700;
+  font-size: clamp(2rem, 4vw + 1rem, 3.5rem);
+  line-height: 1.04; letter-spacing: -0.03em;
+  color: var(--maroon-ink); margin: 0 0 44px; max-width: 16ch;
 }
-.foot-brand { display: flex; flex-direction: column; gap: 16px; max-width: 38ch; }
+.foot-statement .hl { color: var(--coral); }
+
+.foot-grid {
+  display: grid; grid-template-columns: 1.3fr 1fr 1fr 1fr; gap: 24px;
+  padding-top: 44px; padding-bottom: 40px;
+  border-top: 1px solid var(--rule);
+}
+.foot-brand { display: flex; flex-direction: column; gap: 16px; max-width: 32ch; }
 /* The footer brand lockup is the shared `.logo` component (logo.css / Logo.astro),
    rendered at size lg. */
 .foot-brand p { color: var(--muted); margin: 0; font-size: var(--text-sm); }
@@ -47,6 +57,7 @@
   color: var(--muted);
   flex-wrap: wrap; gap: 8px;
 }
+.colo .foot-tag { color: color-mix(in oklab, var(--maroon-ink) 38%, transparent); }
 
 @media (max-width: 820px) {
   .it-foot { padding: 56px var(--gutter) 32px; }

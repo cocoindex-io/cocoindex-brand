@@ -242,7 +242,7 @@ nav.top .logo { gap: 0.75rem; margin-right: auto; }
   color: var(--maroon-ink); text-decoration: none;
   transition: background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
 }
-.mobile-list a:hover { background: color-mix(in oklab, var(--coral) 8%, transparent); color: var(--maroon-ink); }
+.mobile-list a:hover { background: color-mix(in oklab, var(--coral) 8%, transparent); color: var(--maroon-ink); text-decoration: none; }
 .mobile-list a[aria-current], .mobile-list a.on {
   background: color-mix(in oklab, var(--coral) 14%, transparent);
   color: var(--coral);
