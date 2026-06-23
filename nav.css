@@ -65,15 +65,19 @@ nav.top.is-floating .nav-in {
 /* Links + CTA cluster sit together on the right (hum-07): margin-left:auto on the
    links pushes the whole group over; the CTA tucks in beside it. */
 .nav-links { display: flex; align-items: center; gap: 0.3rem; margin-left: auto; }
+/* Brand mark ↔ wordmark gap: 12px matches hum-07's nav brand lockup (0.6em of
+   its 1.25rem wordmark); nav-scoped so the shared .logo lockup is untouched. */
+nav.top .logo { gap: 0.75rem; }
 .nav-links a {
   font-size: 0.9rem; font-weight: 500; color: var(--muted);
-  text-decoration: none; padding: 0.5rem 0.8rem; border-radius: var(--r-lg);
+  text-decoration: none; padding: 0.5rem 0.8rem; border-radius: 10px; /* hum-07 nav-link radius */
   transition: color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease);
 }
-/* text-decoration:none defends the chrome against a consumer's global
-   `a:hover { text-decoration: underline }` (e.g. the docs site). */
-.nav-links a:hover { color: var(--maroon-ink); background: color-mix(in oklab, var(--maroon-ink) 5%, transparent); text-decoration: none; }
-.nav-cta { margin-left: 0.4rem; display: flex; gap: 10px; align-items: center; }
+/* Hover: rest --muted (hum-07 ink-2 role) → --maroon-ink (hum-07 ink), on a warm
+   deeper-cream tile (hum-07 paper-2 role). text-decoration:none defends the
+   chrome against a consumer's global `a:hover { text-decoration: underline }`. */
+.nav-links a:hover { color: var(--maroon-ink); background: color-mix(in oklab, var(--maroon-ink) 6%, var(--paper)); text-decoration: none; }
+.nav-cta { margin-left: 0.4rem; display: flex; gap: 0.5rem; align-items: center; }
 
 /* Hamburger button — lives in the bar, opens the per-site mobile drawer. Hidden
    on desktop; each site flips it on at its own phone breakpoint via @media. */
