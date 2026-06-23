@@ -10,7 +10,7 @@
 
 .prose h1 {
   font-family: var(--serif); font-weight: 600;
-  font-size: var(--prose-h1, clamp(40px, 4.6vw, 60px)); line-height: 1.02;
+  font-size: var(--prose-h1, clamp(40px, 4.6vw, 60px)); line-height: 1;
   letter-spacing: -0.025em; margin: 0 0 18px;
   overflow-wrap: anywhere; min-width: 0;
 }
@@ -18,7 +18,7 @@
 
 .prose .lede {
   font-family: var(--sans); font-size: clamp(var(--text-base), 1.4vw, var(--text-md));
-  font-weight: 400; line-height: 1.5; letter-spacing: -0.005em;
+  font-weight: 400; line-height: 1.55; letter-spacing: -0.005em;
   margin: 0 0 14px; color: var(--maroon-ink); max-width: 62ch;
 }
 
@@ -30,13 +30,13 @@
 .prose h2 em { font-style: normal; font-weight: 600; color: var(--coral); }
 .prose h3 {
   font-family: var(--sans); font-weight: 600;
-  font-size: var(--prose-h3, 18px); line-height: 1.3; letter-spacing: -0.01em;
+  font-size: var(--prose-h3, 18px); line-height: 1.2; letter-spacing: -0.01em;
   margin: 28px 0 10px; scroll-margin-top: 80px;
 }
 .prose h3 em { font-style: normal; font-weight: 600; color: var(--coral); }
 .prose h4 {
   font-family: var(--sans); font-weight: 600;
-  font-size: var(--prose-h4, 15px); line-height: 1.3; letter-spacing: -0.005em;
+  font-size: var(--prose-h4, 15px); line-height: 1.2; letter-spacing: -0.005em;
   margin: 22px 0 8px; scroll-margin-top: 80px;
 }
 

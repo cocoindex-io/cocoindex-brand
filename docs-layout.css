@@ -18,7 +18,7 @@ html, body { margin: 0; padding: 0; background: var(--paper); color: var(--maroo
 body {
   font-family: var(--sans);
   font-size: var(--text-base);
-  line-height: 1.65;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
 

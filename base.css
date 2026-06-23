@@ -53,7 +53,7 @@ h1, h2, h3, h4, h5, h6 { overflow-wrap: anywhere; }
 .callout.tip  .ico { background: var(--palm);  color: var(--maroon-ink); }
 .callout.warn .ico { background: var(--pink);  color: var(--maroon-ink); }
 
-.callout .body { flex: 1; min-width: 0; line-height: 1.5; }
+.callout .body { flex: 1; min-width: 0; line-height: 1.55; }
 .callout .body > :is(p, ul, ol):first-child { margin-top: 0; }
 .callout .body > :last-child { margin-bottom: 0; }
 .callout b { display: block; font-family: var(--sans); font-weight: 600; font-size: var(--text-xs); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 2px; }

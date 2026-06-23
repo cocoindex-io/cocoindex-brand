@@ -189,7 +189,7 @@ nav.top {
 .mobile-list a[aria-current] .num { background: var(--coral); color: var(--cream); }
 .mobile-list a.sub { padding-left: 36px; min-height: 38px; font-size: var(--text-sm); color: var(--muted); }
 .mobile-list a.sub:hover { color: var(--maroon-ink); }
-.mobile-list .lbl { flex: 1; min-width: 0; line-height: 1.3; }
+.mobile-list .lbl { flex: 1; min-width: 0; line-height: 1.2; }
 
 /* Foot — pinned strip below the scroll body (e.g. the stars pill). */
 .mobile-foot {

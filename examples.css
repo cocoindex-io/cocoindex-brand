@@ -23,7 +23,7 @@
       body.ex-listing .hero-grid { display: grid; grid-template-columns: 1fr; gap: 48px; align-items: end; }
       body.ex-listing h1.hero-h {
         font-family: var(--serif); font-weight: 600;
-        font-size: var(--text-display); line-height: 0.98; letter-spacing: -0.025em;
+        font-size: var(--text-display); line-height: 1; letter-spacing: -0.025em;
         margin: 0 0 24px; overflow-wrap: anywhere; min-width: 0;
       }
       body.ex-listing h1.hero-h em { font-style: normal; font-weight: 600; color: var(--coral); }
@@ -82,7 +82,7 @@
       body.ex-listing .side-nav ol li a {
         display: flex; align-items: center; gap: 10px;
         text-decoration: none; color: var(--maroon-ink);
-        font-size: var(--text-sm); font-weight: 500; letter-spacing: -0.01em; line-height: 1.3;
+        font-size: var(--text-sm); font-weight: 500; letter-spacing: -0.01em; line-height: 1.2;
         padding: 9px 12px; border-radius: 6px;
         border-left: 2px solid transparent;
         margin-left: -14px; padding-left: 12px;
@@ -133,7 +133,7 @@
       }
       body.ex-listing .sec-head h2 {
         font-family: var(--sans); font-weight: 600;
-        font-size: clamp(var(--text-lg), 3.2vw, var(--text-3xl)); letter-spacing: -0.025em; line-height: 1.05;
+        font-size: clamp(var(--text-lg), 3.2vw, var(--text-3xl)); letter-spacing: -0.025em; line-height: 1;
         margin: 0;
       }
       body.ex-listing .sec-head h2 em { font-style: normal; color: var(--coral); }
@@ -170,7 +170,7 @@
       body.ex-listing .feat-body .ribbon .idx { color: color-mix(in oklab, var(--cream) 60%, transparent); }
       body.ex-listing .feat-body h3 {
         font-family: var(--sans); font-weight: 600;
-        font-size: clamp(var(--text-xl), 3.6vw, var(--text-3xl)); line-height: 1.02; letter-spacing: -0.025em;
+        font-size: clamp(var(--text-xl), 3.6vw, var(--text-3xl)); line-height: 1; letter-spacing: -0.025em;
         margin: 0; max-width: 16ch; color: var(--cream);
       }
       body.ex-listing .feat-body h3 em { color: var(--peach); font-style: normal; font-weight: 600; }
@@ -298,7 +298,7 @@
       body.ex-listing .ex-body { padding: 20px 22px 22px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
       body.ex-listing .ex-body h3 { font-family: var(--sans); font-weight: 600; font-size: var(--text-md); letter-spacing: -0.02em; line-height: 1.2; margin: 0; color: var(--maroon-ink); }
       body.ex-listing .ex-body h3 em { color: var(--coral); font-style: normal; }
-      body.ex-listing .ex-body p { margin: 0; color: var(--muted); font-size: var(--text-sm); line-height: 1.5; flex: 1; }
+      body.ex-listing .ex-body p { margin: 0; color: var(--muted); font-size: var(--text-sm); line-height: 1.55; flex: 1; }
 
       body.ex-listing .ex-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
       /* Tags use @cocoindex/brand .t-pill; the leading dot's colour is the
@@ -340,7 +340,7 @@
       }
       body.ex-listing .cta-end h3 {
         font-family: var(--sans); font-weight: 600;
-        font-size: clamp(var(--text-lg), 3.4vw, var(--text-3xl)); line-height: 1.05; letter-spacing: -0.025em;
+        font-size: clamp(var(--text-lg), 3.4vw, var(--text-3xl)); line-height: 1; letter-spacing: -0.025em;
         margin: 0 0 16px; max-width: 22ch;
       }
       body.ex-listing .cta-end h3 em { color: var(--coral); font-style: normal; }
