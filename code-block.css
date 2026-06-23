@@ -44,17 +44,15 @@ pre.astro-code code { background: none; color: inherit; padding: 0; font-size: i
   border: 1px solid color-mix(in oklab, var(--maroon-ink) 20%, transparent);
 }
 .code-figure .bar {
-  display: flex; align-items: center; justify-content: space-between;
+  display: flex; align-items: center; justify-content: flex-end;
   padding: 10px 16px;
   border-bottom: 1px solid color-mix(in oklab, var(--cream) 6%, transparent);
   font-family: var(--mono); font-size: var(--text-xs); letter-spacing: 0.04em;
   color: color-mix(in oklab, var(--cream) 60%, transparent);
 }
-.code-figure .bar .dots { display: flex; gap: 6px; }
-.code-figure .bar .dots span {
-  width: 9px; height: 9px; border-radius: 50%;
-  background: color-mix(in oklab, var(--cream) 15%, transparent);
-}
+/* Faux macOS "traffic light" dots removed — re-drawn window chrome is an AI tell;
+   the language label + copy button carry the bar on their own. */
+.code-figure .bar .dots { display: none; }
 .code-figure .bar .right { display: flex; align-items: center; gap: 12px; }
 .code-figure .bar .file {
   font-family: var(--mono); font-size: var(--text-xs); letter-spacing: 0.04em;

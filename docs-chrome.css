@@ -96,7 +96,7 @@ aside.toc .meta .edited { color: var(--muted); cursor: default; }
   color: var(--muted); margin-bottom: 20px;
 }
 .breadcrumb a { color: var(--muted); text-decoration: none; }
-.breadcrumb a:hover { color: var(--maroon-ink); }
+.breadcrumb a:hover { color: var(--coral); }
 .breadcrumb .sep { margin: 0 8px; opacity: 0.5; }
 .breadcrumb .now { color: var(--coral-text); }
 
