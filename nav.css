@@ -73,10 +73,13 @@ nav.top.is-floating .nav-in {
 /* The logo lockup itself is the shared `.logo` component (logo.css / Logo.astro). */
 /* Links + CTA cluster sit together on the right (hum-07): margin-left:auto on the
    links pushes the whole group over; the CTA tucks in beside it. */
-.nav-links { display: flex; align-items: center; gap: 0.3rem; margin-left: auto; }
+.nav-links { display: flex; align-items: center; gap: 0.3rem; }
 /* Brand mark ↔ wordmark gap: 12px matches hum-07's nav brand lockup (0.6em of
    its 1.25rem wordmark); nav-scoped so the shared .logo lockup is untouched. */
-nav.top .logo { gap: 0.75rem; }
+/* margin-right:auto on the logo (not margin-left:auto on the links) pushes the
+   links + CTA cluster to the right — AND keeps the CTA pinned right on mobile,
+   where the links are display:none and would otherwise drop the auto-margin. */
+nav.top .logo { gap: 0.75rem; margin-right: auto; }
 .nav-links a {
   /* Rest is a solid dark (hum-07 ink-2 role: a hair lighter than the maroon-ink
      wordmark) → maroon-ink on hover (hum-07 ink). Not the muted grey — hum-07's

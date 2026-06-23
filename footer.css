@@ -7,9 +7,20 @@
    column without forking the CSS:
      --chrome-maxw defaults to --maxw (1320, marketing). Docs sets --maxw-docs (1480). */
 .it-foot {
+  position: relative;
   max-width: var(--chrome-maxw, var(--maxw));
   margin: 0 auto;
   padding: 72px var(--gutter) 36px;
+}
+/* hum-07 footer: a full-bleed deeper-cream band (its --color-paper-2) sitting
+   behind the centered footer content. Painted as a 100vw pseudo-element so the
+   shared, content-capped markup doesn't need restructuring; root overflow-x:clip
+   contains the 100vw. */
+.it-foot::before {
+  content: "";
+  position: absolute; z-index: -1; pointer-events: none;
+  inset: 0 auto 0 50%; width: 100vw; transform: translateX(-50%);
+  background: color-mix(in oklab, var(--maroon-ink) 5%, var(--paper));
   border-top: 1px solid var(--rule);
 }
 .foot-grid {
