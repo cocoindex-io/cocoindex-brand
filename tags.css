@@ -56,8 +56,10 @@ a.t-pill:hover, .t-pill.is-hover { border-color: var(--coral); color: var(--cora
   font-family: var(--mono); font-size: var(--text-xs);
   letter-spacing: 0.12em; text-transform: uppercase;
   padding: 5px 14px 5px 10px; border-radius: var(--r-pill);
-  background: color-mix(in oklab, var(--peach) 30%, var(--cream));
-  border: 1px solid var(--rule);
+  /* hum-07 chip register: a whisper of peach tint + a warm hairline, not a
+     solid tan fill — lets the pulsing palm dot carry the colour. */
+  background: color-mix(in oklab, var(--peach) 13%, var(--cream));
+  border: 1px solid color-mix(in oklab, var(--peach) 28%, var(--rule));
   color: var(--maroon);
   white-space: nowrap;
 }
