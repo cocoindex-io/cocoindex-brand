@@ -70,7 +70,9 @@ nav.top.is-floating .nav-in {
   text-decoration: none; padding: 0.5rem 0.8rem; border-radius: var(--r-lg);
   transition: color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease);
 }
-.nav-links a:hover { color: var(--maroon-ink); background: color-mix(in oklab, var(--maroon-ink) 5%, transparent); }
+/* text-decoration:none defends the chrome against a consumer's global
+   `a:hover { text-decoration: underline }` (e.g. the docs site). */
+.nav-links a:hover { color: var(--maroon-ink); background: color-mix(in oklab, var(--maroon-ink) 5%, transparent); text-decoration: none; }
 .nav-cta { margin-left: 0.4rem; display: flex; gap: 10px; align-items: center; }
 
 /* Hamburger button — lives in the bar, opens the per-site mobile drawer. Hidden
