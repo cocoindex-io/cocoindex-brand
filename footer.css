@@ -42,8 +42,9 @@
   line-height: 1.02; letter-spacing: -0.03em;
   color: var(--maroon-ink); margin: 0 0 clamp(3rem, 6vh, 4.5rem); max-width: 22ch;
 }
-/* bright green — vivid + saturated so it pops on the cream band. */
-.foot-statement .hl { color: oklch(66% 0.24 147); }
+/* the coconut leaf green — --palm-ink (legible sibling of the neon leaf --palm,
+   which washes out as big text on the light band). */
+.foot-statement .hl { color: var(--palm-ink); }
 
 .foot-grid {
   display: grid; grid-template-columns: auto 1fr 1fr 1fr; gap: 24px; /* hum-07 .footer__meta */
