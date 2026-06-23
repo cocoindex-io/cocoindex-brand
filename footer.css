@@ -36,8 +36,7 @@
 
 .foot-grid {
   display: grid; grid-template-columns: auto 1fr 1fr 1fr; gap: 24px; /* hum-07 .footer__meta */
-  padding-top: 44px; padding-bottom: 40px;
-  border-top: 1px solid var(--rule);
+  padding-top: 8px; padding-bottom: 40px;
 }
 /* Brand cell — logo at the top, copyright/SF line anchored to the bottom so the
    cell spans the row height (grid stretches it) instead of leaving the logo
