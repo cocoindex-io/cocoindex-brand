@@ -23,6 +23,17 @@
   background: #ECE8DC; /* warm oat band (hum-07 footer) — greyer + more set-apart than the cream page */
   border-top: 1px solid var(--rule);
 }
+/* Hum character cameo — the coconut peeks in from the top-right, tilted, behind
+   the content. Decorative; hidden on phones where there's no spare room. */
+.foot-mascot {
+  position: absolute; z-index: 0; pointer-events: none; user-select: none;
+  top: clamp(20px, 4vh, 40px); right: clamp(8px, 3vw, 48px);
+  width: clamp(96px, 11vw, 144px); height: auto;
+  transform: rotate(11deg);
+  filter: drop-shadow(0 10px 18px color-mix(in oklab, var(--maroon-ink) 16%, transparent));
+}
+.foot-statement, .foot-grid { position: relative; z-index: 1; }
+@media (max-width: 720px) { .foot-mascot { display: none; } }
 /* hum-07 closing statement — big display headline above the meta row. */
 .foot-statement {
   font-family: var(--serif); font-weight: 700;
@@ -55,11 +66,22 @@
   color: var(--muted);
 }
 .foot-colo .foot-tag { color: color-mix(in oklab, var(--maroon-ink) 38%, transparent); }
-.foot-colo .foot-heart { color: var(--coral); }
+/* Hum's one reacting mark — the heart beats gently. */
+.foot-colo .foot-heart {
+  color: var(--coral); display: inline-block;
+  animation: foot-heart 2.4s var(--ease) infinite;
+}
+@keyframes foot-heart { 0%, 100% { transform: scale(1); } 45% { transform: scale(1.22); } }
+@media (prefers-reduced-motion: reduce) { .foot-colo .foot-heart { animation: none; } }
 .foot-col h6 {
   font-family: var(--mono); font-size: var(--text-xs); letter-spacing: 0.14em; text-transform: uppercase;
   color: var(--muted); margin: 0 0 14px; font-weight: 500;
+  display: flex; align-items: center; gap: 8px;
 }
+/* Multi-accent dots (Hum) — one accent per column, echoing the DocCards. */
+.foot-col h6::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--coral); flex: none; }
+.foot-grid > div:nth-of-type(3) h6::before { background: var(--palm-ink); }
+.foot-grid > div:nth-of-type(4) h6::before { background: var(--lavender); }
 .foot-col a {
   display: block; text-decoration: none; color: var(--maroon-ink);
   padding: 5px 0; font-size: var(--text-sm);
