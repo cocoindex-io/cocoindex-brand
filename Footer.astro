@@ -47,6 +47,10 @@ const COLS: { title: string; links: { label: string; href: string }[] }[] = [
   <div class="foot-grid">
     <div class="foot-brand">
       <Logo href={`${SITE}/`} src={`${SITE}/images/cocoindex.svg`} size="lg" />
+      <div class="foot-colo">
+        <span>© 2026 CocoIndex</span>
+        <span class="foot-tag">Made in San Francisco with <span class="foot-heart" aria-hidden="true">♥</span></span>
+      </div>
     </div>
     {COLS.map((col) => (
       <div class="foot-col">
@@ -54,9 +58,5 @@ const COLS: { title: string; links: { label: string; href: string }[] }[] = [
         {col.links.map((l) => <a href={l.href}>{l.label}</a>)}
       </div>
     ))}
-  </div>
-  <div class="colo">
-    <span>© 2026 CocoIndex</span>
-    <span class="foot-tag">Made in San Francisco with <span class="foot-heart" aria-hidden="true">♥</span></span>
   </div>
 </footer>
