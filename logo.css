@@ -12,18 +12,18 @@
 .logo:hover, .logo:hover .logo-word { text-decoration: none; }
 .logo img { display: block; width: auto; }
 .logo-word {
-  font-family: var(--sans); font-weight: 700; letter-spacing: -0.02em;
+  font-family: var(--sans); font-weight: 600; letter-spacing: -0.02em;
   line-height: 1; color: inherit; white-space: nowrap;
 }
 
 /* Sizes — mark height + a wordmark tuned to match it. */
 .logo-sm { gap: 8px; }
 .logo-sm img { height: 24px; }
-.logo-sm .logo-word { font-size: 16px; }
+.logo-sm .logo-word { font-size: var(--text-base); }
 
 .logo-md img { height: 28px; }
-.logo-md .logo-word { font-size: 18px; }
+.logo-md .logo-word { font-size: var(--text-base); }
 
 .logo-lg { gap: 12px; }
 .logo-lg img { height: 36px; }
-.logo-lg .logo-word { font-size: 20px; }
+.logo-lg .logo-word { font-size: var(--text-md); }

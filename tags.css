@@ -16,7 +16,7 @@
 /* Pill — clickable taxonomy. */
 .t-pill {
   display: inline-flex; align-items: center; gap: 6px;
-  font-family: var(--mono); font-size: 10px;
+  font-family: var(--mono); font-size: var(--text-xs);
   letter-spacing: 0.14em; text-transform: uppercase;
   padding: 3px 9px; border-radius: var(--r-pill);
   background: var(--cream-soft); color: var(--maroon);
@@ -32,7 +32,7 @@ a.t-pill:hover, .t-pill.is-hover { border-color: var(--coral); color: var(--cora
 /* Category — filled coral kicker. One per hero. */
 .t-category {
   display: inline-flex; align-items: center;
-  font-family: var(--mono); font-size: 11px;
+  font-family: var(--mono); font-size: var(--text-xs);
   letter-spacing: 0.14em; text-transform: uppercase;
   padding: 5px 10px; border-radius: var(--r-pill);
   background: var(--coral); color: var(--cream);
@@ -42,7 +42,7 @@ a.t-pill:hover, .t-pill.is-hover { border-color: var(--coral); color: var(--cora
 /* Overlay — label on dark media; frosted so it reads on any thumbnail. */
 .t-overlay {
   display: inline-flex; align-items: center;
-  font-family: var(--mono); font-size: 10px;
+  font-family: var(--mono); font-size: var(--text-xs);
   letter-spacing: 0.14em; text-transform: uppercase;
   padding: 4px 10px; border-radius: var(--r-pill);
   background: color-mix(in oklab, var(--cream) 12%, transparent); color: var(--cream);
@@ -53,7 +53,7 @@ a.t-pill:hover, .t-pill.is-hover { border-color: var(--coral); color: var(--cora
 /* Status — state flag. The pulsing dot signals "live"; use --palm. */
 .t-status {
   display: inline-flex; align-items: center; gap: 8px;
-  font-family: var(--mono); font-size: 11px;
+  font-family: var(--mono); font-size: var(--text-xs);
   letter-spacing: 0.12em; text-transform: uppercase;
   padding: 5px 14px 5px 10px; border-radius: var(--r-pill);
   background: color-mix(in oklab, var(--peach) 30%, var(--cream));
@@ -91,7 +91,7 @@ a.t-pill:hover, .t-pill.is-hover { border-color: var(--coral); color: var(--cora
    hover (same hover language as .t-pill). Optional `.cnt` count suffix. */
 .t-filter {
   display: inline-flex; align-items: center; gap: 6px;
-  font-family: var(--sans); font-size: 13px; font-weight: 500;
+  font-family: var(--sans); font-size: var(--text-sm); font-weight: 500;
   padding: 8px 14px; border-radius: var(--r-pill);
   background: var(--cream); color: var(--maroon-ink);
   border: 1px solid var(--rule); cursor: pointer; white-space: nowrap;
@@ -109,7 +109,7 @@ a.t-pill:hover, .t-pill.is-hover { border-color: var(--coral); color: var(--cora
 
 /* Pill, large — feature / capability tags (e.g. the homepage strip
    "GOOGLE DRIVE · ANY LLM"). Same role as .t-pill, bigger type + a 6px dot. */
-.t-pill.t-pill-lg { font-size: 12px; padding: 6px 13px; gap: 8px; letter-spacing: 0.12em; }
+.t-pill.t-pill-lg { font-size: var(--text-sm); padding: 6px 13px; gap: 8px; letter-spacing: 0.12em; }
 .t-pill.t-pill-lg .dt { width: 6px; height: 6px; }
 
 /* Status, on dark — the same state flag on a maroon surface (e.g. a
@@ -129,7 +129,7 @@ a.t-pill:hover, .t-pill.is-hover { border-color: var(--coral); color: var(--cora
    bordered-pill eyebrow is .t-status; this is the bare text+dot form. */
 .t-eyebrow {
   display: inline-flex; align-items: center; gap: 9px;
-  font-family: var(--mono); font-size: 11px;
+  font-family: var(--mono); font-size: var(--text-xs);
   letter-spacing: 0.14em; text-transform: uppercase;
   color: var(--coral); white-space: nowrap;
 }
@@ -144,5 +144,5 @@ a.t-pill:hover, .t-pill.is-hover { border-color: var(--coral); color: var(--cora
    wins over each role's native font-size by source order. `.t-lg` matches the
    `.t-pill-lg` / `.t-status-lg` type step, so the scale reads the same name
    everywhere. ── */
-.t-sm { font-size: 9px; }
-.t-lg { font-size: 12px; }
+.t-sm { font-size: var(--text-xs); }
+.t-lg { font-size: var(--text-sm); }

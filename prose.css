@@ -6,37 +6,37 @@
    defaults are the docs scale; the blog (larger body + display headings) sets:
      :root { --prose-body: 17px; --prose-lh: 1.7;
              --prose-h2: clamp(28px,3.2vw,44px); --prose-h3: 22px; } */
-.prose { font-size: var(--prose-body, 15.5px); line-height: var(--prose-lh, 1.65); }
+.prose { font-size: var(--prose-body, var(--text-base)); line-height: var(--prose-lh, 1.6); }
 
 .prose h1 {
-  font-family: var(--serif); font-weight: 700;
-  font-size: var(--prose-h1, clamp(40px, 4.6vw, 60px)); line-height: 1.02;
+  font-family: var(--serif); font-weight: 600;
+  font-size: var(--prose-h1, var(--text-3xl)); line-height: 1;
   letter-spacing: -0.025em; margin: 0 0 18px;
   overflow-wrap: anywhere; min-width: 0;
 }
-.prose h1 em { font-style: normal; font-weight: 700; color: var(--coral); }
+.prose h1 em { font-style: normal; font-weight: 600; color: var(--coral); }
 
 .prose .lede {
-  font-family: var(--sans); font-size: clamp(17px, 1.4vw, 20px);
-  font-weight: 400; line-height: 1.5; letter-spacing: -0.005em;
+  font-family: var(--sans); font-size: var(--text-md);
+  font-weight: 400; line-height: 1.55; letter-spacing: -0.005em;
   margin: 0 0 14px; color: var(--maroon-ink); max-width: 62ch;
 }
 
 .prose h2 {
   font-family: var(--sans); font-weight: 600;
-  font-size: var(--prose-h2, 28px); line-height: var(--prose-h2-lh, 1.1); letter-spacing: -0.025em;
+  font-size: var(--prose-h2, var(--text-xl)); line-height: var(--prose-h2-lh, 1.2); letter-spacing: -0.025em;
   margin: 56px 0 12px; scroll-margin-top: 80px;
 }
 .prose h2 em { font-style: normal; font-weight: 600; color: var(--coral); }
 .prose h3 {
   font-family: var(--sans); font-weight: 600;
-  font-size: var(--prose-h3, 18px); line-height: 1.3; letter-spacing: -0.01em;
+  font-size: var(--prose-h3, var(--text-md)); line-height: 1.2; letter-spacing: -0.01em;
   margin: 28px 0 10px; scroll-margin-top: 80px;
 }
 .prose h3 em { font-style: normal; font-weight: 600; color: var(--coral); }
 .prose h4 {
   font-family: var(--sans); font-weight: 600;
-  font-size: var(--prose-h4, 15px); line-height: 1.3; letter-spacing: -0.005em;
+  font-size: var(--prose-h4, var(--text-base)); line-height: 1.2; letter-spacing: -0.005em;
   margin: 22px 0 8px; scroll-margin-top: 80px;
 }
 
@@ -57,7 +57,7 @@
   content: "Link copied";
   position: absolute; left: 50%; bottom: calc(100% + 7px); transform: translateX(-50%);
   background: var(--maroon-ink); color: var(--cream);
-  font-family: var(--mono); font-size: 11px; letter-spacing: 0.02em;
+  font-family: var(--mono); font-size: var(--text-xs); letter-spacing: 0.02em;
   white-space: nowrap; padding: 3px 8px; border-radius: var(--r-sm);
   pointer-events: none;
 }
@@ -76,10 +76,10 @@
 .prose blockquote strong { font-weight: 600; }
 
 /* Tables — reference material in docs + posts. */
-.prose table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px; }
+.prose table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: var(--text-sm); }
 .prose th, .prose td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--rule); vertical-align: top; }
 .prose th {
-  font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em;
+  font-family: var(--mono); font-size: var(--text-xs); letter-spacing: 0.08em;
   color: var(--muted); border-bottom-color: var(--rule-strong);
 }
 

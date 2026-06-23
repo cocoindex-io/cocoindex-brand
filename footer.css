@@ -19,20 +19,20 @@
 .foot-brand { display: flex; flex-direction: column; gap: 16px; max-width: 38ch; }
 /* The footer brand lockup is the shared `.logo` component (logo.css / Logo.astro),
    rendered at size lg. */
-.foot-brand p { color: var(--muted); margin: 0; font-size: 14px; }
+.foot-brand p { color: var(--muted); margin: 0; font-size: var(--text-sm); }
 .foot-col h6 {
-  font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+  font-family: var(--mono); font-size: var(--text-xs); letter-spacing: 0.14em; text-transform: uppercase;
   color: var(--muted); margin: 0 0 14px; font-weight: 500;
 }
 .foot-col a {
   display: block; text-decoration: none; color: var(--maroon-ink);
-  padding: 5px 0; font-size: 14px;
+  padding: 5px 0; font-size: var(--text-sm);
 }
 .foot-col a:hover { color: var(--coral); }
 .colo {
   padding-top: 20px;
   display: flex; justify-content: space-between; align-items: center;
-  font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+  font-family: var(--mono); font-size: var(--text-xs); letter-spacing: 0.1em; text-transform: uppercase;
   color: var(--muted);
   flex-wrap: wrap; gap: 8px;
 }

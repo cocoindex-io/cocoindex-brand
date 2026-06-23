@@ -52,17 +52,17 @@
 .example-repo-card__ico svg { display: block; }
 .example-repo-card__body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
 .example-repo-card__eyebrow {
-  font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em;
+  font-family: var(--mono); font-size: var(--text-xs); letter-spacing: 0.14em;
   text-transform: uppercase; color: var(--coral);
 }
 .example-repo-card__path { display: inline-flex; align-items: baseline; gap: 8px; }
 .example-repo-card__path code {
-  font-family: var(--mono); font-size: 16px; font-weight: 600;
+  font-family: var(--mono); font-size: var(--text-base); font-weight: 600;
   background: transparent; color: var(--maroon-ink); padding: 0;
   transition: color var(--dur-fast) var(--ease);
 }
 .example-repo-card__path-arrow {
-  font-family: var(--mono); font-size: 16px; font-weight: 500; line-height: 1;
+  font-family: var(--mono); font-size: var(--text-base); font-weight: 500; line-height: 1;
   color: var(--maroon);
   transition: color var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
 }
@@ -72,17 +72,17 @@
 .example-repo-card.is-hover .example-repo-card__path-arrow { color: var(--palm-ink); transform: translateX(3px); }
 
 .example-repo-card__desc {
-  font-family: var(--sans); font-size: 14px; line-height: 1.5;
+  font-family: var(--sans); font-size: var(--text-sm); line-height: 1.55;
   color: var(--maroon-ink); opacity: 0.8;
 }
-.example-repo-card__desc strong { font-weight: 700; opacity: 1; }
+.example-repo-card__desc strong { font-weight: 600; opacity: 1; }
 
 .example-repo-card__star {
   flex: none;
   display: inline-flex; align-items: center; gap: 6px;
   padding: 7px 12px;
-  font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em;
-  text-transform: uppercase; font-weight: 700;
+  font-family: var(--mono); font-size: var(--text-xs); letter-spacing: 0.14em;
+  text-transform: uppercase; font-weight: 600;
   color: var(--maroon-ink);
   background: var(--cream);
   border: 1px solid var(--rule-strong);
@@ -108,28 +108,28 @@
 .docs-link-card__ico svg { display: block; }
 .docs-link-card__body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
 .docs-link-card__eyebrow {
-  font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em;
+  font-family: var(--mono); font-size: var(--text-xs); letter-spacing: 0.14em;
   text-transform: uppercase; color: var(--coral);
 }
 .docs-link-card__title {
-  font-family: var(--serif); font-weight: 700;
-  font-size: 22px; line-height: 1.15; letter-spacing: -0.025em;
+  font-family: var(--serif); font-weight: 600;
+  font-size: var(--text-md); line-height: 1.2; letter-spacing: -0.025em;
   color: var(--maroon-ink);
 }
-.docs-link-card__title em { font-style: normal; font-weight: 700; color: var(--coral); }
+.docs-link-card__title em { font-style: normal; font-weight: 600; color: var(--coral); }
 .docs-link-card__desc {
-  font-family: var(--sans); font-size: 14px; line-height: 1.5;
+  font-family: var(--sans); font-size: var(--text-sm); line-height: 1.55;
   color: var(--maroon-ink); opacity: 0.8;
 }
 .docs-link-card__desc code {
-  font-family: var(--mono); font-size: 12.5px;
+  font-family: var(--mono); font-size: var(--text-sm);
   background: color-mix(in oklab, var(--coral) 10%, transparent);
   color: var(--berry);
   padding: 1px 5px; border-radius: var(--r-xs);
 }
 .docs-link-card__arrow {
   flex: none;
-  font-family: var(--mono); font-size: 20px; font-weight: 500; line-height: 1;
+  font-family: var(--mono); font-size: var(--text-md); font-weight: 500; line-height: 1;
   color: var(--maroon);
   transition: color var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
 }
