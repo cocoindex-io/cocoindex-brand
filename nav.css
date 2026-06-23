@@ -9,8 +9,11 @@
    Width is parameterized like the footer so the bar aligns with each surface's
    content column: --chrome-maxw defaults to --maxw (1320); docs sets --maxw-docs (1480). */
 /* Bar height — one number, shared by the sticky bar and the docs sidebars'
-   sticky `top:` offset (docs-layout.css references var(--bar-h)). */
-:root { --bar-h: 66px; }
+   sticky `top:` offset (docs-layout.css references var(--bar-h)).
+   --nav-gutter — the header's own horizontal inset (hum-07 --page-gutter). Kept
+   independent of each site's --gutter so the bar's edge padding is IDENTICAL on
+   every surface (home, blog, docs, examples), not tied to per-site page shells. */
+:root { --bar-h: 66px; --nav-gutter: clamp(1.25rem, 4vw, 3rem); }
 
 /* N10 scroll-morph (the hum-07 nav move): at rest a full-bleed glass bar with a
    hairline bottom rule; past 24px of scroll the bar de-materializes and the
@@ -36,16 +39,19 @@ nav.top.is-floating {
 /* Opt out of the morph (docs + examples): the script bails on .no-morph, but
    pin the rest state defensively so the bar can never collapse into the pill. */
 nav.top.no-morph { background: color-mix(in oklab, var(--paper) 82%, transparent); border-bottom-color: var(--rule); }
-/* No padding here: the base .nav-in already sets `0 var(--gutter)`, and leaving
-   it out lets a site's mobile padding override win (it otherwise can't beat this
-   rule's specificity). This rule only needs to undo the *floating* state. */
+/* Only undoes the *floating* state — no max-width/padding here, so it inherits
+   the full-bleed base below (and a site's mobile padding override can still win). */
 nav.top.no-morph .nav-in {
-  max-width: var(--chrome-maxw, var(--maxw)); transform: none;
+  transform: none;
   border-color: transparent; border-radius: 0; box-shadow: none;
 }
+/* Full-bleed at rest, like hum-07's .nav__inner: the bar spans the viewport and
+   the content sits one --nav-gutter from each edge — same on every surface,
+   regardless of that page's content max-width. The floating pill (below) re-caps
+   it to a centered 64rem. */
 .nav-in {
-  max-width: var(--chrome-maxw, var(--maxw)); margin: 0 auto; height: 100%;
-  padding: 0 var(--gutter);
+  max-width: 100%; margin: 0 auto; height: 100%;
+  padding: 0 var(--nav-gutter);
   display: flex; align-items: center; gap: 1.25rem;
   border: 1px solid transparent; border-radius: 0;
   transition: max-width 420ms var(--ease), transform 420ms var(--ease),
