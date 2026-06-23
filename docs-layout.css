@@ -186,7 +186,7 @@ main.content {
   }
   .stars:hover {
     border-color: var(--rule);
-    background: color-mix(in oklab, var(--peach) 10%, transparent);
+    background: color-mix(in oklab, var(--peach) 14%, var(--cream));
     color: var(--coral);
   }
   .stars svg { width: 12px; height: 12px; opacity: .85; }

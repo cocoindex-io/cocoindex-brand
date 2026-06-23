@@ -36,9 +36,12 @@ nav.top.is-floating {
 /* Opt out of the morph (docs + examples): the script bails on .no-morph, but
    pin the rest state defensively so the bar can never collapse into the pill. */
 nav.top.no-morph { background: color-mix(in oklab, var(--paper) 82%, transparent); border-bottom-color: var(--rule); }
+/* No padding here: the base .nav-in already sets `0 var(--gutter)`, and leaving
+   it out lets a site's mobile padding override win (it otherwise can't beat this
+   rule's specificity). This rule only needs to undo the *floating* state. */
 nav.top.no-morph .nav-in {
   max-width: var(--chrome-maxw, var(--maxw)); transform: none;
-  border-color: transparent; border-radius: 0; box-shadow: none; padding: 0 var(--gutter);
+  border-color: transparent; border-radius: 0; box-shadow: none;
 }
 .nav-in {
   max-width: var(--chrome-maxw, var(--maxw)); margin: 0 auto; height: 100%;
