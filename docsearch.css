@@ -121,7 +121,7 @@
 .DocSearch-Back-Icon { color: var(--coral) !important; }
 .DocSearch-Input {
   font-family: var(--sans);
-  font-size: 15px;
+  font-size: var(--text-base);
   font-weight: 400;
   letter-spacing: -0.01em;
   color: var(--maroon-ink);
@@ -134,7 +134,7 @@
 }
 .DocSearch-Hit-source {
   font-family: var(--mono); font-weight: 500;
-  font-size: 11px; letter-spacing: 0.14em;
+  font-size: var(--text-xs); letter-spacing: 0.14em;
   text-transform: uppercase; color: var(--muted) !important;
   background: var(--paper);
   padding: 14px 4px 6px;
@@ -160,7 +160,7 @@
   border-color: var(--coral);
 }
 .DocSearch-Hit-title { font-family: var(--sans); font-weight: 500; }
-.DocSearch-Hit-path  { font-family: var(--mono); font-size: 11px; }
+.DocSearch-Hit-path  { font-family: var(--mono); font-size: var(--text-xs); }
 .DocSearch-Hit-icon  { color: var(--muted); }
 .DocSearch-Hit mark {
   background: transparent;
@@ -188,7 +188,7 @@
 .DocSearch-Commands-Key,
 .DocSearch-Button-Key {
   font-family: var(--mono);
-  font-weight: 500; font-size: 11px;
+  font-weight: 500; font-size: var(--text-xs);
   border: 1px solid var(--rule) !important;
   border-radius: 4px;
   padding: 1px 5px;
@@ -200,7 +200,7 @@
 /* Footer — hairline rule + mono caps, matches the doc-foot strip. */
 .DocSearch-Footer {
   border-top: 1px solid var(--rule);
-  font-family: var(--mono); font-size: 11px;
+  font-family: var(--mono); font-size: var(--text-xs);
   letter-spacing: 0.06em; color: var(--muted);
 }
 .DocSearch-Commands { color: var(--muted); }
@@ -223,7 +223,7 @@
    "coral H1" treatment used across the site (Hum: weight, never italic). */
 .DocSearch-NoResults .DocSearch-Title {
   font-family: var(--serif); font-style: normal;
-  font-weight: 700; letter-spacing: -0.025em; color: var(--maroon-ink);
+  font-weight: 600; letter-spacing: -0.025em; color: var(--maroon-ink);
 }
 .DocSearch-NoResults .DocSearch-Title strong { color: var(--coral); }
 

@@ -3,7 +3,7 @@
    styling only). Surface-agnostic, token-only; import after tokens.css.
    `.count` reserves 4ch so the pill doesn't reflow when the number loads. */
 .stars {
-  font-family: var(--mono); font-size: 12px;
+  font-family: var(--mono); font-size: var(--text-sm);
   padding: 6px 10px; border: 1px solid var(--rule-strong);
   border-radius: var(--r-pill);
   display: inline-flex; gap: 6px; align-items: center;

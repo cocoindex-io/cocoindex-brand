@@ -9,15 +9,15 @@
 .prose { font-size: var(--prose-body, 15.5px); line-height: var(--prose-lh, 1.65); }
 
 .prose h1 {
-  font-family: var(--serif); font-weight: 700;
+  font-family: var(--serif); font-weight: 600;
   font-size: var(--prose-h1, clamp(40px, 4.6vw, 60px)); line-height: 1.02;
   letter-spacing: -0.025em; margin: 0 0 18px;
   overflow-wrap: anywhere; min-width: 0;
 }
-.prose h1 em { font-style: normal; font-weight: 700; color: var(--coral); }
+.prose h1 em { font-style: normal; font-weight: 600; color: var(--coral); }
 
 .prose .lede {
-  font-family: var(--sans); font-size: clamp(17px, 1.4vw, 20px);
+  font-family: var(--sans); font-size: clamp(var(--text-base), 1.4vw, var(--text-md));
   font-weight: 400; line-height: 1.5; letter-spacing: -0.005em;
   margin: 0 0 14px; color: var(--maroon-ink); max-width: 62ch;
 }
@@ -57,7 +57,7 @@
   content: "Link copied";
   position: absolute; left: 50%; bottom: calc(100% + 7px); transform: translateX(-50%);
   background: var(--maroon-ink); color: var(--cream);
-  font-family: var(--mono); font-size: 11px; letter-spacing: 0.02em;
+  font-family: var(--mono); font-size: var(--text-xs); letter-spacing: 0.02em;
   white-space: nowrap; padding: 3px 8px; border-radius: var(--r-sm);
   pointer-events: none;
 }
@@ -76,10 +76,10 @@
 .prose blockquote strong { font-weight: 600; }
 
 /* Tables — reference material in docs + posts. */
-.prose table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px; }
+.prose table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: var(--text-sm); }
 .prose th, .prose td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--rule); vertical-align: top; }
 .prose th {
-  font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em;
+  font-family: var(--mono); font-size: var(--text-xs); letter-spacing: 0.08em;
   color: var(--muted); border-bottom-color: var(--rule-strong);
 }
 

@@ -25,7 +25,7 @@ h1, h2, h3, h4, h5, h6 { overflow-wrap: anywhere; }
   border: 1px solid var(--rule-strong); border-radius: var(--r-md);
   background: var(--cream);
   margin: 18px 0;
-  font-size: 13.5px;
+  font-size: var(--text-sm);
   color: var(--maroon-ink);
 }
 .callout.note { background: var(--cream); border-color: var(--rule-strong); }
@@ -46,7 +46,7 @@ h1, h2, h3, h4, h5, h6 { overflow-wrap: anywhere; }
   width: 24px; height: 24px; flex: none; border-radius: 50%;
   background: var(--coral); color: var(--cream);
   display: grid; place-items: center;
-  font-family: var(--mono); font-size: 12px; font-weight: 500; line-height: 1;
+  font-family: var(--mono); font-size: var(--text-sm); font-weight: 500; line-height: 1;
 }
 .callout.note .ico { background: var(--berry); color: var(--cream); }
 .callout.info .ico { background: var(--coral); color: var(--cream); }
@@ -56,7 +56,7 @@ h1, h2, h3, h4, h5, h6 { overflow-wrap: anywhere; }
 .callout .body { flex: 1; min-width: 0; line-height: 1.5; }
 .callout .body > :is(p, ul, ol):first-child { margin-top: 0; }
 .callout .body > :last-child { margin-bottom: 0; }
-.callout b { display: block; font-family: var(--sans); font-weight: 600; font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 2px; }
+.callout b { display: block; font-family: var(--sans); font-weight: 600; font-size: var(--text-xs); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 2px; }
 
 /* ── Focus floor ── one visible keyboard ring for every interactive element on
    every surface. Surfaces with a bespoke focus style (own offset/colour) are
