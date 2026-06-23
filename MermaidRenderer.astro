@@ -38,19 +38,35 @@
       return value;
     };
     const cssVar = (name) => toHex(styles.getPropertyValue(name).trim());
+    const rawVar = (name) => styles.getPropertyValue(name).trim();
+    // Derive a tint by mixing two resolved brand tokens (hex in, hex out).
+    const mix = (a, pct, b) => toHex(`color-mix(in srgb, ${cssVar(a)} ${pct}%, ${cssVar(b)})`);
 
     mermaid.initialize({
       startOnLoad: false,
       securityLevel: 'strict',
       theme: 'base',
       themeVariables: {
+        fontFamily: rawVar('--sans') || 'sans-serif',
+        fontSize: '15px',
         background: cssVar('--paper'),
-        primaryColor: cssVar('--cream'),
+        // Nodes: warm cream fill, maroon border, ink text.
+        primaryColor: cssVar('--cream-soft'),
+        mainBkg: cssVar('--cream-soft'),
         primaryTextColor: cssVar('--maroon-ink'),
+        nodeTextColor: cssVar('--maroon-ink'),
         primaryBorderColor: cssVar('--maroon'),
+        nodeBorder: cssVar('--maroon'),
+        // Edges + arrows: brand coral.
         lineColor: cssVar('--coral'),
-        secondaryColor: cssVar('--cream-soft'),
-        tertiaryColor: cssVar('--paper'),
+        defaultLinkColor: cssVar('--coral'),
+        // Subgraph clusters: faint coral-tinted band, soft maroon rule.
+        secondaryColor: mix('--peach', 40, '--cream'),
+        tertiaryColor: mix('--coral', 8, '--paper'),
+        clusterBkg: mix('--coral', 7, '--paper'),
+        clusterBorder: mix('--maroon', 28, '--paper'),
+        titleColor: cssVar('--maroon'),
+        edgeLabelBackground: cssVar('--paper'),
         noteBkgColor: cssVar('--cream'),
         noteTextColor: cssVar('--maroon-ink'),
         noteBorderColor: cssVar('--coral'),
