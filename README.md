@@ -23,8 +23,16 @@ import { cocoindexCodeTheme } from '@cocoindex/brand/code-theme';
 
 See `package.json` `exports` for the full set: CSS primitives (tokens, motion,
 logo, base, buttons, tags, code-block, cards, prose, nav, stars, footer,
-docs-chrome), `code-theme`, `copy-code`, and the `Logo` / `Nav` / `Footer` /
-`Stars` / `MobileSheet` / `ExampleRepoCard` / `DocsLinkCard` Astro components.
+docs-chrome), `code-theme`, `copy-code`, `remark-mermaid` (the build-time
+mermaid-fence transform), and the `Logo` / `Nav` / `Footer` / `Stars` /
+`MobileSheet` / `ExampleRepoCard` / `DocsLinkCard` / `MermaidRenderer` Astro
+components.
+
+Mermaid diagrams: wire `remark-mermaid` into `markdown.remarkPlugins` (and the
+`mdx()` plugins) so ` ```mermaid ` fences become `.mermaid-figure` markup, drop
+`<MermaidRenderer />` into the page layout to hydrate them, and add `mermaid` to
+the consuming app's own dependencies (the renderer imports it lazily). Styling
+ships in `prose.css` (`.mermaid-figure`).
 
 `<Logo>` is the one brand lockup (mark + "CocoIndex" wordmark) — `size="sm|md|lg"`,
 `href` (omit/null → static), `markOnly`. Used by `Nav` and `Footer`; reach for it

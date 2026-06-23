@@ -1,6 +1,6 @@
 {
   "name": "@cocoindex/brand",
-  "version": "0.4.13",
+  "version": "0.4.14",
   "description": "CocoIndex shared design tokens, code theme, and brand assets. Single source of truth for home, blog, and docs.",
   "private": true,
   "license": "UNLICENSED",
@@ -11,7 +11,8 @@
   },
   "dependencies": {
     "@fontsource/jetbrains-mono": "^5.2.8",
-    "@fontsource/plus-jakarta-sans": "^5.2.8"
+    "@fontsource/plus-jakarta-sans": "^5.2.8",
+    "unist-util-visit": "^5.0.0"
   },
   "exports": {
     "./tokens.css": "./tokens.css",
@@ -36,6 +37,8 @@
     "./components.css": "./components.css",
     "./code-theme": "./code-theme.mjs",
     "./copy-code": "./copy-code.mjs",
+    "./remark-mermaid": "./remark-mermaid.mjs",
+    "./MermaidRenderer.astro": "./MermaidRenderer.astro",
     "./Logo.astro": "./Logo.astro",
     "./Footer.astro": "./Footer.astro",
     "./Stars.astro": "./Stars.astro",
@@ -67,6 +70,8 @@
     "components.css",
     "code-theme.mjs",
     "copy-code.mjs",
+    "remark-mermaid.mjs",
+    "MermaidRenderer.astro",
     "Logo.astro",
     "Footer.astro",
     "Stars.astro",
