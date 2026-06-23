@@ -71,7 +71,7 @@ aside.toc li a {
   border-left: 2px solid transparent; line-height: 1.4;
 }
 aside.toc li a:hover { color: var(--coral); text-decoration: none; }
-aside.toc li a.on { color: var(--coral); border-left-color: var(--coral); }
+aside.toc li a.on { color: var(--coral-text); border-left-color: var(--coral); }
 aside.toc li.sub a { padding-left: 22px; font-size: 12.5px; }
 aside.toc li.sub-sub a { padding-left: 34px; font-size: 12px; }
 aside.toc .meta {
@@ -96,7 +96,7 @@ aside.toc .meta .edited { color: var(--muted); cursor: default; }
 .breadcrumb a { color: var(--muted); text-decoration: none; }
 .breadcrumb a:hover { color: var(--maroon-ink); }
 .breadcrumb .sep { margin: 0 8px; opacity: 0.5; }
-.breadcrumb .now { color: var(--coral); }
+.breadcrumb .now { color: var(--coral-text); }
 
 /* ── Prev/next pager ── (dotted reveal fades in from the arrow edge) ── */
 .pager { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 56px; }

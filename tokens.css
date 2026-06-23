@@ -5,6 +5,7 @@
   --maroon-deep: #401E2B;
   --maroon-ink: #2A121B;
   --coral: #BE5133;
+  --coral-text: #A8432A;
   --peach: #E59A63;
   --cream: #FCF3D8;
   --cream-soft: #F6F4E9;
@@ -19,7 +20,7 @@
   --paper: #FBF6E8;
   --rule: rgba(42,18,27,0.14);
   --rule-strong: rgba(42,18,27,0.35);
-  --muted: rgba(42,18,27,0.58);
+  --muted: rgba(42,18,27,0.64);
   /* code */
   --code-bg: #2A121B;
   --code-fg: #FCF3D8;
