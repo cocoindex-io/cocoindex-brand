@@ -11,6 +11,7 @@
 // belong on the marketing nav).
 import Stars from './Stars.astro';
 import Logo from './Logo.astro';
+import { NAV_LINKS } from './nav-links.mjs';
 
 export interface NavLink {
   href: string;
@@ -20,21 +21,26 @@ export interface NavLink {
   versions?: { href: string; label: string; tag?: string; current?: boolean }[];
 }
 interface Props {
-  links: NavLink[];
+  /** Defaults to the canonical NAV_LINKS so every surface shares one link set. */
+  links?: NavLink[];
   logoHref?: string;
   logoSrc?: string;
   mobileSheetId?: string;
   ariaLabel?: string;
+  /** N10 scroll-morph into a floating pill. Pass `false` to keep the bar as a
+   *  fixed full-width bar (used on docs + examples). */
+  floating?: boolean;
 }
 const {
-  links,
+  links = NAV_LINKS,
   logoHref = 'https://cocoindex.io/',
   logoSrc = 'https://cocoindex.io/images/cocoindex.svg',
   mobileSheetId,
   ariaLabel = 'Primary',
+  floating = true,
 } = Astro.props;
 ---
-<nav class="top" aria-label={ariaLabel}>
+<nav class:list={['top', !floating && 'no-morph']} aria-label={ariaLabel}>
   <div class="nav-in">
     <Logo href={logoHref} src={logoSrc} size="md" />
     <div class="nav-links">
@@ -84,7 +90,7 @@ const {
   // `.nav-in` collapses into a centered floating pill — styling in nav.css.
   (() => {
     const nav = document.querySelector('nav.top');
-    if (!nav) return;
+    if (!nav || nav.classList.contains('no-morph')) return; // docs/examples opt out
     let ticking = false;
     const onScroll = () => {
       nav.classList.toggle('is-floating', window.scrollY > 24);
