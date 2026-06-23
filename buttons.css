@@ -100,10 +100,10 @@
 /* Outline — hairline at rest; the accent fill wipes up from the bottom on hover
    (pairs with a coral primary as the secondary action, GUIDELINE §3). */
 .btn-outline {
-  --btn-bg: transparent; --btn-fg: var(--maroon);
-  --btn-border: color-mix(in oklab, var(--maroon) 42%, var(--rule-strong));
-  --btn-bg-hover: transparent; --btn-fg-hover: var(--cream); --btn-border-hover: var(--maroon);
-  --btn-fill: var(--maroon); overflow: hidden;
+  --btn-bg: transparent; --btn-fg: var(--coral-text);
+  --btn-border: color-mix(in oklab, var(--coral) 42%, var(--rule-strong));
+  --btn-bg-hover: transparent; --btn-fg-hover: var(--cream); --btn-border-hover: var(--coral);
+  --btn-fill: var(--coral); overflow: hidden;
 }
 .btn-outline::before {
   content: ""; position: absolute; inset: 0; z-index: -1; background: var(--btn-fill);
