@@ -17,8 +17,8 @@
 .t-pill {
   display: inline-flex; align-items: center; gap: 6px;
   font-family: var(--mono); font-size: var(--text-xs);
-  letter-spacing: 0.14em; text-transform: uppercase;
-  padding: 3px 9px; border-radius: var(--r-pill);
+  letter-spacing: 0.01em;
+  padding: 4px 10px; border-radius: var(--r-pill);
   background: oklch(94% 0.016 95); color: var(--maroon); /* hum-07 --color-paper-2 */
   border: 1px solid var(--rule);
   text-decoration: none; white-space: nowrap;
@@ -103,7 +103,7 @@ button.t-pill { cursor: pointer; font: inherit; }
 .t-filter {
   display: inline-flex; align-items: center; gap: 6px;
   font-family: var(--sans); font-size: var(--text-sm); font-weight: 500;
-  padding: 8px 14px; border-radius: var(--r-pill);
+  padding: 6px 13px; border-radius: var(--r-pill);
   background: oklch(94% 0.016 95); color: var(--maroon-ink); /* hum-07 --color-paper-2 */
   border: 1px solid var(--rule); cursor: pointer; white-space: nowrap;
   transition: background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease), transform var(--dur-press) var(--ease);
