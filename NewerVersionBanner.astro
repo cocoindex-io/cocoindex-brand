@@ -1,0 +1,47 @@
+---
+// NewerVersionBanner — a top-of-page "a newer version is available" notice.
+// Surface-agnostic and fully configurable: every string has a sensible default
+// so the common case is `<NewerVersionBanner href linkHtml />`, but `tag`,
+// `lead`, `trail`, and `cta` can be overridden, or the whole body replaced via
+// the default slot. Token-only look lives in @cocoindex/brand/banner.css
+// (`.superseded-banner`); the consumer owns positioning (e.g. sticky in an
+// article). Pairs with the `.t-category` tag from tags.css.
+export interface Props {
+  /** Destination of the newer version. */
+  href: string;
+  /** Inner HTML of the inline link — a title's markup, or plain text like
+   *  "the v1 example". Ignored when a default slot is provided. */
+  linkHtml?: string;
+  /** Pill label. */
+  tag?: string;
+  /** Sentence before the inline link. */
+  lead?: string;
+  /** Sentence after the inline link. */
+  trail?: string;
+  /** Call-to-action label. */
+  cta?: string;
+}
+
+const {
+  href,
+  linkHtml = '',
+  tag = 'Newer version',
+  lead = 'A newer version of this guide is available:',
+  trail = 'This page stays up for anyone still using it, but new readers should start there.',
+  cta = 'Read the latest →',
+} = Astro.props;
+
+const hasBody = Astro.slots.has('default');
+---
+
+<aside class="superseded-banner" role="note">
+  <span class="t-category">{tag}</span>
+  <p class="sb-text">
+    {hasBody ? (
+      <slot />
+    ) : (
+      <Fragment>{lead}{' '}<a href={href} set:html={linkHtml} />. {trail}</Fragment>
+    )}
+  </p>
+  <a class="sb-cta" href={href}>{cta}</a>
+</aside>

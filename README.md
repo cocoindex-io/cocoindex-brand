@@ -22,11 +22,11 @@ import { cocoindexCodeTheme } from '@cocoindex/brand/code-theme';
 ```
 
 See `package.json` `exports` for the full set: CSS primitives (tokens, motion,
-logo, base, buttons, tags, code-block, cards, prose, nav, stars, footer,
+logo, base, buttons, tags, code-block, cards, banner, prose, nav, stars, footer,
 docs-chrome), `code-theme`, `copy-code`, `remark-mermaid` (the build-time
 mermaid-fence transform), and the `Logo` / `Nav` / `Footer` / `Stars` /
-`MobileSheet` / `ExampleRepoCard` / `DocsLinkCard` / `MermaidRenderer` Astro
-components.
+`MobileSheet` / `ExampleRepoCard` / `DocsLinkCard` / `NewerVersionBanner` /
+`MermaidRenderer` Astro components.
 
 Mermaid diagrams: wire `remark-mermaid` into `markdown.remarkPlugins` (and the
 `mdx()` plugins) so ` ```mermaid ` fences become `.mermaid-figure` markup, drop
