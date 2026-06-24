@@ -7,9 +7,6 @@ import Logo from './Logo.astro';
 
 const SITE = 'https://cocoindex.io';
 
-const DESCRIPTION =
-  'The open-source, incremental data framework that keeps your AI agents grounded in fresh, structured context.';
-
 const COLS: { title: string; links: { label: string; href: string }[] }[] = [
   {
     title: 'Resources',
@@ -45,10 +42,15 @@ const COLS: { title: string; links: { label: string; href: string }[] }[] = [
 ---
 
 <footer class="it-foot">
+  <!-- hum-07 footer: a big closing statement, then the brand + link meta row. -->
+  <p class="foot-statement">Index once. <span class="hl">Stay fresh.</span></p>
   <div class="foot-grid">
     <div class="foot-brand">
       <Logo href={`${SITE}/`} src={`${SITE}/images/cocoindex.svg`} size="lg" />
-      <p>{DESCRIPTION}</p>
+      <div class="foot-colo">
+        <span>© 2026 CocoIndex</span>
+        <span class="foot-tag">Made in San Francisco with <span class="foot-heart" aria-hidden="true">♥</span></span>
+      </div>
     </div>
     {COLS.map((col) => (
       <div class="foot-col">
@@ -56,8 +58,5 @@ const COLS: { title: string; links: { label: string; href: string }[] }[] = [
         {col.links.map((l) => <a href={l.href}>{l.label}</a>)}
       </div>
     ))}
-  </div>
-  <div class="colo">
-    <span>© 2026 CocoIndex</span>
   </div>
 </footer>

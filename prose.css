@@ -75,12 +75,20 @@
 .prose blockquote p { margin: 6px 0; }
 .prose blockquote strong { font-weight: 600; }
 
-/* Tables — reference material in docs + posts. */
-.prose table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: var(--text-sm); }
+/* Tables — reference material in docs + posts. Scroll horizontally on overflow
+   (display:block + fit-content) so wide tables never push the page sideways on
+   mobile, and columns size to content instead of cramping. */
+.prose table {
+  display: block; overflow-x: auto; -webkit-overflow-scrolling: touch;
+  width: fit-content; max-width: 100%;
+  border-collapse: collapse; margin: 22px 0; font-size: var(--text-sm);
+}
+.prose thead { background: var(--cream-soft); }
 .prose th, .prose td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+.prose tbody tr:nth-child(even) { background: color-mix(in oklab, var(--maroon-ink) 3%, transparent); }
 .prose th {
-  font-family: var(--mono); font-size: var(--text-xs); letter-spacing: 0.08em;
-  color: var(--muted); border-bottom-color: var(--rule-strong);
+  font-family: var(--mono); font-size: var(--text-xs); letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--muted); border-bottom: 1.5px solid var(--rule-strong); white-space: nowrap;
 }
 
 .prose img, .prose svg { max-width: 100%; }

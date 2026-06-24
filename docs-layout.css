@@ -23,7 +23,11 @@ body {
 }
 
 a { color: var(--coral); text-decoration: none; }
-a:hover { text-decoration: underline; }
+/* Underline on hover for genuine text links only. Buttons, the logo, the stars
+   pill, and card-shaped links (whose inner heading/body would otherwise
+   underline) manage their own hover — exclude them here so we don't rely on each
+   one remembering to reset. :where() keeps this at zero specificity. */
+a:hover:not(:where(.btn, .btn *, .logo, .stars, .nav-links a, .mobile-list a, .ex-card, .docs-link-card, .example-repo-card, [class*="card"] )) { color: var(--coral-deep); text-decoration: underline; }
 
 /* Buttons (.btn + variants/sizes), inline code, .code-figure, and admonitions
    (.callout) now come from @cocoindex/brand/components.css. */
@@ -102,15 +106,15 @@ a:hover { text-decoration: underline; }
   margin: 0 auto;
 }
 aside.side {
-  position: sticky; top: 57px; align-self: start;
-  height: calc(100vh - 57px);
+  position: sticky; top: var(--bar-h); align-self: start;
+  height: calc(100vh - var(--bar-h));
   overflow-y: auto;
   padding: 28px 20px 40px 28px;
   border-right: 1px solid var(--rule);
 }
 aside.toc {
-  position: sticky; top: 57px; align-self: start;
-  height: calc(100vh - 57px);
+  position: sticky; top: var(--bar-h); align-self: start;
+  height: calc(100vh - var(--bar-h));
   overflow-y: auto;
   padding: 28px 28px 40px 20px;
   border-left: 1px solid var(--rule);
@@ -186,7 +190,7 @@ main.content {
   }
   .stars:hover {
     border-color: var(--rule);
-    background: color-mix(in oklab, var(--peach) 10%, transparent);
+    background: color-mix(in oklab, var(--peach) 14%, var(--cream));
     color: var(--coral);
   }
   .stars svg { width: 12px; height: 12px; opacity: .85; }

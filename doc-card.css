@@ -1,0 +1,79 @@
+/* DocCard — shared entry-point card (DocCard.astro). hum-07 "color-shift" grid:
+   a rounded paper surface that lifts + accent-tints on hover, with a playful
+   rounded icon tile. Multi-accent: each card owns one accent via data-accent, so
+   a grid reads lively without the accents fighting. Token-only; import after
+   tokens.css. Surface-agnostic — wrap instances in your own grid. */
+.coco-card {
+  --card-accent: var(--coral);
+  --card-tint: color-mix(in oklab, var(--card-accent) 14%, var(--paper));
+  position: relative;
+  display: flex; flex-direction: column;
+  background: var(--paper);
+  border: 1.5px solid var(--rule);
+  border-radius: var(--r-2xl);
+  padding: 22px;
+  text-decoration: none; color: var(--maroon-ink);
+  transition: transform 220ms cubic-bezier(.34,1.56,.64,1),
+              box-shadow 220ms var(--ease),
+              border-color 200ms var(--ease),
+              background-color 200ms var(--ease);
+}
+.coco-card[data-accent="peach"]    { --card-accent: var(--peach); }
+.coco-card[data-accent="palm"]     { --card-accent: var(--palm-ink); }
+.coco-card[data-accent="lavender"] { --card-accent: var(--lavender); }
+.coco-card[data-accent="gold"]     { --card-accent: var(--gold); }
+
+.coco-card:hover {
+  transform: translateY(-4px);
+  border-color: color-mix(in oklab, var(--card-accent) 50%, var(--rule));
+  background: color-mix(in oklab, var(--card-accent) 5%, var(--paper));
+  box-shadow: 0 18px 36px -18px color-mix(in oklab, var(--maroon-ink) 32%, transparent),
+              0 4px 10px -6px color-mix(in oklab, var(--maroon-ink) 18%, transparent);
+  text-decoration: none;
+}
+.coco-card:focus-visible {
+  outline: 2px solid var(--card-accent); outline-offset: 3px; text-decoration: none;
+}
+
+/* Icon tile — rounded, accent-tinted; springs + tilts on hover (the "cute"). */
+.coco-card__ico {
+  width: 46px; height: 46px; flex: none;
+  border-radius: 14px;
+  display: grid; place-items: center;
+  background: var(--card-tint);
+  color: var(--card-accent);
+  margin-bottom: 18px;
+  transition: transform 240ms cubic-bezier(.34,1.56,.64,1), background-color 200ms var(--ease);
+}
+.coco-card:hover .coco-card__ico {
+  transform: scale(1.08) rotate(-4deg);
+  background: color-mix(in oklab, var(--card-accent) 22%, var(--paper));
+}
+.coco-card__ico svg { width: 24px; height: 24px; display: block; }
+
+.coco-card__title {
+  margin: 0 0 7px;
+  font-family: var(--sans); font-size: var(--text-base); font-weight: 600;
+  letter-spacing: -0.01em; line-height: 1.25;
+  display: flex; align-items: center; gap: 7px;
+  color: var(--maroon-ink);
+}
+.coco-card__ar { color: var(--card-accent); transition: transform 180ms var(--ease); }
+.coco-card:hover .coco-card__ar { transform: translateX(4px); }
+
+.coco-card__body {
+  margin: 0; font-size: var(--text-sm); color: var(--muted); line-height: 1.55;
+}
+/* Meta pinned to the card foot so mixed-height cards align their labels. */
+.coco-card__meta {
+  display: block; margin-top: auto; padding-top: 16px;
+  font-family: var(--mono); font-size: var(--text-xs);
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--card-accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .coco-card, .coco-card__ico, .coco-card__ar { transition: none; }
+  .coco-card:hover { transform: none; }
+  .coco-card:hover .coco-card__ico { transform: none; }
+}

@@ -51,13 +51,15 @@
   border-radius: var(--r-sm); text-decoration: none; line-height: 1.2;
 }
 .side-group li a:hover { color: var(--coral); text-decoration: none; }
-.side-group li a.on { background: var(--maroon); color: var(--cream); font-weight: 500; }
+/* Active item — hum-07's light accent-tint register (same pattern as the brand
+   mobile-list active), not a heavy dark fill: soft coral wash + coral text. */
+.side-group li a.on { background: color-mix(in oklab, var(--coral) 14%, transparent); color: var(--coral-text); font-weight: 600; }
 .side-group li a.on::before {
-  content: ""; width: 3px; height: 14px; background: var(--peach); border-radius: 2px;
+  content: ""; width: 3px; height: 14px; background: var(--coral); border-radius: 2px;
   margin-left: -7px; margin-right: 7px;
 }
 .side-group li a .num { font-family: var(--mono); font-size: var(--text-xs); color: var(--muted); min-width: 18px; }
-.side-group li a.on .num { color: color-mix(in oklab, var(--cream) 65%, transparent); }
+.side-group li a.on .num { color: color-mix(in oklab, var(--coral-text) 70%, transparent); }
 
 /* ── Right-rail TOC (content; the rail's sticky positioning stays in the shell) ── */
 aside.toc h6 {
@@ -94,7 +96,7 @@ aside.toc .meta .edited { color: var(--muted); cursor: default; }
   color: var(--muted); margin-bottom: 20px;
 }
 .breadcrumb a { color: var(--muted); text-decoration: none; }
-.breadcrumb a:hover { color: var(--maroon-ink); }
+.breadcrumb a:hover { color: var(--coral); }
 .breadcrumb .sep { margin: 0 8px; opacity: 0.5; }
 .breadcrumb .now { color: var(--coral-text); }
 
