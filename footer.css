@@ -36,13 +36,18 @@
 .foot-statement .hl { color: var(--palm-ink); }
 
 .foot-grid {
-  display: grid; grid-template-columns: auto 1fr 1fr 1fr; gap: 24px; /* hum-07 .footer__meta */
+  /* brand left, the three link columns grouped on the right. margin-right:auto on
+     the brand (below) owns the brand→cluster gap; this `gap` only spaces the three
+     columns. Tuned wide enough that the cluster width ≈ the gap after the brand, so
+     the two sides read balanced (a tighter gap shrinks the cluster and lets the
+     empty middle dominate). Replaces the old `auto 1fr 1fr 1fr` smear. */
+  display: flex; gap: clamp(48px, 6vw, 96px);
   padding-top: 8px; padding-bottom: 40px;
 }
 /* Brand cell — logo at the top, copyright/SF line anchored to the bottom so the
    cell spans the row height (grid stretches it) instead of leaving the logo
    floating alone next to the taller link columns. */
-.foot-brand { display: flex; flex-direction: column; }
+.foot-brand { display: flex; flex-direction: column; margin-right: auto; }
 /* Footer brand lockup — STACKED (mark over wordmark), unlike the inline nav
    lockup: a stronger, cuter anchor that gives the coconut mascot a moment and
    fills the tall brand cell. */
@@ -69,15 +74,16 @@
 }
 .foot-col a {
   display: block; text-decoration: none; color: var(--maroon-ink);
-  padding: 5px 0; font-size: var(--text-sm);
+  padding: 5px 0; font-size: var(--text-sm); white-space: nowrap; /* keep labels one line (gate 49) */
 }
 .foot-col a:hover { color: var(--coral); }
 
 @media (max-width: 820px) {
   .it-foot { padding: 56px var(--gutter) 32px; }
-  .foot-grid { grid-template-columns: 1fr 1fr; gap: 32px 24px; }
-  .foot-brand { grid-column: 1 / -1; }
+  .foot-grid { flex-wrap: wrap; gap: 32px 24px; }
+  .foot-brand { flex: 1 1 100%; margin-right: 0; } /* brand on its own row */
+  .foot-col { flex: 1 1 40%; }                     /* two columns per row */
 }
 @media (max-width: 520px) {
-  .foot-grid { grid-template-columns: 1fr; }
+  .foot-col { flex: 1 1 100%; }                    /* stack to one column */
 }
