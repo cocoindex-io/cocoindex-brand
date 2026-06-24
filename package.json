@@ -1,6 +1,6 @@
 {
   "name": "@cocoindex/brand",
-  "version": "0.4.27",
+  "version": "0.4.28",
   "description": "CocoIndex shared design tokens, code theme, and brand assets. Single source of truth for home, blog, and docs.",
   "private": true,
   "license": "UNLICENSED",
@@ -24,6 +24,7 @@
     "./tags.css": "./tags.css",
     "./code-block.css": "./code-block.css",
     "./cards.css": "./cards.css",
+    "./banner.css": "./banner.css",
     "./prose.css": "./prose.css",
     "./nav.css": "./nav.css",
     "./stars.css": "./stars.css",
@@ -48,7 +49,8 @@
     "./MobileSheet.astro": "./MobileSheet.astro",
     "./ExampleRepoCard.astro": "./ExampleRepoCard.astro",
     "./DocsLinkCard.astro": "./DocsLinkCard.astro",
-    "./DocCard.astro": "./DocCard.astro"
+    "./DocCard.astro": "./DocCard.astro",
+    "./NewerVersionBanner.astro": "./NewerVersionBanner.astro"
   },
   "files": [
     "tokens.json",
@@ -60,6 +62,7 @@
     "tags.css",
     "code-block.css",
     "cards.css",
+    "banner.css",
     "prose.css",
     "nav.css",
     "stars.css",
@@ -84,7 +87,8 @@
     "DocsLinkCard.astro",
     "DocCard.astro",
     "doc-card.css",
-    "nav-links.mjs"
+    "nav-links.mjs",
+    "NewerVersionBanner.astro"
   ],
   "scripts": {
     "build:tokens": "node scripts/build-tokens.mjs",
