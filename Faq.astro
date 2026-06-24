@@ -1,0 +1,31 @@
+---
+// Faq — shared FAQ accordion (home, blog, any page with Q&A).
+// Native <details>/<summary>, no JS, so the full Q/A is crawlable and
+// screen-reader walkable even when collapsed. The click target is the WHOLE
+// row: padding lives on <summary>, not the item, so there is no dead strip
+// around the question (the bug this component was extracted to fix). A coral
+// +/- marker and the canonical dotted-reveal hover motif come from faq.css.
+// Styles: @cocoindex/brand/faq.css (`.coco-faq`). The page owns the section
+// wrapper + heading; this component is just the list.
+export interface Props {
+  /** Q/A pairs. `a` is plain text unless `html` is set. */
+  items: { q: string; a: string }[];
+  /** Treat each answer as raw HTML (links, lists, <code>, <b>). Default: false. */
+  html?: boolean;
+  /** Open the first item by default (e.g. blog posts). Default: false. */
+  firstOpen?: boolean;
+  /** Extra class on the list wrapper. */
+  class?: string;
+}
+const { items, html = false, firstOpen = false, class: className } = Astro.props;
+---
+<div class:list={['coco-faq', className]}>
+  {items.map((item, i) => (
+    <details class="coco-faq__item" open={firstOpen && i === 0}>
+      <summary>{item.q}</summary>
+      {html
+        ? <div class="coco-faq__answer" set:html={item.a} />
+        : <div class="coco-faq__answer">{item.a}</div>}
+    </details>
+  ))}
+</div>

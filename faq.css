@@ -1,0 +1,81 @@
+/* FAQ accordion — emitted by Faq.astro (`.coco-faq`). Native <details>/<summary>
+   so the full Q/A is crawlable + screen-reader walkable when collapsed. The
+   ENTIRE row is the click target: padding sits on <summary>, not the item, so
+   there is no dead strip around the question (the bug this fixes). Coral +/-
+   marker via ::after; the canonical dotted-reveal fades in from the right on
+   hover/focus. Surface-agnostic, token-only; import after tokens.css. The page
+   owns the section wrapper + heading. */
+
+.coco-faq{
+  display: flex; flex-direction: column; gap: 0;
+  border-top: 1px solid var(--rule);
+}
+.coco-faq__item{
+  border-bottom: 1px solid var(--rule);
+  position: relative;
+  overflow: hidden;
+}
+
+/* canonical "indexing" dots motif — fades in from the right on hover/focus. */
+.coco-faq__item::before{
+  content: "";
+  position: absolute; inset: auto 0 0 auto;
+  width: 140px; height: 100%;
+  background-image: var(--dot-reveal);
+  background-size: var(--dot-reveal-size) var(--dot-reveal-size);
+  background-position: 100% 100%;
+  opacity: 0;
+  transition: opacity var(--dur-slow) var(--ease);
+  pointer-events: none;
+  -webkit-mask-image: radial-gradient(circle at 100% 50%, #000 0%, transparent 75%);
+          mask-image: radial-gradient(circle at 100% 50%, #000 0%, transparent 75%);
+}
+.coco-faq__item > *{ position: relative; z-index: 1; }
+.coco-faq__item:hover::before,
+.coco-faq__item:focus-within::before{ opacity: 1; }
+
+/* Full-row click target: padding lives here, on <summary>, not on the item. */
+.coco-faq__item > summary{
+  list-style: none;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 20px;
+  padding: 18px 4px;
+  font-family: var(--sans); font-weight: 600;
+  font-size: 16px; letter-spacing: -0.015em;
+  color: var(--maroon-ink);
+}
+.coco-faq__item > summary::-webkit-details-marker{ display: none; }
+.coco-faq__item > summary::after{
+  content: "+";
+  font-family: var(--mono); font-size: 18px; color: var(--coral);
+  transition: transform var(--dur-fast) var(--ease);
+  width: 18px; text-align: center; flex: none;
+}
+.coco-faq__item[open] > summary::after{ content: "−"; }
+
+.coco-faq__answer{
+  padding: 0 4px 18px;
+  max-width: 72ch;
+  font-size: 15px; line-height: 1.65;
+  color: var(--muted);
+}
+.coco-faq__answer p{ margin: 0 0 12px; }
+.coco-faq__answer > :last-child{ margin-bottom: 0; }
+.coco-faq__answer ul,
+.coco-faq__answer ol{ margin: 12px 0 4px; padding-left: 22px; }
+.coco-faq__answer li{ margin: 6px 0; }
+.coco-faq__answer a{ color: var(--coral-text); }
+.coco-faq__answer a:hover{ text-decoration: underline; }
+.coco-faq__answer code{
+  font-family: var(--mono); font-size: 13px;
+  background: color-mix(in oklab, var(--coral) 12%, transparent);
+  color: var(--berry);
+  padding: 1px 6px; border-radius: 3px;
+}
+.coco-faq__answer b{ color: var(--maroon-ink); font-weight: 600; }
+
+@media (prefers-reduced-motion: reduce){
+  .coco-faq__item::before,
+  .coco-faq__item > summary::after{ transition: none; }
+}
