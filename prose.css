@@ -9,7 +9,7 @@
 .prose { font-size: var(--prose-body, var(--text-base)); line-height: var(--prose-lh, 1.6); }
 
 .prose h1 {
-  font-family: var(--serif); font-weight: 600;
+  font-family: var(--sans); font-weight: 600;
   font-size: var(--prose-h1, var(--text-3xl)); line-height: 1;
   letter-spacing: -0.025em; margin: 0 0 18px;
   overflow-wrap: anywhere; min-width: 0;

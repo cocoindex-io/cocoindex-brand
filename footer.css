@@ -25,7 +25,7 @@
 }
 /* hum-07 closing statement — big display headline above the meta row. */
 .foot-statement {
-  font-family: var(--serif); font-weight: 700;
+  font-family: var(--sans); font-weight: 700;
   /* hum-07 .footer__statement, exact */
   font-size: clamp(2.5rem, 5vw + 1rem, 5rem);
   line-height: 1.02; letter-spacing: -0.03em;

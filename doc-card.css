@@ -8,11 +8,14 @@
   --card-tint: color-mix(in oklab, var(--card-accent) 14%, var(--paper));
   position: relative;
   display: flex; flex-direction: column;
-  background: var(--paper);
-  border: 1.5px solid var(--rule);
+  /* Alive at rest (hum-07 color-shift grid): a faint accent wash + a soft
+     lifting shadow, so each card already carries its colour before hover. */
+  background: color-mix(in oklab, var(--card-accent) 4%, var(--paper));
+  border: 1.5px solid color-mix(in oklab, var(--card-accent) 16%, var(--rule));
   border-radius: var(--r-2xl);
   padding: 22px;
   text-decoration: none; color: var(--maroon-ink);
+  box-shadow: 0 10px 28px -18px color-mix(in oklab, var(--maroon-ink) 16%, transparent);
   transition: transform 220ms cubic-bezier(.34,1.56,.64,1),
               box-shadow 220ms var(--ease),
               border-color 200ms var(--ease),
@@ -25,10 +28,10 @@
 
 .coco-card:hover {
   transform: translateY(-4px);
-  border-color: color-mix(in oklab, var(--card-accent) 50%, var(--rule));
-  background: color-mix(in oklab, var(--card-accent) 5%, var(--paper));
-  box-shadow: 0 18px 36px -18px color-mix(in oklab, var(--maroon-ink) 32%, transparent),
-              0 4px 10px -6px color-mix(in oklab, var(--maroon-ink) 18%, transparent);
+  border-color: color-mix(in oklab, var(--card-accent) 55%, var(--rule));
+  background: color-mix(in oklab, var(--card-accent) 9%, var(--paper));
+  box-shadow: 0 22px 44px -20px color-mix(in oklab, var(--maroon-ink) 30%, transparent),
+              0 5px 12px -7px color-mix(in oklab, var(--maroon-ink) 16%, transparent);
   text-decoration: none;
 }
 .coco-card:focus-visible {
@@ -62,7 +65,7 @@
 .coco-card:hover .coco-card__ar { transform: translateX(4px); }
 
 .coco-card__body {
-  margin: 0; font-size: var(--text-sm); color: var(--muted); line-height: 1.55;
+  margin: 0; font-size: 0.9rem; color: var(--muted); line-height: 1.55;
 }
 /* Meta pinned to the card foot so mixed-height cards align their labels. */
 .coco-card__meta {

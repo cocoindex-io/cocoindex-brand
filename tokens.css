@@ -35,12 +35,17 @@
   --code-variable: #FCF3D8;
   --code-punctuation: #C5B7A0;
   /* font */
-  --serif: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
   --sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  /* DEPRECATED alias of --sans. hum-07 has no serif; kept only so external
+     consumers pinned to older tags don't break. Use --sans in new code. */
+  --serif: var(--sans);
   --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
   /* text */
   --text-xs: 0.64rem;
   --text-sm: 0.8rem;
+  /* Code surfaces — a touch larger than --text-sm so fenced + inline code,
+     the most-read content in developer docs, stays comfortable at body scale. */
+  --text-code: 0.875rem;
   --text-base: 1rem;
   --text-md: 1.25rem;
   --text-lg: 1.5625rem;

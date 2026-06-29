@@ -1,0 +1,54 @@
+---
+// DocCardGrid — a section-overview grid of DocCards, organised into themed
+// groups. Each group owns one accent (the hum-07 "multi-accent band" model), so
+// the page reads lively without the accents fighting. Composes DocCard + the
+// shared glyph set; pass `groups` data, the component draws the rest.
+// Styles: @cocoindex/brand/doc-card-grid.css (`.coco-grid`) + doc-card.css.
+import DocCard from './DocCard.astro';
+import { docGlyphs } from './doc-glyphs.mjs';
+
+type Accent = 'coral' | 'peach' | 'palm' | 'lavender' | 'gold';
+interface Card {
+  href: string;
+  title: string;
+  body?: string;
+  /** Glyph name from doc-glyphs.mjs. Omit for a text-only card. */
+  glyph?: string;
+  /** Per-card override; defaults to the group accent. */
+  accent?: Accent;
+  meta?: string;
+}
+interface Group {
+  label: string;
+  blurb?: string;
+  accent?: Accent;
+  cards: Card[];
+}
+export interface Props {
+  groups: Group[];
+  ariaLabel: string;
+}
+const { groups, ariaLabel } = Astro.props;
+---
+<div class="coco-grid" role="navigation" aria-label={ariaLabel}>
+  {groups.map((group) => (
+    <section class="coco-grid__group" data-accent={group.accent ?? 'coral'}>
+      <header class="coco-grid__head">
+        <span class="coco-grid__label">{group.label}</span>
+        {group.blurb && <p class="coco-grid__blurb">{group.blurb}</p>}
+      </header>
+      <div class="coco-grid__cards">
+        {group.cards.map((card) => (
+          <DocCard
+            href={card.href}
+            title={card.title}
+            body={card.body}
+            meta={card.meta}
+            accent={card.accent ?? group.accent ?? 'coral'}
+            icon={card.glyph ? docGlyphs[card.glyph] : undefined}
+          />
+        ))}
+      </div>
+    </section>
+  ))}
+</div>

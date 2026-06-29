@@ -22,7 +22,7 @@
 
       body.ex-listing .hero-grid { display: grid; grid-template-columns: 1fr; gap: 48px; align-items: end; }
       body.ex-listing h1.hero-h {
-        font-family: var(--serif); font-weight: 600;
+        font-family: var(--sans); font-weight: 600;
         font-size: var(--text-display); line-height: 1; letter-spacing: -0.025em;
         margin: 0 0 24px; overflow-wrap: anywhere; min-width: 0;
       }

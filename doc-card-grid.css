@@ -1,0 +1,56 @@
+/* DocCardGrid — themed groups of DocCards (DocCardGrid.astro). Each group owns
+   one accent via [data-accent]; the leading rule + label hue carry it, the cards
+   carry it through their tiles + hover tints. Token-only; import after
+   tokens.css + doc-card.css. */
+.coco-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 34px;
+  margin: 28px 0 8px;
+}
+
+.coco-grid__group {
+  --group-accent: var(--coral);
+}
+.coco-grid__group[data-accent="peach"]    { --group-accent: var(--peach); }
+.coco-grid__group[data-accent="palm"]     { --group-accent: var(--palm-ink); }
+.coco-grid__group[data-accent="lavender"] { --group-accent: var(--lavender); }
+.coco-grid__group[data-accent="gold"]     { --group-accent: var(--gold); }
+
+.coco-grid__head {
+  margin-bottom: 14px;
+}
+
+.coco-grid__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-family: var(--mono);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  /* hue the label toward the group accent but keep it dark enough to read */
+  color: color-mix(in oklab, var(--group-accent) 52%, var(--maroon-ink));
+}
+.coco-grid__label::before {
+  content: "";
+  width: 18px;
+  height: 1px;
+  background: var(--group-accent);
+  opacity: 0.65;
+}
+
+.coco-grid__blurb {
+  margin: 6px 0 0;
+  font-family: var(--sans);
+  font-size: var(--text-sm);
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.coco-grid__cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 270px), 1fr));
+  gap: 16px;
+}

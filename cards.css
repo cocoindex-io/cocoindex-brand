@@ -112,7 +112,7 @@
   text-transform: uppercase; color: var(--coral);
 }
 .docs-link-card__title {
-  font-family: var(--serif); font-weight: 600;
+  font-family: var(--sans); font-weight: 600;
   font-size: var(--text-md); line-height: 1.2; letter-spacing: -0.025em;
   color: var(--maroon-ink);
 }
