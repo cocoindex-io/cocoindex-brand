@@ -38,14 +38,12 @@
         padding: 16px; display: flex; flex-direction: column; justify-content: space-between;
         font-family: var(--mono); font-size: var(--text-xs); letter-spacing: 0.14em; text-transform: uppercase;
       }
-      body.ex-listing .hero-viz .t .lb { opacity: 0.85; }
       body.ex-listing .hero-viz .t .ct { font-family: var(--sans); font-size: var(--text-md); font-weight: 600; letter-spacing: -0.02em; line-height: 1; text-transform: none; }
       body.ex-listing .hero-viz .t .ct em { color: inherit; font-style: normal; }
       body.ex-listing .hero-viz .t.search { background: var(--maroon); color: var(--cream); }
       body.ex-listing .hero-viz .t.ingest { background: var(--peach); color: var(--maroon-ink); }
       body.ex-listing .hero-viz .t.llm { background: var(--coral); color: var(--cream); }
       body.ex-listing .hero-viz .t.agents { background: var(--cream); color: var(--maroon); border: 1px solid var(--rule-strong); }
-      body.ex-listing .hero-viz .t.multi { background: var(--pink); color: var(--maroon-ink); }
       body.ex-listing .hero-viz .t.custom { background: var(--maroon-ink); color: var(--cream); }
       body.ex-listing .hero-viz .t::after {
         content: ""; position: absolute; inset: 0; pointer-events: none;
@@ -53,8 +51,7 @@
         background-size: 14px 14px; opacity: 0.6;
       }
       body.ex-listing .hero-viz .t.agents::after,
-      body.ex-listing .hero-viz .t.ingest::after,
-      body.ex-listing .hero-viz .t.multi::after {
+      body.ex-listing .hero-viz .t.ingest::after {
         background-image: radial-gradient(circle, color-mix(in oklab, var(--maroon-ink) 8%, transparent) 1.2px, transparent 1.6px);
       }
 
@@ -139,76 +136,6 @@
       }
       body.ex-listing .sec-head .all:hover { color: var(--coral); border-color: var(--coral); }
 
-      body.ex-listing .feat-card {
-        display: grid; grid-template-columns: 1.2fr 1fr; gap: 0;
-        border-radius: var(--r-2xl); overflow: hidden;
-        background: var(--maroon); color: var(--cream);
-        min-height: 440px; position: relative;
-        text-decoration: none;
-        transition: transform var(--dur-fast) var(--ease);
-      }
-      body.ex-listing .feat-eyebrow {
-        font-family: var(--mono); font-size: var(--text-xs); letter-spacing: 0.14em; text-transform: uppercase;
-        color: var(--coral); margin-bottom: 14px;
-      }
-      body.ex-listing .feat-card::before {
-        content: ""; position: absolute; inset: 0;
-        background-image: radial-gradient(circle, color-mix(in oklab, var(--cream) 7%, transparent) 1.6px, transparent 2px);
-        background-size: 20px 20px; opacity: 0.7; pointer-events: none;
-      }
-      body.ex-listing .feat-body { position: relative; z-index: 2; padding: 48px; display: flex; flex-direction: column; gap: 22px; }
-      body.ex-listing .feat-body .ribbon { display: inline-flex; gap: 10px; align-items: center; font-family: var(--mono); font-size: var(--text-xs); letter-spacing: 0.14em; text-transform: uppercase; color: var(--peach); }
-      body.ex-listing .feat-body .ribbon .tick { width: 6px; height: 6px; background: var(--peach); border-radius: 50%; }
-      body.ex-listing .feat-body .ribbon .idx { color: color-mix(in oklab, var(--cream) 60%, transparent); }
-      body.ex-listing .feat-body h3 {
-        font-family: var(--sans); font-weight: 600;
-        font-size: var(--text-3xl); line-height: 1; letter-spacing: -0.025em;
-        margin: 0; max-width: 16ch; color: var(--cream);
-      }
-      body.ex-listing .feat-body h3 em { color: var(--peach); font-style: normal; font-weight: 600; }
-      body.ex-listing .feat-body p { color: color-mix(in oklab, var(--cream) 85%, transparent); margin: 0; max-width: 44ch; font-size: var(--text-base); line-height: 1.55; }
-      body.ex-listing .feat-body .chips { display: flex; flex-wrap: wrap; gap: 8px; }
-      /* Featured-card tags use the shared .t-overlay (@cocoindex/brand/tags.css). */
-      body.ex-listing .feat-body .foot { margin-top: auto; display: flex; justify-content: space-between; align-items: flex-end; padding-top: 20px; border-top: 1px solid color-mix(in oklab, var(--cream) 15%, transparent); font-family: var(--mono); font-size: var(--text-xs); letter-spacing: 0.1em; text-transform: uppercase; color: color-mix(in oklab, var(--cream) 70%, transparent); }
-      body.ex-listing .feat-body .foot .go {
-        font-family: var(--sans); font-size: var(--text-sm); font-weight: 500; letter-spacing: 0;
-        color: var(--cream); text-transform: none;
-        display: inline-flex; gap: 8px; align-items: center;
-        padding: 10px 18px; border-radius: 999px; background: var(--coral); border: 1px solid var(--coral);
-        transition: background var(--dur-fast) var(--ease);
-      }
-      body.ex-listing .feat-card:hover .feat-body .foot .go { background: var(--peach); border-color: var(--peach); color: var(--maroon-ink); }
-
-      body.ex-listing .feat-viz {
-        position: relative; z-index: 2;
-        background: linear-gradient(135deg, color-mix(in oklab, var(--cream) 8%, transparent), color-mix(in oklab, var(--cream) 2%, transparent));
-        border-left: 1px solid color-mix(in oklab, var(--cream) 12%, transparent);
-        padding: 40px;
-        display: flex; flex-direction: column; gap: 14px; justify-content: center; align-items: center;
-        color: var(--cream);
-      }
-      body.ex-listing .feat-viz svg { width: 55%; max-width: 260px; height: auto; }
-      body.ex-listing .feat-viz .qrow {
-        display: grid; grid-template-columns: 28px 1fr auto 60px;
-        gap: 14px; align-items: baseline;
-        padding: 10px 14px; border-radius: 6px;
-        background: color-mix(in oklab, var(--cream) 6%, transparent); border: 1px solid color-mix(in oklab, var(--cream) 12%, transparent);
-        font-family: var(--mono); font-size: var(--text-sm);
-      }
-      body.ex-listing .feat-viz .qrow .rk { color: color-mix(in oklab, var(--cream) 62%, transparent); font-size: var(--text-xs); }
-      body.ex-listing .feat-viz .qrow .tp { color: var(--cream); font-weight: 500; }
-      body.ex-listing .feat-viz .qrow .tp em { color: var(--peach); font-style: normal; }
-      body.ex-listing .feat-viz .qrow .sc { color: var(--palm); font-weight: 600; }
-      body.ex-listing .feat-viz .qrow .th { color: color-mix(in oklab, var(--cream) 55%, transparent); font-size: var(--text-xs); text-align: right; }
-      body.ex-listing .feat-viz .qlabel {
-        font-family: var(--mono); font-size: var(--text-xs); letter-spacing: 0.14em; text-transform: uppercase;
-        color: color-mix(in oklab, var(--cream) 55%, transparent); padding-bottom: 8px;
-        border-bottom: 1px solid color-mix(in oklab, var(--cream) 12%, transparent);
-        display: flex; justify-content: space-between;
-      }
-      body.ex-listing .feat-viz .qlabel .pulse { display: inline-flex; gap: 5px; align-items: center; color: var(--palm); }
-      body.ex-listing .feat-viz .qlabel .pulse .d { width: 6px; height: 6px; border-radius: 50%; background: var(--palm); box-shadow: 0 0 0 3px color-mix(in oklab, var(--palm) 15%, transparent); }
-
       /* ── CATEGORY SECTIONS ── */
       body.ex-listing section.cat { padding: 64px 0; scroll-margin-top: 84px; }
       body.ex-listing .cat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
@@ -261,23 +188,6 @@
       body.ex-listing .ex-body h3 em { color: var(--coral); font-style: normal; }
       body.ex-listing .ex-body p { margin: 0; color: var(--muted); font-size: var(--text-sm); line-height: 1.55; flex: 1; }
 
-      body.ex-listing .ex-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
-      /* Tags use @cocoindex/brand .t-pill; the leading dot's colour is the
-         example category, set via the --dt custom property (default coral). */
-      body.ex-listing .ex-tags .t-pill.src { --dt: var(--peach); }
-      body.ex-listing .ex-tags .t-pill.tgt { --dt: var(--pink); }
-      body.ex-listing .ex-tags .t-pill.llm { --dt: var(--palm-ink); }
-      body.ex-listing .ex-tags .t-pill.ops { --dt: var(--coral); }
-      body.ex-listing .ex-tags .t-pill.lvl { --dt: var(--maroon); }
-
-      body.ex-listing .ex-foot {
-        display: flex; justify-content: space-between; align-items: center;
-        padding-top: 14px; margin-top: 6px; border-top: 1px solid var(--rule);
-        font-family: var(--mono); font-size: var(--text-xs); letter-spacing: 0.1em; text-transform: uppercase;
-        color: var(--muted);
-      }
-      body.ex-listing .ex-foot .go { color: var(--coral); display: inline-flex; gap: 6px; align-items: center; }
-
       /* ── BOTTOM CTA ── */
       body.ex-listing .cta-end {
         margin: 72px 0 96px;
@@ -307,9 +217,6 @@
         padding: 28px 26px; border-radius: 10px;
         background: var(--paper); border: 1px solid var(--rule);
       }
-      body.ex-listing .cta-end .side .side-h {
-        display: flex; justify-content: space-between; align-items: baseline;
-      }
       body.ex-listing .cta-end .side .eyebrow {
         font-family: var(--mono); font-size: var(--text-xs); letter-spacing: 0.14em; text-transform: uppercase;
         color: var(--coral);
@@ -322,35 +229,6 @@
         line-height: 1.2; margin: 0;
       }
       body.ex-listing .cta-end .side h4 em { color: var(--coral); font-style: normal; }
-      body.ex-listing .cta-end .side .qs-steps {
-        list-style: none; padding: 0; margin: 0;
-        display: flex; flex-direction: column; gap: 14px;
-      }
-      body.ex-listing .cta-end .side .qs-steps li {
-        display: grid; grid-template-columns: 32px 1fr; gap: 10px; align-items: start;
-      }
-      body.ex-listing .cta-end .side .qs-steps li .n {
-        font-family: var(--mono); font-size: var(--text-xs); letter-spacing: 0.08em;
-        color: var(--coral); padding-top: 4px;
-      }
-      body.ex-listing .cta-end .side .qs-steps li .t {
-        font-size: var(--text-sm); font-weight: 500; color: var(--maroon-ink); margin-bottom: 5px;
-      }
-      body.ex-listing .cta-end .side .qs-steps li .code {
-        font-family: var(--mono); font-size: var(--text-sm); color: var(--cream);
-        background: var(--maroon-ink); padding: 7px 10px; border-radius: 5px;
-        overflow-x: auto; white-space: nowrap;
-      }
-      body.ex-listing .cta-end .side .qs-steps li .code .p { color: var(--peach); margin-right: 6px; }
-      body.ex-listing .cta-end .side .side-links {
-        display: flex; flex-direction: column; gap: 4px;
-        padding-top: 12px; border-top: 1px solid var(--rule);
-      }
-      body.ex-listing .cta-end .side .side-links a {
-        font-size: var(--text-sm); color: var(--maroon-ink); text-decoration: none;
-        padding: 5px 0;
-      }
-      body.ex-listing .cta-end .side .side-links a:hover { color: var(--coral); }
 
       @media (max-width: 1180px) {
         body.ex-listing .doc { grid-template-columns: 1fr; gap: 0; }
@@ -372,8 +250,6 @@
         body.ex-listing .side-nav ol li.active a { border-color: var(--coral); }
         body.ex-listing .side-group { margin-top: 10px; padding-top: 10px; }
         body.ex-listing .hero-grid { grid-template-columns: 1fr; gap: 40px; }
-        body.ex-listing .feat-card { grid-template-columns: 1fr; }
-        body.ex-listing .feat-viz { border-left: none; border-top: 1px solid color-mix(in oklab, var(--cream) 12%, transparent); }
         body.ex-listing .cat-grid { grid-template-columns: repeat(2, 1fr); }
         body.ex-listing .cta-end { grid-template-columns: 1fr; }
       }

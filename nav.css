@@ -84,7 +84,7 @@ nav.top .logo { gap: 0.75rem; margin-right: auto; }
   /* Rest is a solid dark (hum-07 ink-2 role: a hair lighter than the maroon-ink
      wordmark) → maroon-ink on hover (hum-07 ink). Not the muted grey — hum-07's
      links read near-black. */
-  font-size: 0.9rem; font-weight: 500;
+  font-size: var(--text-code); font-weight: 500;
   color: color-mix(in oklab, var(--maroon-ink) 88%, var(--paper));
   text-decoration: none; padding: 0.5rem 0.8rem; border-radius: 10px; /* hum-07 nav-link radius */
   transition: color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease);

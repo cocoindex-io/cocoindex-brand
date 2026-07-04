@@ -20,7 +20,7 @@
   content: "";
   position: absolute; z-index: -1; pointer-events: none;
   inset: 0 auto 0 50%; width: 100vw; transform: translateX(-50%);
-  background: #ECE8DC; /* warm oat band (hum-07 footer) — greyer + more set-apart than the cream page */
+  background: var(--oat); /* warm oat band (hum-07 footer) — greyer + more set-apart than the cream page */
   border-top: 1px solid var(--rule);
 }
 /* hum-07 closing statement — big display headline above the meta row. */

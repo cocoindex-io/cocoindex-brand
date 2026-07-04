@@ -42,13 +42,13 @@
   gap: 20px;
   padding: 18px 4px;
   font-family: var(--sans); font-weight: 600;
-  font-size: 16px; letter-spacing: -0.015em;
+  font-size: var(--text-base); letter-spacing: -0.015em;
   color: var(--maroon-ink);
 }
 .coco-faq__item > summary::-webkit-details-marker{ display: none; }
 .coco-faq__item > summary::after{
   content: "+";
-  font-family: var(--mono); font-size: 18px; color: var(--coral);
+  font-family: var(--mono); font-size: var(--text-base); color: var(--coral);
   transition: transform var(--dur-fast) var(--ease);
   width: 18px; text-align: center; flex: none;
 }
@@ -57,7 +57,7 @@
 .coco-faq__answer{
   padding: 0 4px 18px;
   max-width: 72ch;
-  font-size: 15px; line-height: 1.65;
+  font-size: var(--text-base); line-height: 1.65;
   color: var(--muted);
 }
 .coco-faq__answer p{ margin: 0 0 12px; }
@@ -68,7 +68,7 @@
 .coco-faq__answer a{ color: var(--coral-text); }
 .coco-faq__answer a:hover{ text-decoration: underline; }
 .coco-faq__answer code{
-  font-family: var(--mono); font-size: 13px;
+  font-family: var(--mono); font-size: var(--text-sm);
   background: color-mix(in oklab, var(--coral) 12%, transparent);
   color: var(--berry);
   padding: 1px 6px; border-radius: 3px;

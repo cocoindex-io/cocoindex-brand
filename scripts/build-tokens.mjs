@@ -14,6 +14,7 @@ function generate() {
     if (group.startsWith('$')) continue;
     lines.push(`  /* ${group} */`);
     for (const [name, value] of Object.entries(entries)) {
+      if (name.startsWith('$')) continue;
       lines.push(`  --${name}: ${value};`);
     }
   }

@@ -65,7 +65,7 @@
 .coco-card:hover .coco-card__ar { transform: translateX(4px); }
 
 .coco-card__body {
-  margin: 0; font-size: 0.9rem; color: var(--muted); line-height: 1.55;
+  margin: 0; font-size: var(--text-code); color: var(--muted); line-height: 1.55;
 }
 /* Meta pinned to the card foot so mixed-height cards align their labels. */
 .coco-card__meta {
