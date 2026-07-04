@@ -1,0 +1,84 @@
+/* 404 page — the "coconut rolled off the tree" hero, shared by the docs and
+   homepage 404s. Buttons come from buttons.css. */
+
+.nf .nf-hero {
+  padding: clamp(48px, 9vw, 120px) 0 clamp(72px, 10vw, 140px);
+  position: relative;
+  overflow: hidden;
+}
+.nf .nf-hero::before {
+  content: "";
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 60% 40% at 20% 10%, color-mix(in oklab, var(--peach) 18%, transparent), transparent 60%),
+    radial-gradient(ellipse 40% 30% at 90% 80%, color-mix(in oklab, var(--pink) 14%, transparent), transparent 60%);
+  pointer-events: none;
+}
+.nf .nf-grid {
+  position: relative;
+  z-index: 1;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 0 32px;
+  text-align: center;
+}
+.nf .nf-copy { display: inline-block; text-align: left; }
+
+/* Bordered-pill eyebrow — a filled form the bare .t-eyebrow doesn't cover. */
+.nf .nf-eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: var(--mono); font-size: var(--text-xs);
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--muted);
+  padding: 8px 14px;
+  border: 1px solid var(--rule-strong);
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--cream) 50%, var(--paper));
+}
+.nf .nf-eyebrow .dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--coral);
+  box-shadow: 0 0 0 4px color-mix(in oklab, var(--coral) 18%, transparent);
+}
+
+/* Deliberate display register for the giant 404 — tighter than .hero-h. */
+.nf .nf-title {
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: var(--text-display);
+  line-height: 0.86;
+  letter-spacing: -0.035em;
+  margin: 24px 0 24px;
+  color: var(--maroon-ink);
+}
+.nf .nf-title em {
+  font-style: normal;
+  font-weight: 600;
+  color: var(--coral);
+}
+
+.nf .nf-lead {
+  font-size: var(--text-md);
+  line-height: 1.55;
+  color: color-mix(in oklab, var(--maroon-ink) 78%, transparent);
+  max-width: 52ch;
+  margin-bottom: 32px;
+}
+
+.nf .nf-ctas {
+  display: flex; flex-wrap: wrap; gap: 12px;
+  margin-bottom: 28px;
+}
+.nf .btn-xl svg { flex: none; }
+
+.nf .nf-tip {
+  display: inline-flex; align-items: center; gap: 12px;
+  padding: 10px 14px;
+  border-left: 2px solid var(--coral);
+  font-size: var(--text-sm);
+  color: var(--muted);
+}
+.nf .nf-tip .caps {
+  color: var(--coral);
+  font-weight: 600;
+}

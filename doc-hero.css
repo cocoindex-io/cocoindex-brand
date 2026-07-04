@@ -1,0 +1,30 @@
+/* Page hero + section header — the shared .hero-h / .hero-sub / .sec-head
+   system used by the docs home, examples gallery, and example detail pages.
+   Canonical values = Hum-07. Surface deltas live in each surface's own file.
+   Token-only; import after tokens.css. */
+
+.hero-h {
+  font-family: var(--sans); font-weight: 600;
+  font-size: var(--text-display); line-height: 1; letter-spacing: -0.025em;
+  margin: 0 0 20px; overflow-wrap: anywhere; min-width: 0;
+}
+.hero-h em { font-style: normal; font-weight: 600; color: var(--coral); }
+
+.hero-sub {
+  font-size: var(--text-base); line-height: 1.55; color: var(--maroon-ink);
+  max-width: 52ch; margin: 0 0 24px;
+}
+.hero-sub b { font-weight: 600; color: var(--maroon); }
+
+.sec-head { margin-bottom: 32px; max-width: 64ch; }
+.sec-head.no-mb { margin-bottom: 0; }
+.sec-head .idx {
+  font-family: var(--mono); font-size: var(--text-xs); letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--coral); display: block; margin-bottom: 14px;
+}
+.sec-head h2 {
+  font-family: var(--sans); font-weight: 600; font-size: var(--text-xl);
+  line-height: 1.2; letter-spacing: -0.025em; margin: 0 0 12px;
+}
+.sec-head h2 em { font-style: normal; font-weight: 600; color: var(--coral); }
+.sec-head p { margin: 0; font-size: var(--text-base); color: var(--maroon-ink); line-height: 1.55; max-width: 62ch; }

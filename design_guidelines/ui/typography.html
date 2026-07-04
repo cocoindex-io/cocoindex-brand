@@ -27,7 +27,7 @@
   .fam-card.mono-card{ background: var(--paper); }
   .fam-card .tag{ font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--coral); }
   .fam-card .big{ font-size: 96px; line-height: 1; letter-spacing: -0.035em; color: var(--maroon-ink); margin: 12px 0 20px; }
-  .fam-card .big.serif{ font-family: var(--serif); font-weight: 600; }
+  .fam-card .big.serif{ font-family: var(--sans); font-weight: 600; }
   .fam-card .big.sans{ font-family: var(--sans); font-weight: 500; }
   .fam-card .big.mono{ font-family: var(--mono); font-weight: 400; font-size: 72px; letter-spacing: -0.01em; }
   .fam-card .big em{ font-style: normal; font-weight: 600; color: var(--coral); }
@@ -52,8 +52,8 @@
   .scale-row .sample{ display: block; color: var(--maroon-ink); word-break: break-word; }
   .scale-row .sample em{ font-style: normal; font-weight: 600; color: var(--coral); }
 
-  .s-display{ font-family: var(--serif); font-weight: 600; font-size: clamp(48px, 7vw, 96px); line-height: 0.98; letter-spacing: -0.025em; }
-  .s-page{ font-family: var(--serif); font-weight: 600; font-size: clamp(32px, 4.6vw, 60px); line-height: 0.98; letter-spacing: -0.025em; }
+  .s-display{ font-family: var(--sans); font-weight: 600; font-size: clamp(48px, 7vw, 96px); line-height: 0.98; letter-spacing: -0.025em; }
+  .s-page{ font-family: var(--sans); font-weight: 600; font-size: clamp(32px, 4.6vw, 60px); line-height: 0.98; letter-spacing: -0.025em; }
   .s-h2{ font-family: var(--sans); font-weight: 600; font-size: clamp(24px, 3.2vw, 44px); line-height: 1.05; letter-spacing: -0.03em; }
   .s-h3{ font-family: var(--sans); font-weight: 600; font-size: 22px; line-height: 1.2; letter-spacing: -0.02em; }
   .s-lede{ font-family: var(--sans); font-weight: 400; font-size: clamp(17px, 1.4vw, 20px); line-height: 1.5; letter-spacing: -0.005em; }
@@ -125,7 +125,7 @@
             <div class="big serif">R<em>a</em></div>
             <div class="meta">
               <div class="row"><span class="k">Family</span><span class="v">Plus Jakarta Sans</span></div>
-              <div class="row"><span class="k">Token</span><span class="v">var(--serif)</span></div>
+              <div class="row"><span class="k">Token</span><span class="v">var(--sans)</span></div>
               <div class="row"><span class="k">Weight</span><span class="v">600, −0.025em</span></div>
               <div class="row"><span class="k">Style</span><span class="v">coral <em>emphasis</em>, never italic</span></div>
               <div class="row"><span class="k">Used for</span><span class="v">Page hero H1</span></div>
@@ -464,7 +464,6 @@
         </div>
 
 <pre class="tokens"><span class="c">/* font families */</span>
-<span class="k">--serif</span>: <span class="v">"Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif</span>;
 <span class="k">--sans</span>:  <span class="v">"Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif</span>;
 <span class="k">--mono</span>:  <span class="v">"JetBrains Mono", ui-monospace, Menlo, monospace</span>;
 

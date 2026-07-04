@@ -1,7 +1,8 @@
 /* Examples gallery — the listing page: hero, category grids, the featured card,
-   and the example cards (thumbnail + motif + tags + footer). Tags use the shared
+   and the example cards (card art + tags + footer). Tags use the shared
    .t-pill / .t-overlay primitives. Docs-only; the docs examples page imports this.
    Moved out of the docs repo so examples styling lives in @cocoindex/brand. */
+@import './doc-hero.css';
 
       /* ═══════════ Listing-specific styles ═══════════
          Scoped to body.ex-listing so they don't leak into the rest of the
@@ -21,18 +22,12 @@
       body.ex-listing .hero-top .stats b { color: var(--maroon); font-weight: 500; font-size: var(--text-sm); }
 
       body.ex-listing .hero-grid { display: grid; grid-template-columns: 1fr; gap: 48px; align-items: end; }
-      body.ex-listing h1.hero-h {
-        font-family: var(--sans); font-weight: 600;
-        font-size: var(--text-display); line-height: 1; letter-spacing: -0.025em;
-        margin: 0 0 24px; overflow-wrap: anywhere; min-width: 0;
-      }
-      body.ex-listing h1.hero-h em { font-style: normal; font-weight: 600; color: var(--coral); }
+      /* Hero type comes from doc-hero.css; listing deltas only. */
+      body.ex-listing h1.hero-h { margin: 0 0 24px; }
       body.ex-listing .hero-sub {
-        font-family: var(--sans); font-size: var(--text-lg);
-        font-weight: 400; line-height: 1.45; letter-spacing: -0.01em;
-        color: var(--maroon-ink); max-width: 48ch; margin: 0 0 24px;
+        font-size: var(--text-lg); line-height: 1.45; letter-spacing: -0.01em;
+        max-width: 48ch;
       }
-      body.ex-listing .hero-sub b { font-weight: 600; color: var(--maroon); }
 
       body.ex-listing .hero-filters { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
       /* .t-filter comes from @cocoindex/brand/tags.css (consistent coral hover). */
@@ -125,20 +120,17 @@
 
       /* ── FEATURED ── */
       body.ex-listing section.feat { padding: 0 0 40px; scroll-margin-top: 84px; }
+      /* Section header base comes from doc-hero.css; the listing variant is a
+         full-width ruled band with a bigger title. */
       body.ex-listing .sec-head {
         display: flex; flex-direction: column; gap: 8px;
-        margin-bottom: 28px;
+        margin-bottom: 28px; max-width: none;
         padding-bottom: 18px;
         border-bottom: 1px solid var(--rule);
       }
-      body.ex-listing .sec-head h2 {
-        font-family: var(--sans); font-weight: 600;
-        font-size: var(--text-3xl); letter-spacing: -0.025em; line-height: 1;
-        margin: 0;
-      }
-      body.ex-listing .sec-head h2 em { font-style: normal; color: var(--coral); }
+      body.ex-listing .sec-head h2 { font-size: var(--text-3xl); line-height: 1; margin: 0; }
       body.ex-listing .sec-head .lead { color: var(--muted); font-size: var(--text-base); max-width: 60ch; margin: 0; }
-      body.ex-listing .sec-head .idx { font-family: var(--mono); font-size: var(--text-xs); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-right: 8px; }
+      body.ex-listing .sec-head .idx { color: var(--muted); display: inline; margin: 0 8px 0 0; }
       body.ex-listing .sec-head .all {
         margin-left: auto;
         font-family: var(--mono); font-size: var(--text-xs); letter-spacing: 0.12em; text-transform: uppercase;
@@ -246,55 +238,24 @@
       }
       body.ex-listing .ex-card:hover::before { opacity: 1; }
       body.ex-listing .ex-card:hover { border-color: color-mix(in oklab, var(--coral) 35%, var(--rule-strong)); }
-      body.ex-listing .ex-thumb {
-        aspect-ratio: 16/7;
-        position: relative; overflow: hidden;
+
+      /* Card art — the pipeline SVG render (blobs repo) on the homepage card
+         surface, with a slide-up "Open example" affordance on hover. */
+      body.ex-listing .ex-art {
+        position: relative; aspect-ratio: 480 / 300; overflow: hidden;
+        background: var(--card-ink);
         border-bottom: 1px solid var(--rule);
       }
-      body.ex-listing .ex-thumb .motif { position: absolute; inset: 0; display: grid; place-items: center; color: var(--cream); }
-      body.ex-listing .ex-thumb .motif svg { width: 70%; height: 70%; }
-      body.ex-listing .ex-thumb .tl {
-        position: absolute; top: 12px; left: 14px; z-index: 3;
-        font-family: var(--mono); font-size: var(--text-xs); letter-spacing: 0.14em; text-transform: uppercase;
-        padding: 4px 10px; border-radius: 999px;
-        background: color-mix(in oklab, var(--cream) 20%, transparent); color: var(--cream);
-        backdrop-filter: blur(6px);
-        border: 1px solid color-mix(in oklab, var(--cream) 20%, transparent);
+      body.ex-listing .ex-art-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+      body.ex-listing .ex-open {
+        position: absolute; left: 0; right: 0; bottom: 0; z-index: 3;
+        padding: 9px 16px; font-family: var(--mono); font-size: var(--text-xs);
+        letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700; color: var(--cream);
+        background: linear-gradient(to top, color-mix(in oklab, var(--maroon-ink) 92%, transparent), transparent);
+        transform: translateY(100%); opacity: 0;
+        transition: transform var(--dur-fast) var(--ease), opacity var(--dur-fast) var(--ease);
       }
-      body.ex-listing .ex-thumb .tr {
-        position: absolute; top: 12px; right: 14px; z-index: 3;
-        font-family: var(--mono); font-size: var(--text-xs); letter-spacing: 0.1em;
-        color: color-mix(in oklab, var(--cream) 80%, transparent);
-      }
-      body.ex-listing .ex-thumb.search { background: var(--maroon); }
-      body.ex-listing .ex-thumb.ingest { background: var(--peach); color: var(--maroon-ink); }
-      body.ex-listing .ex-thumb.ingest .motif { color: var(--maroon); }
-      body.ex-listing .ex-thumb.ingest .tl { background: color-mix(in oklab, var(--maroon-ink) 10%, transparent); color: var(--maroon); border-color: color-mix(in oklab, var(--maroon-ink) 15%, transparent); }
-      body.ex-listing .ex-thumb.ingest .tr { color: color-mix(in oklab, var(--maroon-ink) 60%, transparent); }
-      body.ex-listing .ex-thumb.llm { background: var(--coral); }
-      body.ex-listing .ex-thumb.agents { background: var(--maroon-ink); }
-      body.ex-listing .ex-thumb.pink { background: var(--pink); color: var(--maroon-ink); }
-      body.ex-listing .ex-thumb.pink .motif { color: var(--maroon); }
-      body.ex-listing .ex-thumb.pink .tl { background: color-mix(in oklab, var(--maroon-ink) 10%, transparent); color: var(--maroon); border-color: color-mix(in oklab, var(--maroon-ink) 15%, transparent); }
-      body.ex-listing .ex-thumb.pink .tr { color: color-mix(in oklab, var(--maroon-ink) 55%, transparent); }
-      body.ex-listing .ex-thumb.search::after,
-      body.ex-listing .ex-thumb.llm::after,
-      body.ex-listing .ex-thumb.agents::after {
-        content: ""; position: absolute; inset: 0;
-        background-image: radial-gradient(circle, color-mix(in oklab, var(--cream) 10%, transparent) 1.2px, transparent 1.6px);
-        background-size: 14px 14px;
-      }
-      body.ex-listing .ex-thumb.ingest::after {
-        content: ""; position: absolute; inset: 0;
-        background-image: repeating-linear-gradient(135deg, transparent 0 8px, color-mix(in oklab, var(--maroon-ink) 6%, transparent) 8px 9px);
-      }
-      body.ex-listing .ex-thumb.pink::after {
-        content: ""; position: absolute; inset: 0;
-        background-image: linear-gradient(to right, color-mix(in oklab, var(--maroon-ink) 4%, transparent) 1px, transparent 1px),
-                          linear-gradient(to bottom, color-mix(in oklab, var(--maroon-ink) 4%, transparent) 1px, transparent 1px);
-        background-size: 18px 18px;
-      }
-
+      body.ex-listing .ex-card:hover .ex-open { transform: translateY(0); opacity: 1; }
       body.ex-listing .ex-body { padding: 20px 22px 22px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
       body.ex-listing .ex-body h3 { font-family: var(--sans); font-weight: 600; font-size: var(--text-md); letter-spacing: -0.02em; line-height: 1.2; margin: 0; color: var(--maroon-ink); }
       body.ex-listing .ex-body h3 em { color: var(--coral); font-style: normal; }
@@ -316,12 +277,6 @@
         color: var(--muted);
       }
       body.ex-listing .ex-foot .go { color: var(--coral); display: inline-flex; gap: 6px; align-items: center; }
-
-      body.ex-listing .m-dots circle { fill: currentColor; }
-      body.ex-listing .m-grid rect { fill: none; stroke: currentColor; stroke-width: 1; }
-      body.ex-listing .m-flow path { stroke: currentColor; stroke-width: 1.5; fill: none; stroke-linecap: round; }
-      body.ex-listing .m-node rect { fill: none; stroke: currentColor; stroke-width: 1.5; }
-      body.ex-listing .m-node circle { fill: currentColor; }
 
       /* ── BOTTOM CTA ── */
       body.ex-listing .cta-end {

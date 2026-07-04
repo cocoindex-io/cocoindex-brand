@@ -22,6 +22,7 @@
   --rule: rgba(42,18,27,0.14);
   --rule-strong: rgba(42,18,27,0.35);
   --muted: rgba(42,18,27,0.64);
+  --card-ink: color-mix(in oklab, var(--maroon-ink) 90%, var(--lavender) 10%);
   /* code */
   --code-bg: #2A121B;
   --code-fg: #FCF3D8;
@@ -35,7 +36,6 @@
   --code-variable: #FCF3D8;
   --code-punctuation: #C5B7A0;
   /* font */
-  --serif: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
   --sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
   --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
   /* text */
@@ -47,9 +47,9 @@
   --text-lg: 1.5625rem;
   --text-xl: 1.9531rem;
   --text-2xl: 2.4414rem;
-  --text-3xl: 3.0518rem;
+  --text-3xl: clamp(1.9rem, 3.2vw + 0.4rem, 3rem);
   --text-4xl: 3.8147rem;
-  --text-display: clamp(2.75rem, 5vw + 1rem, 5.25rem);
+  --text-display: clamp(2.6rem, 5.2vw + 0.6rem, 4.9rem);
   /* space */
   --s-1: 2px;
   --s-2: 4px;
@@ -73,6 +73,7 @@
   --r-pill: 999px;
   /* shadow */
   --shadow-card: 0 8px 32px rgba(42,18,27,0.08);
+  --shadow-pop: 0 14px 32px rgba(42, 18, 27, 0.16), 0 3px 8px rgba(42, 18, 27, 0.08);
   /* effect */
   --dot-reveal: radial-gradient(circle, color-mix(in oklab, var(--coral) 45%, transparent) 1.3px, transparent 1.7px);
   --dot-reveal-size: 11px;
