@@ -98,3 +98,14 @@
   font-size: var(--text-code);
   vertical-align: middle;
 }
+
+@media (max-width: 620px) {
+  .pull-quote {
+    padding-left: 40px;
+    padding-right: 0;
+    padding-top: 24px;
+  }
+  .pull-quote .pq-mark { font-size: 104px; top: -16px; left: -2px; }
+  .pull-quote .pq-cite { flex-wrap: wrap; gap: 8px 12px; }
+  .pull-quote .pq-cite::before { width: 28px; }
+}
