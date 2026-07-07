@@ -91,3 +91,10 @@
   flex: none;
 }
 .pull-quote .pq-who { color: var(--maroon-ink); }
+.pull-quote .pq-who + .pq-where::before {
+  content: "·";
+  margin: 0 10px 0 6px;
+  color: var(--rule-strong);
+  font-size: var(--text-code);
+  vertical-align: middle;
+}
