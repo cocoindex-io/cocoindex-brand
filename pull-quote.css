@@ -1,0 +1,93 @@
+/* pull-quote — editorial pull-quote for notable quotes + thesis moments in
+   long-form posts. Rendered by PullQuote.astro. Token-only and surface-agnostic
+   (safe on home, blog, docs); import after tokens.css (bundled in
+   components.css). No box, no shadow: the content breathes in the paper canvas,
+   held together by three signature moves —
+
+     1. Oversized coral opening quotation mark in the sans display face (700),
+        floating top-left as a translucent watermark — the only chrome needed.
+     2. Body set in the sans display face at display size, weight 500. Every
+        article gets one pull-quote hero moment, same as one H1 hero moment.
+     3. Emphasis is coral, never italic (Hum): markdown **bold** and *em* inside
+        the quote both flip to coral. Use once per quote, on the word you want
+        to sing.
+
+   Attribution rides a short coral rule in mono caps — same vocabulary as
+   eyebrows and captions, so the quote's metadata rhymes with every caps label.
+   Selectors are class-deep so they win over .prose blockquote/p defaults. */
+.pull-quote {
+  position: relative;
+  margin: clamp(48px, 6vw, 72px) auto;
+  padding: clamp(32px, 4.5vw, 52px) clamp(4px, 2vw, 24px) 0 clamp(56px, 7.5vw, 104px);
+  max-width: 60ch;
+  border: 0;
+  background: transparent;
+}
+.pull-quote .pq-mark {
+  position: absolute;
+  top: clamp(-28px, -1.2vw, -12px);
+  left: clamp(-8px, 0.2vw, 4px);
+  font-family: var(--sans);
+  font-style: normal;
+  font-weight: 700;
+  font-size: clamp(160px, 20vw, 260px);
+  line-height: 1;
+  color: var(--coral);
+  opacity: 0.2;
+  user-select: none;
+  pointer-events: none;
+}
+.pull-quote .pq-body {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  quotes: none;
+}
+.pull-quote .pq-body p {
+  margin: 0;
+  font-family: var(--sans);
+  font-style: normal;
+  font-weight: 500;
+  font-size: clamp(24px, 2.8vw, 38px);
+  line-height: 1.28;
+  letter-spacing: -0.02em;
+  color: var(--maroon-ink);
+  text-wrap: balance;
+  font-feature-settings: "kern" 1;
+}
+/* Emphasis inside the quote is coral, upright — markdown *em*, **strong**, and
+   an explicit .pq-stat span all read as the one word that sings. */
+.pull-quote .pq-body em,
+.pull-quote .pq-body strong,
+.pull-quote .pq-stat {
+  font-style: normal;
+  color: var(--coral);
+  font-weight: 600;
+}
+.pull-quote .pq-stat {
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  font-size: 0.92em;
+  white-space: nowrap;
+  font-feature-settings: "tnum" 1, "lnum" 1;
+}
+.pull-quote .pq-cite {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: clamp(22px, 2.8vw, 32px);
+  font-family: var(--mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.pull-quote .pq-cite::before {
+  content: "";
+  display: block;
+  width: 40px;
+  height: 1.5px;
+  background: var(--coral);
+  flex: none;
+}
+.pull-quote .pq-who { color: var(--maroon-ink); }

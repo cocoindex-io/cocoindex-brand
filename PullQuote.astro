@@ -1,0 +1,33 @@
+---
+// PullQuote — an editorial pull-quote for a notable quote or thesis moment in a
+// long-form post. Surface-agnostic; token-only look lives in
+// @cocoindex/brand/pull-quote.css (bundled in components.css). The quote body is
+// the default slot: markdown **bold** / *em* inside it render as the coral
+// emphasis, or drop an explicit <span class="pq-stat">…</span> for a number.
+//
+// Usage (MDX):
+//   <PullQuote who="Jeff Dean · Bill Dally" cite="GTC 2026">
+//   Agents run roughly **50× faster** than humans, but the tools they rely on
+//   were built for *human speed*.
+//   </PullQuote>
+export interface Props {
+  /** Attribution — who said it. */
+  who?: string;
+  /** Where it was said — venue, talk, or source. */
+  cite?: string;
+}
+
+const { who, cite } = Astro.props;
+const hasCite = Boolean(who || cite);
+---
+
+<figure class="pull-quote">
+  <span class="pq-mark" aria-hidden="true">&ldquo;</span>
+  <blockquote class="pq-body"><slot /></blockquote>
+  {hasCite && (
+    <figcaption class="pq-cite">
+      {who && <span class="pq-who">{who}</span>}
+      {cite && <span class="pq-where">{cite}</span>}
+    </figcaption>
+  )}
+</figure>
