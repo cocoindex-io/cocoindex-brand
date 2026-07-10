@@ -4,6 +4,9 @@
      --dur-fast  160ms · hovers, color/border/opacity transitions
      --dur-slow  280ms · larger reveals, drawers
      --ease      cubic-bezier(.2,.8,.2,1) · every transition + tween
+   Two named exceptions live above that scale for signature moments (still tokens):
+     --dur-lift 220ms + --ease-spring · the Hum-07 color-shift card/icon lift (DocCard)
+     --dur-morph 420ms · the Nav scroll-to-pill morph
    Plus two reusable effect primitives: the dotted `--dot-reveal` overlay and the
    `coco-pulse` keyframe below. Reach for these instead of hand-rolling a new
    duration or keyframe — that's how every surface ends up feeling identical.

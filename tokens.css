@@ -21,10 +21,12 @@
   --paper: oklch(97.3% 0.019 90.5);
   --paper-hex: #FBF6E8;
   --oat: #ECE8DC;
+  --paper-2: oklch(94% 0.016 95);
   --rule: rgba(42,18,27,0.14);
   --rule-strong: rgba(42,18,27,0.35);
   --muted: rgba(42,18,27,0.64);
   --card-ink: color-mix(in oklab, var(--maroon-ink) 90%, var(--lavender) 10%);
+  --hn-orange: #FF6600;
   /* code */
   --code-bg: #2A121B;
   --code-fg: #FCF3D8;
@@ -76,6 +78,7 @@
   /* shadow */
   --shadow-card: 0 8px 32px rgba(42,18,27,0.08);
   --shadow-pop: 0 14px 32px rgba(42, 18, 27, 0.16), 0 3px 8px rgba(42, 18, 27, 0.08);
+  --shadow-nav: 0 24px 56px -20px rgba(42,18,27,0.18), 0 8px 20px -12px rgba(42,18,27,0.12);
   /* effect */
   --dot-reveal: radial-gradient(circle, color-mix(in oklab, var(--coral) 45%, transparent) 1.3px, transparent 1.7px);
   --dot-reveal-size: 11px;
@@ -83,7 +86,10 @@
   --dur-press: 120ms;
   --dur-fast: 160ms;
   --dur-slow: 280ms;
+  --dur-lift: 220ms;
+  --dur-morph: 420ms;
   --ease: cubic-bezier(.2,.8,.2,1);
+  --ease-spring: cubic-bezier(.34,1.56,.64,1);
   /* z */
   --z-base: 0;
   --z-sticky: 30;

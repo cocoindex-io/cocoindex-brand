@@ -113,7 +113,7 @@
 
       body.ex-detail .chip { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 6px; background: var(--cream); border: 1px solid var(--rule); font-size: var(--text-sm); font-weight: 500; }
       body.ex-detail .chip .ico { width: 22px; height: 22px; flex: none; display: grid; place-items: center; border-radius: 4px; background: var(--peach); color: var(--maroon); font-family: var(--mono); font-size: var(--text-xs); font-weight: 600; }
-      body.ex-detail .chip .ico.hn { background: #FF6600; color: #fff; }
+      body.ex-detail .chip .ico.hn { background: var(--hn-orange); color: var(--cream); }
       body.ex-detail .chip .ico.llm { background: var(--maroon-ink); color: var(--peach); }
       body.ex-detail .chip .tail { margin-left: auto; font-family: var(--mono); font-size: var(--text-xs); letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
 

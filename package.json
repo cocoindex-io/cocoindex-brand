@@ -1,6 +1,6 @@
 {
   "name": "@cocoindex/brand",
-  "version": "0.4.36",
+  "version": "0.4.37",
   "description": "CocoIndex shared design tokens, code theme, and brand assets. Single source of truth for home, blog, and docs.",
   "private": true,
   "license": "UNLICENSED",
@@ -59,9 +59,9 @@
     "./tabs.css": "./tabs.css",
     "./NewerVersionBanner.astro": "./NewerVersionBanner.astro",
     "./Faq.astro": "./Faq.astro",
-    "./faq.css": "./faq.css"
-    ,"./PullQuote.astro": "./PullQuote.astro"
-    ,"./pull-quote.css": "./pull-quote.css"
+    "./faq.css": "./faq.css",
+    "./PullQuote.astro": "./PullQuote.astro",
+    "./pull-quote.css": "./pull-quote.css"
   },
   "files": [
     "tokens.json",
@@ -108,9 +108,9 @@
     "nav-links.mjs",
     "NewerVersionBanner.astro",
     "Faq.astro",
-    "faq.css"
-    ,"PullQuote.astro"
-    ,"pull-quote.css"
+    "faq.css",
+    "PullQuote.astro",
+    "pull-quote.css"
   ],
   "scripts": {
     "build:tokens": "node scripts/build-tokens.mjs",

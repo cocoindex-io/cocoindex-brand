@@ -16,10 +16,10 @@
   padding: 22px;
   text-decoration: none; color: var(--maroon-ink);
   box-shadow: 0 10px 28px -18px color-mix(in oklab, var(--maroon-ink) 16%, transparent);
-  transition: transform 220ms cubic-bezier(.34,1.56,.64,1),
-              box-shadow 220ms var(--ease),
-              border-color 200ms var(--ease),
-              background-color 200ms var(--ease);
+  transition: transform var(--dur-lift) var(--ease-spring),
+              box-shadow var(--dur-lift) var(--ease),
+              border-color var(--dur-fast) var(--ease),
+              background-color var(--dur-fast) var(--ease);
 }
 .coco-card[data-accent="peach"]    { --card-accent: var(--peach); }
 .coco-card[data-accent="palm"]     { --card-accent: var(--palm-ink); }
@@ -46,7 +46,7 @@
   background: var(--card-tint);
   color: var(--card-accent);
   margin-bottom: 18px;
-  transition: transform 240ms cubic-bezier(.34,1.56,.64,1), background-color 200ms var(--ease);
+  transition: transform var(--dur-lift) var(--ease-spring), background-color var(--dur-fast) var(--ease);
 }
 .coco-card:hover .coco-card__ico {
   transform: scale(1.08) rotate(-4deg);
@@ -61,7 +61,7 @@
   display: flex; align-items: center; gap: 7px;
   color: var(--maroon-ink);
 }
-.coco-card__ar { color: var(--card-accent); transition: transform 180ms var(--ease); }
+.coco-card__ar { color: var(--card-accent); transition: transform var(--dur-fast) var(--ease); }
 .coco-card:hover .coco-card__ar { transform: translateX(4px); }
 
 .coco-card__body {

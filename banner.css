@@ -10,7 +10,7 @@
   border: 1px solid color-mix(in oklab, var(--coral) 45%, transparent);
   border-radius: 10px;
   background: color-mix(in oklab, var(--peach) 22%, var(--cream));
-  box-shadow: 0 6px 20px -12px rgba(60, 20, 20, 0.35);
+  box-shadow: 0 6px 20px -12px rgba(42,18,27,0.35);
   color: var(--maroon-ink);
 }
 /* tag pill (tags.css .t-category) — keep it from shrinking in the flex row */

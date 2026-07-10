@@ -54,10 +54,10 @@ nav.top.no-morph .nav-in {
   padding: 0 var(--nav-gutter);
   display: flex; align-items: center; gap: 1.25rem;
   border: 1px solid transparent; border-radius: 0;
-  transition: max-width 420ms var(--ease), transform 420ms var(--ease),
-              border-radius 420ms var(--ease), box-shadow 420ms var(--ease),
-              border-color 420ms var(--ease), padding 420ms var(--ease),
-              background-color 420ms var(--ease);
+  transition: max-width var(--dur-morph) var(--ease), transform var(--dur-morph) var(--ease),
+              border-radius var(--dur-morph) var(--ease), box-shadow var(--dur-morph) var(--ease),
+              border-color var(--dur-morph) var(--ease), padding var(--dur-morph) var(--ease),
+              background-color var(--dur-morph) var(--ease);
 }
 nav.top.is-floating .nav-in {
   max-width: min(64rem, calc(100% - 1.5rem));
@@ -67,8 +67,7 @@ nav.top.is-floating .nav-in {
   background: color-mix(in oklab, var(--paper) 90%, transparent);
   backdrop-filter: blur(18px) saturate(160%);
   -webkit-backdrop-filter: blur(18px) saturate(160%);
-  box-shadow: 0 24px 56px -20px rgba(42,18,27,0.18),
-              0 8px 20px -12px rgba(42,18,27,0.12);
+  box-shadow: var(--shadow-nav);
 }
 /* The logo lockup itself is the shared `.logo` component (logo.css / Logo.astro). */
 /* Links + CTA cluster sit together on the right (hum-07): margin-left:auto on the
