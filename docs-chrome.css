@@ -212,7 +212,7 @@ aside.toc .meta .edited { color: var(--muted); cursor: default; }
   background: transparent;
   border: 0;
   cursor: pointer;
-  transition: color 0.15s, background 0.15s;
+  transition: color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease);
 }
 .ai-primary {
   padding: 8px 12px 8px 14px;
@@ -237,7 +237,7 @@ aside.toc .meta .edited { color: var(--muted); cursor: default; }
 .ai-toggle svg {
   width: 13px;
   height: 13px;
-  transition: transform 0.18s ease;
+  transition: transform var(--dur-fast) var(--ease);
 }
 .ai-toggle[aria-expanded='true'] svg {
   transform: rotate(180deg);
@@ -274,7 +274,7 @@ aside.toc .meta .edited { color: var(--muted); cursor: default; }
   text-align: left;
   text-decoration: none;
   cursor: pointer;
-  transition: background 0.12s ease;
+  transition: background var(--dur-press) var(--ease);
 }
 .ai-item:hover,
 .ai-item:focus-visible {
