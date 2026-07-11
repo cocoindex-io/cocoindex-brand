@@ -190,6 +190,7 @@
 
       /* ── BOTTOM CTA ── */
       body.ex-listing .cta-end {
+        text-align: left; /* surface delta — the shared .cta-end base (cta.css) centers */
         margin: 72px 0 96px;
         border-radius: var(--r-2xl);
         background: var(--cream);

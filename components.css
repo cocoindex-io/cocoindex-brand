@@ -12,6 +12,8 @@
 @import './tags.css';        /* .t-pill / .t-category / .t-overlay / .t-status */
 @import './code-block.css';  /* inline code, Shiki fences, .code-figure chrome */
 @import './cards.css';       /* .example-repo-card / .docs-link-card */
+@import './cta.css';         /* .cta-end closing CTA band (+ cute variant) */
+@import './doc-hero.css';    /* .hero-h / .sec-head system + .sec-lead + .hl-mark */
 @import './banner.css';      /* .superseded-banner — NewerVersionBanner.astro */
 @import './prose.css';       /* rendered-markdown typography (.prose) — docs + blog */
 @import './pull-quote.css';   /* .pull-quote editorial quote — PullQuote.astro */

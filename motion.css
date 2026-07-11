@@ -24,6 +24,12 @@
   50%      { box-shadow: 0 0 0 var(--pulse-r2, 6px) color-mix(in oklab, var(--pulse-color, var(--palm)) 6%, transparent); }
 }
 
+/* ── .u-dots ── the "indexing dots" texture (the --dot-reveal token), tuned
+   per use via custom props: --dot-color / --dot-alpha / --dot-r1 / --dot-r2,
+   plus background-size for grid pitch. Works for static dotted grounds and
+   hover reveals alike (drive opacity yourself). */
+.u-dots { background-image: var(--dot-reveal); background-size: var(--dot-reveal-size, 11px) var(--dot-reveal-size, 11px); }
+
 /* ── .u-press ── the shared tactile press: sinks 1px on :active. Compose onto
    any pressable affordance that isn't already a `.btn` (which bakes it in).
    The element should include `transform var(--dur-press) var(--ease)` in its own
