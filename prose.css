@@ -52,7 +52,7 @@
 .prose .head-anchor svg { width: 0.66em; height: 0.66em; }
 .prose :is(h2, h3, h4, h5, h6):hover .head-anchor { opacity: 0.5; }
 .prose .head-anchor:hover, .prose .head-anchor:focus-visible { opacity: 1; }
-.prose .head-anchor.copied { opacity: 1; color: var(--palm-ink); }
+.prose .head-anchor.copied { opacity: 1; color: var(--ink-success); }
 .prose .head-anchor.copied::after {
   content: "Link copied";
   position: absolute; left: 50%; bottom: calc(100% + 7px); transform: translateX(-50%);

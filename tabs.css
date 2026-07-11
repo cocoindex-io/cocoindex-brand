@@ -38,7 +38,7 @@
   font-weight: 500;
   color: var(--muted);
   cursor: pointer;
-  border-radius: 8px 8px 0 0;
+  border-radius: var(--r-md) var(--r-md) 0 0;
   border: 1px solid transparent;
   border-bottom: none;
   margin-bottom: -1px;

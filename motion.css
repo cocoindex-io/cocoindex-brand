@@ -17,7 +17,8 @@
    eyebrow, sidebar group, anything signalling live). Parameterized by custom
    properties so one keyframe covers every size/color:
      --pulse-color (default palm) · --pulse-r1 rest radius · --pulse-r2 peak radius
-   Usage: `animation: coco-pulse 2s ease-in-out infinite;` with the props set. */
+   Usage: `animation: coco-pulse var(--dur-pulse) ease-in-out infinite;` with the
+   props set (--dur-pulse is the one shared breathing cadence). */
 @keyframes coco-pulse {
   0%, 100% { box-shadow: 0 0 0 var(--pulse-r1, 3px) color-mix(in oklab, var(--pulse-color, var(--palm)) 18%, transparent); }
   50%      { box-shadow: 0 0 0 var(--pulse-r2, 6px) color-mix(in oklab, var(--pulse-color, var(--palm)) 6%, transparent); }

@@ -22,7 +22,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-a { color: var(--coral); text-decoration: none; }
+a { color: var(--coral-text); text-decoration: none; }
 /* Underline on hover for genuine text links only. Buttons, the logo, the stars
    pill, and card-shaped links (whose inner heading/body would otherwise
    underline) manage their own hover — exclude them here so we don't rely on each
@@ -31,7 +31,7 @@ a:hover:not(:where(.btn, .btn *, .logo, .stars, .nav-links a, .mobile-list a, .e
 
 /* Buttons (.btn + variants/sizes), inline code, .code-figure, and admonitions
    (.callout) now come from @cocoindex/brand/components.css. */
-.caps { font-family: var(--mono); font-size: var(--text-xs); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.caps { font-family: var(--mono); font-size: var(--text-xs); letter-spacing: var(--track-label); text-transform: uppercase; color: var(--muted); }
 .mono { font-family: var(--mono); }
 
 /* ─── top nav ─── */
@@ -55,8 +55,8 @@ a:hover:not(:where(.btn, .btn *, .logo, .stars, .nav-links a, .mobile-list a, .e
   display: grid; grid-template-columns: 1fr 1fr;
   margin: 12px 14px 0;
   padding: 3px;
-  background: color-mix(in oklab, var(--maroon-ink) 6%, var(--cream));
-  border-radius: 10px;
+  background: color-mix(in oklab, var(--maroon-ink) 6%, var(--paper));
+  border-radius: var(--r-lg);
   flex: none;
 }
 .mobile-tabs button {
@@ -66,7 +66,7 @@ a:hover:not(:where(.btn, .btn *, .logo, .stars, .nav-links a, .mobile-list a, .e
   font-family: var(--sans); font-weight: 500;
   font-size: var(--text-sm); letter-spacing: -0.005em;
   color: var(--maroon-ink); opacity: .7;
-  border-radius: 7px;
+  border-radius: var(--r-md);
   transition: opacity var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease);
 }
 .mobile-tabs button[aria-selected="true"] {
@@ -91,7 +91,7 @@ a:hover:not(:where(.btn, .btn *, .logo, .stars, .nav-links a, .mobile-list a, .e
 .mobile-group h6 {
   margin: 14px 8px 6px;
   font-family: var(--mono); font-weight: 500;
-  font-size: var(--text-xs); letter-spacing: 0.14em;
+  font-size: var(--text-xs); letter-spacing: var(--track-label);
   text-transform: uppercase; color: var(--muted);
 }
 .mobile-group h6 a { color: inherit; text-decoration: none; }
@@ -146,7 +146,7 @@ main.content {
 .prose .intro-meta .m { display: flex; flex-direction: column; gap: 2px; margin: 0; }
 .prose .intro-meta .k {
   font-family: var(--mono);
-  font-size: var(--text-xs); letter-spacing: 0.14em; text-transform: uppercase;
+  font-size: var(--text-xs); letter-spacing: var(--track-label); text-transform: uppercase;
   color: var(--muted);
 }
 .prose .intro-meta .v {
@@ -190,7 +190,7 @@ main.content {
   }
   .stars:hover {
     border-color: var(--rule);
-    background: color-mix(in oklab, var(--peach) 14%, var(--cream));
+    background: color-mix(in oklab, var(--peach) 14%, var(--paper));
     color: var(--coral);
   }
   .stars svg { width: 12px; height: 12px; opacity: .85; }

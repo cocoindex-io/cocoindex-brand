@@ -34,15 +34,15 @@
 
       body.ex-listing .hero-viz { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; aspect-ratio: 3/2; }
       body.ex-listing .hero-viz .t {
-        border-radius: 8px; position: relative; overflow: hidden;
+        border-radius: var(--r-md); position: relative; overflow: hidden;
         padding: 16px; display: flex; flex-direction: column; justify-content: space-between;
-        font-family: var(--mono); font-size: var(--text-xs); letter-spacing: 0.14em; text-transform: uppercase;
+        font-family: var(--mono); font-size: var(--text-xs); letter-spacing: var(--track-label); text-transform: uppercase;
       }
       body.ex-listing .hero-viz .t .ct { font-family: var(--sans); font-size: var(--text-md); font-weight: 600; letter-spacing: -0.02em; line-height: 1; text-transform: none; }
       body.ex-listing .hero-viz .t .ct em { color: inherit; font-style: normal; }
       body.ex-listing .hero-viz .t.search { background: var(--maroon); color: var(--cream); }
       body.ex-listing .hero-viz .t.ingest { background: var(--peach); color: var(--maroon-ink); }
-      body.ex-listing .hero-viz .t.llm { background: var(--coral); color: var(--cream); }
+      body.ex-listing .hero-viz .t.llm { background: var(--coral); color: var(--cream-bright); }
       body.ex-listing .hero-viz .t.agents { background: var(--cream); color: var(--maroon); border: 1px solid var(--rule-strong); }
       body.ex-listing .hero-viz .t.custom { background: var(--maroon-ink); color: var(--cream); }
       body.ex-listing .hero-viz .t::after {
@@ -63,7 +63,7 @@
       body.ex-listing .doc > .col-main { grid-column: 1; grid-row: 1; }
       body.ex-listing .side-nav { position: sticky; top: 84px; align-self: start; max-height: calc(100vh - 100px); overflow-y: auto; padding: 0 0 40px; font-family: var(--sans); }
       body.ex-listing .side-head {
-        font-family: var(--mono); font-size: var(--text-xs); letter-spacing: 0.14em; text-transform: uppercase;
+        font-family: var(--mono); font-size: var(--text-xs); letter-spacing: var(--track-label); text-transform: uppercase;
         color: var(--muted); padding-bottom: 10px; margin-bottom: 14px;
         border-bottom: 1px solid var(--rule-strong);
         display: flex; justify-content: space-between; align-items: baseline;
@@ -89,7 +89,7 @@
       body.ex-listing .side-nav ol li a[data-cat="featured"] .cat-dot { background: var(--coral); border-radius: 50%; }
       body.ex-listing .side-nav ol li a .count {
         margin-left: auto;
-        font-family: var(--mono); font-size: var(--text-xs); letter-spacing: 0.04em; color: var(--muted);
+        font-family: var(--mono); font-size: var(--text-xs); letter-spacing: var(--track-code); color: var(--muted);
         padding: 2px 8px; border-radius: 999px; background: transparent; border: 1px solid var(--rule);
       }
       body.ex-listing .side-nav ol li a:hover { color: var(--coral); background: var(--cream); }
@@ -99,7 +99,7 @@
 
       body.ex-listing .side-group { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--rule); }
       body.ex-listing .side-group h6 {
-        font-family: var(--mono); font-size: var(--text-xs); letter-spacing: 0.14em; text-transform: uppercase;
+        font-family: var(--mono); font-size: var(--text-xs); letter-spacing: var(--track-label); text-transform: uppercase;
         color: var(--muted); margin: 0 0 10px;
       }
       body.ex-listing .side-group .tags-row { display: flex; flex-wrap: wrap; gap: 5px; }
@@ -130,7 +130,7 @@
       body.ex-listing .sec-head .idx { color: var(--muted); display: inline; margin: 0 8px 0 0; }
       body.ex-listing .sec-head .all {
         margin-left: auto;
-        font-family: var(--mono); font-size: var(--text-xs); letter-spacing: 0.12em; text-transform: uppercase;
+        font-family: var(--mono); font-size: var(--text-xs); letter-spacing: var(--track-label); text-transform: uppercase;
         color: var(--maroon); text-decoration: none;
         padding-bottom: 2px; border-bottom: 1px solid var(--maroon);
       }
@@ -177,7 +177,7 @@
       body.ex-listing .ex-open {
         position: absolute; left: 0; right: 0; bottom: 0; z-index: 3;
         padding: 9px 16px; font-family: var(--mono); font-size: var(--text-xs);
-        letter-spacing: 0.12em; text-transform: uppercase; font-weight: 700; color: var(--cream);
+        letter-spacing: var(--track-label); text-transform: uppercase; font-weight: 500; color: var(--cream);
         background: linear-gradient(to top, color-mix(in oklab, var(--maroon-ink) 92%, transparent), transparent);
         transform: translateY(100%); opacity: 0;
         transition: transform var(--dur-fast) var(--ease), opacity var(--dur-fast) var(--ease);
@@ -214,12 +214,12 @@
       /* Buttons — see `.btn` + variants in globals.css. No local overrides. */
       body.ex-listing .cta-end .side {
         display: flex; flex-direction: column; gap: 18px;
-        padding: 28px 26px; border-radius: 10px;
+        padding: 28px 26px; border-radius: var(--r-lg);
         background: var(--paper); border: 1px solid var(--rule);
       }
       body.ex-listing .cta-end .side .eyebrow {
-        font-family: var(--mono); font-size: var(--text-xs); letter-spacing: 0.14em; text-transform: uppercase;
-        color: var(--coral);
+        font-family: var(--mono); font-size: var(--text-xs); letter-spacing: var(--track-label); text-transform: uppercase;
+        color: var(--coral-text);
       }
       body.ex-listing .cta-end .side .time {
         font-family: var(--mono); font-size: var(--text-xs); color: var(--muted);
@@ -241,7 +241,7 @@
         body.ex-listing .doc > .col-main { grid-column: auto; grid-row: auto; }
         body.ex-listing .side-nav {
           position: static; top: auto; max-height: none;
-          padding: 16px; border: 1px solid var(--rule); border-radius: 10px;
+          padding: 16px; border: 1px solid var(--rule); border-radius: var(--r-lg);
           background: var(--cream); margin-bottom: 32px;
         }
         body.ex-listing .side-nav ol { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }

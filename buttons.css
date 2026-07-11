@@ -23,6 +23,9 @@
      · :focus-visible — outline: var(--focus); outline-offset: var(--focus-offset)
                       ALWAYS this token — never a bespoke `2px solid coral`.
      · [disabled]   — opacity .45; pointer-events: none
+     · .is-hover    — forced-state hook paired with every :hover, so the style
+                      guide can render hover specimens statically (never set it
+                      in real markup)
 
    Token-only and surface-agnostic. Import after tokens.css. */
 .btn {
@@ -50,7 +53,7 @@
 .btn svg { flex: none; }
 /* text-decoration:none defends against a consumer's global `a:hover{underline}`
    (the docs site ships one) — buttons must never underline on hover. */
-.btn:hover { background: var(--btn-bg-hover); color: var(--btn-fg-hover); border-color: var(--btn-border-hover); text-decoration: none; }
+.btn:hover, .btn.is-hover { background: var(--btn-bg-hover); color: var(--btn-fg-hover); border-color: var(--btn-border-hover); text-decoration: none; }
 .btn:active { transform: translateY(1px); }
 .btn:focus-visible { outline: var(--focus); outline-offset: var(--focus-offset); }
 .btn[disabled], .btn[aria-disabled="true"] { opacity: .45; pointer-events: none; }
@@ -89,14 +92,14 @@
   --btn-edge: var(--maroon-ink); --btn-cast: color-mix(in oklab, var(--maroon) 45%, transparent);
 }
 .btn-coral {
-  --btn-bg: var(--coral); --btn-fg: var(--cream); --btn-border: var(--coral);
-  --btn-bg-hover: var(--coral); --btn-fg-hover: var(--cream); --btn-border-hover: var(--coral);
+  --btn-bg: var(--coral); --btn-fg: var(--cream-bright); --btn-border: var(--coral);
+  --btn-bg-hover: var(--coral); --btn-fg-hover: var(--cream-bright); --btn-border-hover: var(--coral);
   --btn-edge: var(--coral-deep); --btn-cast: color-mix(in oklab, var(--coral) 42%, transparent);
 }
 /* Push — the solid CTAs carry a tactile colour edge: lift on hover, press DOWN
    on :active (replaces the flat fill-swap; the fill colour stays put). */
 .btn-primary, .btn-coral { box-shadow: 0 3px 0 0 var(--btn-edge), 0 6px 14px -5px var(--btn-cast); }
-.btn-primary:hover, .btn-coral:hover { transform: translateY(-2px); box-shadow: 0 5px 0 0 var(--btn-edge), 0 12px 22px -6px var(--btn-cast); }
+.btn-primary:hover, .btn-coral:hover, .btn-primary.is-hover, .btn-coral.is-hover { transform: translateY(-2px); box-shadow: 0 5px 0 0 var(--btn-edge), 0 12px 22px -6px var(--btn-cast); }
 .btn-primary:active, .btn-coral:active { transform: translateY(2px); box-shadow: 0 1px 0 0 var(--btn-edge), 0 2px 6px -3px var(--btn-cast); }
 
 /* Outline — hairline at rest; the accent fill wipes up from the bottom on hover
@@ -104,7 +107,7 @@
 .btn-outline {
   --btn-bg: transparent; --btn-fg: var(--coral-text);
   --btn-border: color-mix(in oklab, var(--coral) 42%, var(--rule-strong));
-  --btn-bg-hover: transparent; --btn-fg-hover: var(--cream); --btn-border-hover: var(--coral);
+  --btn-bg-hover: transparent; --btn-fg-hover: var(--cream-bright); --btn-border-hover: var(--coral);
   --btn-fill: var(--coral); --btn-edge: var(--coral-deep);
   --btn-cast: color-mix(in oklab, var(--coral) 42%, transparent); overflow: hidden;
 }
@@ -112,10 +115,10 @@
   content: ""; position: absolute; inset: 0; z-index: -1; background: var(--btn-fill);
   transform: scaleY(0); transform-origin: bottom; transition: transform var(--dur-slow) var(--ease);
 }
-.btn-outline:hover::before { transform: scaleY(1); }
+.btn-outline:hover::before, .btn-outline.is-hover::before { transform: scaleY(1); }
 /* On hover the outline RISES into a solid push: the fill wipes up, a 3D colour
    edge appears, and it lifts — matching the hum-07 secondary button. */
-.btn-outline:hover { transform: translateY(-2px); box-shadow: 0 5px 0 0 var(--btn-edge), 0 10px 20px -6px var(--btn-cast); }
+.btn-outline:hover, .btn-outline.is-hover { transform: translateY(-2px); box-shadow: 0 5px 0 0 var(--btn-edge), 0 10px 20px -6px var(--btn-cast); }
 .btn-outline:active { transform: translateY(2px); box-shadow: 0 1px 0 0 var(--btn-edge), 0 2px 6px -3px var(--btn-cast); }
 .btn-outline-muted {
   --btn-bg: transparent; --btn-fg: var(--maroon-ink); --btn-border: var(--rule-strong);
@@ -135,7 +138,7 @@
 }
 .btn-mono {
   --btn-bg: transparent; --btn-fg: var(--maroon); --btn-border: var(--rule-strong);
-  --btn-bg-hover: color-mix(in oklab, var(--peach) 14%, var(--cream));
+  --btn-bg-hover: color-mix(in oklab, var(--peach) 14%, var(--paper));
   --btn-fg-hover: var(--coral); --btn-border-hover: color-mix(in oklab, var(--coral) 45%, transparent);
   font-family: var(--mono); font-size: var(--text-sm); letter-spacing: 0.08em;
   text-transform: uppercase; padding: 6px 10px; gap: 6px;
