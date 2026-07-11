@@ -1,0 +1,48 @@
+---
+// Tabs — the markup twin of tabs.css (.coco-tabs), so tab groups ship from the
+// package like every other component instead of a hand-copied per-site
+// Tabs.astro (the drift this package exists to prevent). CSS-only: hidden radio
+// inputs drive label + panel visibility, keyboard switching is the radios'
+// native arrow-key behavior, and the focus ring maps back onto the visible
+// label (tabs.css).
+//
+// Panels are numbered slots, in label order:
+//   <Tabs labels={['Python', 'TypeScript']}>
+//     <Fragment slot="0">…python content…</Fragment>
+//     <Fragment slot="1">…typescript content…</Fragment>
+//   </Tabs>
+//
+// tabs.css wires up to 5 tabs; more than that is a build error here — never a
+// silent cap (a 6th tab would render a label whose panel can never show).
+export interface Props {
+  /** Tab labels, in order. Max 5 (tabs.css nth-of-type wiring). */
+  labels: string[];
+  /** Index of the tab selected on load. */
+  initial?: number;
+  class?: string;
+}
+const { labels, initial = 0, class: className } = Astro.props;
+if (labels.length > 5) {
+  throw new Error(`Tabs: tabs.css supports at most 5 tabs, got ${labels.length} (${labels.join(', ')})`);
+}
+// Radio group name must be unique per instance so two tab groups on one page
+// don't steal each other's selection.
+const uid = `coco-tabs-${Math.random().toString(36).slice(2, 8)}`;
+---
+<div class:list={['coco-tabs', className]}>
+  {labels.map((_, i) => (
+    <input class="coco-tabs-radio" type="radio" name={uid} id={`${uid}-${i}`} checked={i === initial} />
+  ))}
+  <div class="coco-tabs-bar">
+    {labels.map((label, i) => (
+      <label class="coco-tabs-label" for={`${uid}-${i}`}>{label}</label>
+    ))}
+  </div>
+  <div class="coco-tabs-panels">
+    {labels.map((_, i) => (
+      <div class="coco-tabs-panel" data-tab-index={String(i)}>
+        <slot name={String(i)} />
+      </div>
+    ))}
+  </div>
+</div>

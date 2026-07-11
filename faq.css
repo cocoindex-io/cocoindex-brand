@@ -56,7 +56,7 @@
 
 .coco-faq__answer{
   padding: 0 4px 18px;
-  max-width: 72ch;
+  max-width: var(--measure);
   font-size: var(--text-base); line-height: 1.65;
   color: var(--muted);
 }

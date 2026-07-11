@@ -6,6 +6,8 @@
 .coco-card {
   --card-accent: var(--coral);
   --card-tint: color-mix(in oklab, var(--card-accent) 14%, var(--paper));
+  /* text/icon/focus roles — raw gold/lavender fail contrast on paper */
+  --card-accent-text: color-mix(in oklab, var(--card-accent) 45%, var(--maroon-ink));
   position: relative;
   display: flex; flex-direction: column;
   /* Alive at rest (hum-07 color-shift grid): a faint accent wash + a soft
@@ -35,16 +37,16 @@
   text-decoration: none;
 }
 .coco-card:focus-visible {
-  outline: 2px solid var(--card-accent); outline-offset: 3px; text-decoration: none;
+  outline: 2px solid var(--card-accent-text); outline-offset: 3px; text-decoration: none;
 }
 
 /* Icon tile — rounded, accent-tinted; springs + tilts on hover (the "cute"). */
 .coco-card__ico {
   width: 46px; height: 46px; flex: none;
-  border-radius: 14px;
+  border-radius: var(--r-xl);
   display: grid; place-items: center;
   background: var(--card-tint);
-  color: var(--card-accent);
+  color: var(--card-accent-text);
   margin-bottom: 18px;
   transition: transform var(--dur-lift) var(--ease-spring), background-color var(--dur-fast) var(--ease);
 }
@@ -61,7 +63,7 @@
   display: flex; align-items: center; gap: 7px;
   color: var(--maroon-ink);
 }
-.coco-card__ar { color: var(--card-accent); transition: transform var(--dur-fast) var(--ease); }
+.coco-card__ar { color: var(--card-accent-text); transition: transform var(--dur-fast) var(--ease); }
 .coco-card:hover .coco-card__ar { transform: translateX(4px); }
 
 .coco-card__body {
@@ -71,8 +73,8 @@
 .coco-card__meta {
   display: block; margin-top: auto; padding-top: 16px;
   font-family: var(--mono); font-size: var(--text-xs);
-  letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--card-accent);
+  letter-spacing: var(--track-label); text-transform: uppercase;
+  color: var(--card-accent-text);
 }
 
 @media (prefers-reduced-motion: reduce) {

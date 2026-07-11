@@ -20,7 +20,7 @@ body.docs-home .hero-cta { display: flex; gap: 12px; flex-wrap: wrap; align-item
 
 body.docs-home .install {
   margin-top: 22px; display: inline-flex; align-items: center; gap: 12px;
-  background: var(--maroon-ink); border-radius: 8px; padding: 11px 12px 11px 16px;
+  background: var(--maroon-ink); border-radius: var(--r-md); padding: 11px 12px 11px 16px;
 }
 body.docs-home .install code {
   font-family: var(--mono); font-size: var(--text-sm); color: var(--cream);
@@ -29,9 +29,9 @@ body.docs-home .install code {
 body.docs-home .install code .p { color: var(--peach); margin-right: 8px; }
 body.docs-home .install .copy,
 body.docs-home .codeblk .copy {
-  font-family: var(--mono); font-size: var(--text-xs); letter-spacing: 0.04em;
+  font-family: var(--mono); font-size: var(--text-xs); letter-spacing: var(--track-code);
   color: var(--cream); background: transparent;
-  border: 1px solid color-mix(in oklab, var(--cream) 25%, transparent); border-radius: 5px;
+  border: 1px solid color-mix(in oklab, var(--cream) 25%, transparent); border-radius: var(--r-sm);
   padding: 4px 10px; cursor: pointer; transition: background var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease), transform var(--dur-press) var(--ease);
 }
 body.docs-home .install .copy:hover,
@@ -53,7 +53,7 @@ body.docs-home .hero-meta b { color: var(--maroon); font-weight: 600; }
 
 /* hero diagram */
 body.docs-home .hero-viz {
-  background: var(--cream); border: 1px solid var(--rule); border-radius: 16px;
+  background: var(--cream); border: 1px solid var(--rule); border-radius: var(--r-xl);
   padding: 24px 22px;
 }
 body.docs-home .viz-label {
@@ -62,11 +62,11 @@ body.docs-home .viz-label {
 }
 body.docs-home .viz-flow { display: flex; flex-direction: column; align-items: stretch; gap: 8px; }
 body.docs-home .node {
-  border: 1px solid var(--rule-strong); border-radius: 8px; padding: 12px 14px;
+  border: 1px solid var(--rule-strong); border-radius: var(--r-md); padding: 12px 14px;
   background: var(--paper); display: flex; flex-direction: column; gap: 3px; text-align: center;
 }
 body.docs-home .node .nt {
-  font-family: var(--mono); font-size: var(--text-xs); letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted);
+  font-family: var(--mono); font-size: var(--text-xs); letter-spacing: var(--track-label); text-transform: uppercase; color: var(--muted);
 }
 body.docs-home .node .nv { font-size: var(--text-sm); font-weight: 600; color: var(--maroon-ink); }
 body.docs-home .node.src .nv { color: var(--maroon); }
@@ -77,8 +77,9 @@ body.docs-home .node.eng .nv { color: var(--cream); }
 body.docs-home .viz-arrow { text-align: center; color: var(--coral); font-family: var(--mono); line-height: 1; }
 body.docs-home .viz-delta {
   margin: 6px auto 0; display: inline-flex; align-items: center; gap: 7px;
-  font-family: var(--mono); font-size: var(--text-xs); color: var(--palm-ink);
-  background: color-mix(in oklab, var(--palm) 16%, var(--cream));
+  font-family: var(--mono); font-size: var(--text-xs);
+  color: var(--ink-success);
+  background: color-mix(in oklab, var(--palm) 16%, var(--paper));
   border: 1px solid color-mix(in oklab, var(--palm-ink) 30%, transparent);
   border-radius: 999px; padding: 4px 12px;
 }
@@ -133,7 +134,7 @@ body.docs-home .codeblk .num { color: var(--code-number); }
 /* building blocks — chips are the shared .t-pill (tags.css). */
 body.docs-home .bb { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 22px; }
 body.docs-home .bb-col h4 {
-  font-family: var(--mono); font-size: var(--text-xs); letter-spacing: 0.14em; text-transform: uppercase;
+  font-family: var(--mono); font-size: var(--text-xs); letter-spacing: var(--track-label); text-transform: uppercase;
   color: var(--coral); margin: 0 0 14px; padding-bottom: 10px; border-bottom: 1px solid var(--rule);
 }
 body.docs-home .chips { display: flex; flex-wrap: wrap; gap: 8px; }

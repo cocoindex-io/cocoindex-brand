@@ -19,8 +19,8 @@
 .sec-head { margin-bottom: 32px; max-width: 64ch; }
 .sec-head.no-mb { margin-bottom: 0; }
 .sec-head .idx {
-  font-family: var(--mono); font-size: var(--text-xs); letter-spacing: 0.14em; text-transform: uppercase;
-  color: var(--coral); display: block; margin-bottom: 14px;
+  font-family: var(--mono); font-size: var(--text-xs); letter-spacing: var(--track-label); text-transform: uppercase;
+  color: var(--coral-text); display: block; margin-bottom: 14px;
 }
 .sec-head h2 {
   font-family: var(--sans); font-weight: 600; font-size: var(--text-xl);

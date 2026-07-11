@@ -12,9 +12,9 @@
   cursor: pointer; -webkit-tap-highlight-color: transparent;
   transition: border-color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease), transform var(--dur-press) var(--ease);
 }
-.stars:hover {
+.stars:hover, .stars.is-hover {
   border-color: color-mix(in oklab, var(--coral) 45%, transparent);
-  background: color-mix(in oklab, var(--peach) 14%, var(--cream));
+  background: color-mix(in oklab, var(--peach) 14%, var(--paper));
   color: var(--coral);
 }
 /* Shared interaction contract — same focus ring + press as .btn (buttons.css). */

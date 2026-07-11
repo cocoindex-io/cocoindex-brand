@@ -47,7 +47,7 @@ pre.astro-code code { background: none; color: inherit; padding: 0; font-size: i
   display: flex; align-items: center; justify-content: flex-end;
   padding: 10px 16px;
   border-bottom: 1px solid color-mix(in oklab, var(--cream) 6%, transparent);
-  font-family: var(--mono); font-size: var(--text-xs); letter-spacing: 0.04em;
+  font-family: var(--mono); font-size: var(--text-xs); letter-spacing: var(--track-code);
   color: color-mix(in oklab, var(--cream) 60%, transparent);
 }
 /* Faux macOS "traffic light" dots removed — re-drawn window chrome is an AI tell;
@@ -55,7 +55,7 @@ pre.astro-code code { background: none; color: inherit; padding: 0; font-size: i
 .code-figure .bar .dots { display: none; }
 .code-figure .bar .right { display: flex; align-items: center; gap: 12px; }
 .code-figure .bar .file {
-  font-family: var(--mono); font-size: var(--text-xs); letter-spacing: 0.04em;
+  font-family: var(--mono); font-size: var(--text-xs); letter-spacing: var(--track-code);
   color: color-mix(in oklab, var(--cream) 72%, transparent);
   text-transform: none;
 }
@@ -78,7 +78,8 @@ pre.astro-code code { background: none; color: inherit; padding: 0; font-size: i
 }
 .code-figure:hover .bar .copy,
 .code-figure:focus-within .bar .copy,
-.code-figure .bar .copy.copied {
+.code-figure .bar .copy.copied,
+.code-figure .bar .copy.copy-fail {
   opacity: 1; transform: none;
 }
 /* Touch devices have no hover — keep the button visible so code stays copyable. */
@@ -95,6 +96,10 @@ pre.astro-code code { background: none; color: inherit; padding: 0; font-size: i
 .code-figure .bar .copy.copied {
   color: var(--code-string);
   border-color: color-mix(in oklab, var(--code-string) 45%, transparent);
+}
+.code-figure .bar .copy.copy-fail {
+  color: var(--code-function);
+  border-color: color-mix(in oklab, var(--code-function) 45%, transparent);
 }
 .code-figure .bar .copy.copied .copy-i { display: none; }
 .code-figure .bar .copy.copied .copy-ok { display: inline-block; }

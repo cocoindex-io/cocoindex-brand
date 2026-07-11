@@ -85,7 +85,7 @@ nav.top .logo { gap: 0.75rem; margin-right: auto; }
      links read near-black. */
   font-size: var(--text-code); font-weight: 500;
   color: color-mix(in oklab, var(--maroon-ink) 88%, var(--paper));
-  text-decoration: none; padding: 0.5rem 0.8rem; border-radius: 10px; /* hum-07 nav-link radius */
+  text-decoration: none; padding: 0.5rem 0.8rem; border-radius: var(--r-lg);
   transition: color var(--dur-fast) var(--ease), background var(--dur-fast) var(--ease);
 }
 /* Hover: rest --muted (hum-07 ink-2 role) → --maroon-ink (hum-07 ink), on a warm
@@ -132,7 +132,7 @@ nav.top .logo { gap: 0.75rem; margin-right: auto; }
   min-width: 180px; padding: 6px;
   background: var(--paper); border: 1px solid var(--rule-strong); border-radius: var(--r-lg);
   opacity: 0; visibility: hidden; transform: translateY(-4px);
-  transition: opacity var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease), visibility 0s linear .15s;
+  transition: opacity var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease), visibility 0s linear var(--dur-fast);
   display: flex; flex-direction: column; gap: 2px;
   z-index: var(--z-drawer);
 }
@@ -145,13 +145,13 @@ nav.top .logo { gap: 0.75rem; margin-right: auto; }
   color: var(--maroon-ink); text-decoration: none;
 }
 .nav-dd-menu a:hover { color: var(--coral); }
-.nav-dd-menu a.on { color: var(--coral); }
+.nav-dd-menu a.on { color: var(--ink-active); }
 .nav-dd-menu .ver { font-family: var(--mono); font-size: var(--text-sm); font-weight: 500; }
 .nav-dd-menu .tag {
-  font-family: var(--mono); font-size: var(--text-xs); letter-spacing: 0.1em; text-transform: uppercase;
+  font-family: var(--mono); font-size: var(--text-xs); letter-spacing: var(--track-label); text-transform: uppercase;
   padding: 2px 7px; border-radius: var(--r-pill);
-  background: color-mix(in oklab, var(--coral) 14%, var(--cream));
-  color: var(--coral); border: 1px solid color-mix(in oklab, var(--coral) 28%, transparent);
+  background: color-mix(in oklab, var(--coral) 14%, var(--paper));
+  color: var(--ink-active); border: 1px solid color-mix(in oklab, var(--coral) 28%, transparent);
 }
 .nav-dd-menu .tag.legacy { background: transparent; color: var(--muted); border-color: var(--rule-strong); }
 
@@ -172,7 +172,7 @@ nav.top .logo { gap: 0.75rem; margin-right: auto; }
   background: color-mix(in oklab, var(--maroon-ink) 38%, transparent);
   opacity: 0; pointer-events: none;
   transition: opacity var(--dur-fast) var(--ease);
-  z-index: 60;
+  z-index: var(--z-drawer);
 }
 .mobile-scrim.open { opacity: 1; pointer-events: auto; }
 
@@ -184,7 +184,7 @@ nav.top .logo { gap: 0.75rem; margin-right: auto; }
   transform: translateX(100%);
   transition: transform var(--dur-fast) var(--ease);
   flex-direction: column;
-  z-index: 70;
+  z-index: var(--z-modal);
   overflow: hidden;
 }
 .mobile-sheet.open { transform: translateX(0); }
@@ -200,7 +200,7 @@ nav.top .logo { gap: 0.75rem; margin-right: auto; }
 }
 .mobile-sheet-head .ttl {
   font-family: var(--mono); font-weight: 500;
-  font-size: var(--text-xs); letter-spacing: 0.14em;
+  font-size: var(--text-xs); letter-spacing: var(--track-label);
   text-transform: uppercase; color: var(--muted);
   flex: 1;
 }
@@ -244,17 +244,17 @@ nav.top .logo { gap: 0.75rem; margin-right: auto; }
 .mobile-list a:hover { background: color-mix(in oklab, var(--coral) 8%, transparent); color: var(--maroon-ink); text-decoration: none; }
 .mobile-list a[aria-current], .mobile-list a.on {
   background: color-mix(in oklab, var(--coral) 14%, transparent);
-  color: var(--coral);
+  color: var(--ink-active);
 }
 .mobile-list a .num {
-  width: 22px; height: 22px; border-radius: 5px;
+  width: 22px; height: 22px; border-radius: var(--r-sm);
   flex: none; display: grid; place-items: center;
   font-family: var(--mono); font-size: var(--text-xs); font-weight: 500;
   background: color-mix(in oklab, var(--maroon-ink) 6%, transparent);
   color: var(--maroon-ink);
   font-variant-numeric: tabular-nums;
 }
-.mobile-list a[aria-current] .num { background: var(--coral); color: var(--cream); }
+.mobile-list a[aria-current] .num { background: var(--coral); color: var(--cream-bright); }
 .mobile-list a.sub { padding-left: 36px; min-height: 38px; font-size: var(--text-sm); color: var(--muted); }
 .mobile-list a.sub:hover { color: var(--maroon-ink); }
 .mobile-list .lbl { flex: 1; min-width: 0; line-height: 1.2; }

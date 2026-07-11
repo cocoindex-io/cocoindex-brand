@@ -23,6 +23,8 @@ if (typeof document !== 'undefined' && !window.__cocoCopyInit) {
 
     const text = code.innerText.replace(/\n$/, '');
     const label = btn.querySelector('.copy-lbl');
+    // Announce the state swap to AT (idempotent; set before the text changes).
+    if (label && !label.hasAttribute('aria-live')) label.setAttribute('aria-live', 'polite');
 
     const done = () => {
       btn.classList.add('copied');
@@ -41,15 +43,26 @@ if (typeof document !== 'undefined' && !window.__cocoCopyInit) {
       }, 1500);
     };
 
+    // Failure is feedback too — a click that silently does nothing reads as
+    // a dead button (clipboard can be blocked by permissions/insecure context).
+    const fail = () => {
+      btn.classList.add('copy-fail');
+      if (label) label.textContent = 'Copy failed';
+      window.setTimeout(() => {
+        btn.classList.remove('copy-fail');
+        if (label) label.textContent = 'Copy';
+      }, 1500);
+    };
+
     if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(done).catch(() => { /* ignore */ });
+      navigator.clipboard.writeText(text).then(done).catch(fail);
     } else {
       const ta = document.createElement('textarea');
       ta.value = text; ta.setAttribute('readonly', '');
       ta.style.position = 'fixed'; ta.style.left = '-9999px';
       document.body.appendChild(ta);
       ta.select();
-      try { document.execCommand('copy'); done(); } catch (e) { /* ignore */ }
+      try { document.execCommand('copy'); done(); } catch (e) { fail(); }
       ta.remove();
     }
   });

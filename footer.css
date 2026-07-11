@@ -12,7 +12,7 @@
   margin: 0 auto;
   padding: clamp(72px, 8vh, 100px) var(--gutter) clamp(40px, 5vh, 56px);
 }
-/* hum-07 footer: a full-bleed deeper-cream band (its --color-paper-2) sitting
+/* Footer band: full-bleed deeper-cream (--paper-2) sitting
    behind the centered footer content. Painted as a 100vw pseudo-element so the
    shared, content-capped markup doesn't need restructuring; root overflow-x:clip
    contains the 100vw. */
@@ -20,13 +20,13 @@
   content: "";
   position: absolute; z-index: -1; pointer-events: none;
   inset: 0 auto 0 50%; width: 100vw; transform: translateX(-50%);
-  background: var(--oat); /* warm oat band (hum-07 footer) — greyer + more set-apart than the cream page */
+  background: var(--paper-2); /* deeper-cream band, one step below the page paper */
   border-top: 1px solid var(--rule);
 }
-/* hum-07 closing statement — big display headline above the meta row. */
+/* Closing statement — big display headline above the meta row. Diverges from
+   hum-07 on purpose (that build closes on a dark maroon band, centered, smaller). */
 .foot-statement {
   font-family: var(--sans); font-weight: 700;
-  /* hum-07 .footer__statement, exact */
   font-size: clamp(2.5rem, 5vw + 1rem, 5rem);
   line-height: 1.02; letter-spacing: -0.03em;
   color: var(--maroon-ink); margin: 0 0 clamp(3rem, 6vh, 4.5rem); max-width: 22ch;
@@ -57,19 +57,20 @@
 .foot-colo {
   margin-top: auto; padding-top: 28px;
   display: flex; flex-direction: column; gap: 5px;
-  font-family: var(--mono); font-size: var(--text-xs); letter-spacing: 0.1em; text-transform: uppercase;
+  font-family: var(--mono); font-size: var(--text-xs); letter-spacing: var(--track-label); text-transform: uppercase;
   color: var(--muted);
 }
 .foot-colo .foot-tag { color: color-mix(in oklab, var(--maroon-ink) 38%, transparent); }
 /* Hum's one reacting mark — the heart beats gently. */
 .foot-colo .foot-heart {
   color: var(--coral); display: inline-block;
-  animation: foot-heart 2.4s var(--ease) infinite;
+  animation: foot-heart var(--dur-pulse) ease-in-out infinite;
 }
 @keyframes foot-heart { 0%, 100% { transform: scale(1); } 45% { transform: scale(1.22); } }
 @media (prefers-reduced-motion: reduce) { .foot-colo .foot-heart { animation: none; } }
-.foot-col h6 {
-  font-family: var(--mono); font-size: var(--text-xs); letter-spacing: 0.14em; text-transform: uppercase;
+.foot-col .foot-h {
+  display: block;
+  font-family: var(--mono); font-size: var(--text-xs); letter-spacing: var(--track-label); text-transform: uppercase;
   color: var(--muted); margin: 0 0 14px; font-weight: 500;
 }
 .foot-col a {

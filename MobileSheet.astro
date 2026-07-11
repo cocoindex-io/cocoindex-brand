@@ -59,6 +59,9 @@ const { id = 'mobileSheet', title = 'Menu', closeAbove = 900 } = Astro.props;
         if (!burger || !scrim || !close) return;
 
         const setOpen = (open) => {
+          // aria-modal promises a modal: restore focus to the opener on close
+          // (otherwise it drops to <body> when the sheet hides).
+          if (!open && sheet.contains(document.activeElement)) burger.focus();
           burger.classList.toggle('open', open);
           sheet.classList.toggle('open', open);
           scrim.classList.toggle('open', open);
@@ -86,6 +89,21 @@ const { id = 'mobileSheet', title = 'Menu', closeAbove = 900 } = Astro.props;
 
         document.addEventListener('keydown', (e) => {
           if (e.key === 'Escape' && sheet.classList.contains('open')) setOpen(false);
+        });
+
+        // Focus trap — aria-modal tells AT the page behind is inert, so Tab
+        // must wrap inside the sheet (pointer users are already fenced by the
+        // scrim; keyboard users get the same boundary).
+        sheet.addEventListener('keydown', (e) => {
+          if (e.key !== 'Tab' || !sheet.classList.contains('open')) return;
+          const focusables = [...sheet.querySelectorAll(
+            'a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])',
+          )].filter((el) => el.offsetParent !== null);
+          if (!focusables.length) return;
+          const first = focusables[0];
+          const last = focusables[focusables.length - 1];
+          if (e.shiftKey && document.activeElement === first) { last.focus(); e.preventDefault(); }
+          else if (!e.shiftKey && document.activeElement === last) { first.focus(); e.preventDefault(); }
         });
 
         const px = Number(sheet.dataset.closeAbove) || 900;

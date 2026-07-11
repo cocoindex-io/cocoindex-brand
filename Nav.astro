@@ -46,15 +46,15 @@ const {
     <div class="nav-links">
       {links.map((l) => l.versions ? (
         <div class="nav-dd">
-          <a href={l.href} class="nav-dd-trigger" aria-haspopup="menu">
+          <a href={l.href} class="nav-dd-trigger">
             {l.label}
             <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
               <path d="m2.5 4.5 3.5 3.5 3.5-3.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </a>
-          <div class="nav-dd-menu" role="menu">
+          <div class="nav-dd-menu">
             {l.versions.map((v) => (
-              <a class={v.current ? 'on' : undefined} href={v.href} role="menuitem">
+              <a class={v.current ? 'on' : undefined} href={v.href}>
                 <span class="ver">{v.label}</span>
                 {v.tag && <span class="tag legacy">{v.tag}</span>}
               </a>

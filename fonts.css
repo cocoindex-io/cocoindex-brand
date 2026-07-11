@@ -2,8 +2,8 @@
    every CocoIndex surface, so type renders identically everywhere and no site
    self-hosts its own copy (GUIDELINE §5.2). Import once in each site's globals,
    before tokens.css. Two families (Hum-theme typography, no serif):
-   Plus Jakarta Sans (display 600 + body 400/500; the `--sans` token),
-   JetBrains Mono (caps labels + code). Emphasis is coral + weight, never italic.
+   Plus Jakarta Sans (display 600, 700 only for logo + footer statement, body
+   400/500; the `--sans` token), JetBrains Mono 400/500 (caps labels + code). Emphasis is coral + weight, never italic.
    @fontsource is a dependency of @cocoindex/brand, so consumers don't list it. */
 @import '@fontsource/plus-jakarta-sans/400.css';
 @import '@fontsource/plus-jakarta-sans/500.css';
@@ -11,5 +11,3 @@
 @import '@fontsource/plus-jakarta-sans/700.css';
 @import '@fontsource/jetbrains-mono/400.css';
 @import '@fontsource/jetbrains-mono/500.css';
-@import '@fontsource/jetbrains-mono/600.css';
-@import '@fontsource/jetbrains-mono/700.css';

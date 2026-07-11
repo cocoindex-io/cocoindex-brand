@@ -19,7 +19,7 @@
 .DocSearch-Container {
   /* — rhythm + radii — */
   --docsearch-spacing: 12px;
-  --docsearch-border-radius: 10px;
+  --docsearch-border-radius: var(--r-lg);
   --docsearch-icon-stroke-width: 1.6;
 
   /* — modal frame — */
@@ -43,7 +43,7 @@
   --docsearch-icon-color: var(--muted);
   --docsearch-logo-color: var(--coral);
   --docsearch-error-color: var(--berry);
-  --docsearch-success-color: var(--palm-ink);
+  --docsearch-success-color: var(--ink-success);
   --docsearch-background-color: var(--paper);
 
   /* — searchbox (top of modal) — */
@@ -62,7 +62,7 @@
   --docsearch-hit-active-color: var(--maroon-ink);
   --docsearch-hit-background: var(--cream);
   --docsearch-hit-shadow: none;
-  --docsearch-hit-highlight-color: color-mix(in oklab, var(--coral) 14%, var(--cream));
+  --docsearch-hit-highlight-color: color-mix(in oklab, var(--coral) 14%, var(--paper));
   --docsearch-highlight-color: var(--coral);
   --docsearch-dropdown-menu-background: var(--paper);
   --docsearch-dropdown-menu-item-hover-background: color-mix(in oklab, var(--coral) 8%, transparent);
@@ -134,13 +134,13 @@
 }
 .DocSearch-Hit-source {
   font-family: var(--mono); font-weight: 500;
-  font-size: var(--text-xs); letter-spacing: 0.14em;
+  font-size: var(--text-xs); letter-spacing: var(--track-label);
   text-transform: uppercase; color: var(--muted) !important;
   background: var(--paper);
   padding: 14px 4px 6px;
 }
 .DocSearch-Hit a {
-  border-radius: 8px;
+  border-radius: var(--r-md);
   border: 1px solid var(--rule);
   background: transparent !important;
   transition: background-image var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
@@ -190,7 +190,7 @@
   font-family: var(--mono);
   font-weight: 500; font-size: var(--text-xs) !important;
   border: 1px solid var(--rule) !important;
-  border-radius: 4px;
+  border-radius: var(--r-xs);
   padding: 1px 5px;
   background: var(--cream) !important;
   color: var(--maroon-ink) !important;

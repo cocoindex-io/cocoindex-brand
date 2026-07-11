@@ -1,6 +1,6 @@
 {
   "name": "@cocoindex/brand",
-  "version": "0.4.38",
+  "version": "0.4.40",
   "description": "CocoIndex shared design tokens, code theme, and brand assets. Single source of truth for home, blog, and docs.",
   "private": true,
   "license": "UNLICENSED",
@@ -61,6 +61,7 @@
     "./Faq.astro": "./Faq.astro",
     "./faq.css": "./faq.css",
     "./PullQuote.astro": "./PullQuote.astro",
+    "./Tabs.astro": "./Tabs.astro",
     "./pull-quote.css": "./pull-quote.css"
   },
   "files": [
@@ -110,6 +111,7 @@
     "Faq.astro",
     "faq.css",
     "PullQuote.astro",
+    "Tabs.astro",
     "pull-quote.css"
   ],
   "scripts": {

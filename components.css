@@ -2,7 +2,9 @@
      @import '@cocoindex/brand/tokens.css';
      @import '@cocoindex/brand/components.css';
    Or cherry-pick the individual files. Every primitive here is token-only and
-   surface-agnostic — safe on home, blog, and docs. */
+   surface-agnostic — safe on home, blog, and docs. Bundling rule: components.css
+   = surface-agnostic primitives; docs chrome (docs-chrome/docsearch/doc-card*)
+   stays cherry-pick so home/blog never pay for docs furniture. */
 @import './motion.css';      /* durations, the coco-pulse keyframe, .u-press / .u-lift */
 @import './logo.css';        /* the CocoIndex mark + wordmark lockup (.logo) */
 @import './base.css';        /* admonitions / callouts */
@@ -13,6 +15,8 @@
 @import './banner.css';      /* .superseded-banner — NewerVersionBanner.astro */
 @import './prose.css';       /* rendered-markdown typography (.prose) — docs + blog */
 @import './pull-quote.css';   /* .pull-quote editorial quote — PullQuote.astro */
+@import './tabs.css';        /* .coco-tabs CSS-only tab group — Tabs.astro */
+@import './faq.css';         /* .coco-faq accordion — Faq.astro */
 @import './nav.css';         /* desktop top-nav bar (nav.top / .logo / .nav-links) */
 @import './stars.css';       /* GitHub-stars pill (.stars) */
 @import './footer.css';      /* site footer (.it-foot / .foot-*) */
