@@ -1,0 +1,72 @@
+/* End-of-page CTA band (.cta-end) — the hum-07 "closer": a big statement card
+   above the footer. Canonical register = the marketing closer (centered, big
+   clamp title); surface deltas (e.g. the examples gallery's left-aligned
+   variant) live in that surface's file, same pattern as .sec-head.
+   `.cta-end-cute` layers coconut marks peeking from the corners + a warm
+   radial wash. Markup:
+     <section class="cta-end [cta-end-cute]">
+       [<img class="cta-end-mark cta-end-mark-br" … alt="">]
+       <h3>Statement <em>word</em></h3>
+       <p>Supporting line.</p>
+       <div class="btns">…buttons…</div>
+     </section>
+   Token-only, surface-agnostic; import after tokens.css (bundled in
+   components.css). */
+.cta-end {
+  border-radius: var(--r-lg);
+  background: var(--cream);
+  border: 1px solid var(--rule);
+  padding: 72px 48px;
+  text-align: center;
+  position: relative; overflow: hidden;
+}
+.cta-end h3 {
+  font-family: var(--sans); font-weight: 600;
+  /* hum-07 .closer__title, exact */
+  font-size: clamp(2.25rem, 5vw + 0.5rem, 4rem); line-height: 1.05; letter-spacing: -0.025em;
+  margin: 0 auto 24px; max-width: 20ch;
+}
+.cta-end h3 em { font-style: normal; color: var(--coral); }
+.cta-end p { color: var(--muted); max-width: 46ch; margin: 0 auto 32px; font-size: var(--text-base); }
+.cta-end .btns { display: inline-flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+
+/* "Cute" variant — coconuts peeking from the corners, warm radial wash. */
+.cta-end-cute {
+  background:
+    radial-gradient(circle at 8% 110%,  color-mix(in oklab, var(--peach) 32%, transparent), transparent 52%),
+    radial-gradient(circle at 95% -10%, color-mix(in oklab, var(--coral) 22%, transparent), transparent 48%),
+    var(--cream);
+  border-color: color-mix(in oklab, var(--coral) 24%, var(--rule));
+  padding: 80px 48px 84px;
+}
+.cta-end-cute > .t-status { position: relative; z-index: 2; margin: 0 0 22px; }
+.cta-end-cute h3,
+.cta-end-cute p,
+.cta-end-cute .btns { position: relative; z-index: 2; }
+.cta-end-mark {
+  position: absolute;
+  pointer-events: none;
+  user-select: none;
+  z-index: 1;
+}
+.cta-end-mark-br {
+  right: -56px;
+  bottom: -72px;
+  width: 240px;
+  height: auto;
+  transform: rotate(-14deg);
+  opacity: 0.92;
+}
+.cta-end-mark-tl {
+  left: -28px;
+  top: -36px;
+  width: 96px;
+  height: auto;
+  transform: rotate(18deg);
+  opacity: 0.55;
+}
+@media (max-width: 720px) {
+  .cta-end-cute { padding: 56px 24px 64px; }
+  .cta-end-mark-br { width: 160px; right: -36px; bottom: -48px; }
+  .cta-end-mark-tl { width: 72px; left: -16px; top: -22px; }
+}

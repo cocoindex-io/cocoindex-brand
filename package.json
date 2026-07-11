@@ -1,6 +1,6 @@
 {
   "name": "@cocoindex/brand",
-  "version": "0.4.40",
+  "version": "0.4.41",
   "description": "CocoIndex shared design tokens, code theme, and brand assets. Single source of truth for home, blog, and docs.",
   "private": true,
   "license": "UNLICENSED",
@@ -34,6 +34,7 @@
     "./docs-layout.css": "./docs-layout.css",
     "./docs-home.css": "./docs-home.css",
     "./doc-hero.css": "./doc-hero.css",
+    "./cta.css": "./cta.css",
     "./not-found.css": "./not-found.css",
     "./docsearch.css": "./docsearch.css",
     "./examples.css": "./examples.css",
@@ -84,6 +85,7 @@
     "docs-layout.css",
     "docs-home.css",
     "doc-hero.css",
+    "cta.css",
     "not-found.css",
     "docsearch.css",
     "examples.css",

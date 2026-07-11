@@ -28,3 +28,43 @@
 }
 .sec-head h2 em { font-style: normal; font-weight: 600; color: var(--coral); }
 .sec-head p { margin: 0; font-size: var(--text-base); color: var(--maroon-ink); line-height: 1.55; max-width: 62ch; }
+
+/* ── Section lead — the paragraph under a section head, plus its follow-up
+   link. Shared register (marketing + docs). ── */
+.sec-lead {
+  font-family: var(--sans); font-weight: 400;
+  font-size: clamp(17px, 1.4vw, 20px);
+  line-height: 1.5; letter-spacing: -0.005em; color: var(--maroon-ink);
+  max-width: 56ch; margin-top: 24px;
+}
+.sec-lead-link { margin-top: 12px; font-family: var(--mono); font-size: var(--text-sm); letter-spacing: var(--track-code); }
+.sec-lead-link a, .sec-lead a { color: var(--coral-text); text-decoration: none; transition: color var(--dur-fast) var(--ease); }
+.sec-lead-link a:hover, .sec-lead a:hover { color: var(--coral-deep); }
+
+/* ── Marketing register — the .icon-theme surfaces (cocoindex.io landing
+   pages): same section-head anatomy at display scale, with a muted standalone
+   .sec-idx kicker. Shipped here, not per-site, so every marketing page shares
+   one source (the docs register above stays the unscoped default). ── */
+.icon-theme .sec-head { margin-bottom: 56px; max-width: none; }
+.icon-theme .sec-idx {
+  display: block;
+  font-family: var(--mono); font-size: var(--text-xs); letter-spacing: var(--track-label); text-transform: uppercase;
+  color: var(--muted); line-height: 1; margin-bottom: 20px;
+}
+.icon-theme .sec-head h2 {
+  font-size: var(--text-3xl); line-height: 1.05;
+  letter-spacing: -0.03em; margin: 0; max-width: 22ch;
+}
+
+/* ── Coral highlighter (.hl-mark) — the signature emphasis: a roman ink word
+   with a coral wash wiped under it. Clipped background + box-decoration-break
+   so the band tracks the text across line wraps. Marketing hero <em> gets it
+   by default; compose .hl-mark anywhere else. (.hl inside .foot-statement is
+   a different, color-only device — unrelated.) ── */
+.hl-mark, .icon-theme h1.hero-h em {
+  font-style: normal; font-weight: 600; color: inherit;
+  background-image: linear-gradient(color-mix(in oklab, var(--coral) 30%, transparent) 0 0);
+  background-repeat: no-repeat; background-size: 100% 0.30em; background-position: 0 86%;
+  -webkit-box-decoration-break: clone; box-decoration-break: clone;
+  padding: 0 0.02em;
+}

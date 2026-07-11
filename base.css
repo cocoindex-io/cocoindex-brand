@@ -67,3 +67,14 @@ summary:focus-visible,
   outline: var(--focus);
   outline-offset: var(--focus-offset);
 }
+
+/* ── Inline text link (.t-link) — the canonical styled link inside running
+   body copy: a hairline underline that follows the text across line wraps
+   (text-decoration, not border-bottom); deepens on hover. ── */
+a.t-link {
+  color: var(--coral-text); text-decoration: underline;
+  text-decoration-thickness: 1px; text-underline-offset: 2px;
+  text-decoration-color: color-mix(in oklab, var(--coral) 45%, transparent);
+  transition: color var(--dur-fast) var(--ease), text-decoration-color var(--dur-fast) var(--ease);
+}
+a.t-link:hover { color: var(--coral-deep); text-decoration-color: currentColor; }
