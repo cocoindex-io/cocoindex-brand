@@ -6,7 +6,7 @@ CocoIndex's design primitives
 
 ```jsonc
 // package.json
-"dependencies": { "@cocoindex/brand": "github:cocoindex-io/cocoindex-brand#v0.2.1" }
+"dependencies": { "@cocoindex/brand": "github:cocoindex-io/cocoindex-brand#v0.4.41" }
 ```
 
 ```css
@@ -25,8 +25,9 @@ See `package.json` `exports` for the full set: CSS primitives (tokens, motion,
 logo, base, buttons, tags, code-block, cards, banner, prose, nav, stars, footer,
 docs-chrome), `code-theme`, `copy-code`, `remark-mermaid` (the build-time
 mermaid-fence transform), and the `Logo` / `Nav` / `Footer` / `Stars` /
-`MobileSheet` / `ExampleRepoCard` / `DocsLinkCard` / `NewerVersionBanner` /
-`MermaidRenderer` Astro components.
+`MobileSheet` / `ExampleRepoCard` / `DocsLinkCard` / `DocCard` / `DocCardGrid` /
+`Tabs` / `Faq` / `PullQuote` / `NewerVersionBanner` / `MermaidRenderer` Astro
+components.
 
 Mermaid diagrams: wire `remark-mermaid` into `markdown.remarkPlugins` (and the
 `mdx()` plugins) so ` ```mermaid ` fences become `.mermaid-figure` markup, drop
