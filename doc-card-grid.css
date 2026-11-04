@@ -21,7 +21,9 @@
   margin-bottom: 14px;
 }
 
-.coco-grid__label {
+.coco-grid .coco-grid__label {
+  margin: 0;
+  line-height: inherit;
   display: inline-flex;
   align-items: center;
   gap: 9px;

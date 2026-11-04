@@ -27,7 +27,7 @@ const { id = 'mobileSheet', title = 'Menu', closeAbove = 900 } = Astro.props;
 ---
 <div class="mobile-scrim" id={`${id}Scrim`} aria-hidden="true"></div>
 
-<aside
+<div
   class="mobile-sheet"
   id={id}
   role="dialog"
@@ -45,14 +45,14 @@ const { id = 'mobileSheet', title = 'Menu', closeAbove = 900 } = Astro.props;
     </button>
   </header>
   <slot />
-</aside>
+</div>
 
 <script>
   // Generic drawer controller — wires every .mobile-sheet on the page once.
   if (!window.__cocoSheetInit) {
     window.__cocoSheetInit = true;
     const init = () => {
-      document.querySelectorAll('aside.mobile-sheet[id]').forEach((sheet) => {
+      document.querySelectorAll('.mobile-sheet[id]').forEach((sheet) => {
         const burger = document.querySelector('[aria-controls="' + sheet.id + '"]');
         const scrim = document.getElementById(sheet.id + 'Scrim');
         const close = sheet.querySelector('.mobile-close');
@@ -88,7 +88,7 @@ const { id = 'mobileSheet', title = 'Menu', closeAbove = 900 } = Astro.props;
         });
 
         document.addEventListener('keydown', (e) => {
-          if (e.key === 'Escape' && sheet.classList.contains('open')) setOpen(false);
+          if (e.key === 'Escape' && sheet.classList.contains('open') && !sheet.closest('[inert]')) setOpen(false);
         });
 
         // Focus trap — aria-modal tells AT the page behind is inert, so Tab
