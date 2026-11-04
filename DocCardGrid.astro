@@ -34,7 +34,7 @@ const { groups, ariaLabel } = Astro.props;
   {groups.map((group) => (
     <section class="coco-grid__group" data-accent={group.accent ?? 'coral'}>
       <header class="coco-grid__head">
-        <span class="coco-grid__label">{group.label}</span>
+        <h2 class="coco-grid__label">{group.label}</h2>
         {group.blurb && <p class="coco-grid__blurb">{group.blurb}</p>}
       </header>
       <div class="coco-grid__cards">
